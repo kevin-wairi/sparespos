@@ -1,7 +1,10 @@
 .App {
   text-align: center;
+    
 }
-
+.main-section{
+  height: 600px; /* Set the height of the parent container */
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -35,4 +38,7 @@
   to {
     transform: rotate(360deg);
   }
+}
+.sticky-bottom{
+  margin-top: 120px;
 }

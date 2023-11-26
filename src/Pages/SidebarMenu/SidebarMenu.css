@@ -1,0 +1,17 @@
+/* .sidebar-link:active{
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+    background-color: #fff;
+
+} */
+
+a span{
+    color: black;
+}
+  /* hide scrollbar for chrome, safari and opera */
+  #sidebar::-webkit-scrollbar {
+    display: none;
+  }
+  #sidebar{
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }

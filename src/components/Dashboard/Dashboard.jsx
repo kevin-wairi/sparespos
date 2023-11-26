@@ -1,9 +1,10 @@
 import React from 'react'
+import './Dashboard.css'
 
-function Dashboard() {
+function Dashboard({items}) {
   return (
-    <div class="container-fluid border border-danger">
-            
+    <div className="container-fluid">
+      
     </div>
   )
 }
