@@ -356,9 +356,9 @@
   ],
   "users": [
     {
-      "business": "qwerty",
-      "username": "qwerty",
-      "fullname": "qwerty",
+      "business": "manager",
+      "username": "manager",
+      "fullname": "manager",
       "phoneNumber": "1234567890",
       "password": "qwerty",
       "passwordConfirmation": "qwerty",
@@ -374,16 +374,6 @@
       "passwordConfirmation": "qwerty",
       "isAdmin": false,
       "id": 2
-    },
-    {
-      "business": "qwertyuiop",
-      "username": "sxcvbnhjmkl",
-      "fullname": "qwertyuiop",
-      "phoneNumber": "1234567890",
-      "password": "qwerty",
-      "passwordConfirmation": "qwerty",
-      "isAdmin": false,
-      "id": 3
     }
   ],
   "wishlist": [

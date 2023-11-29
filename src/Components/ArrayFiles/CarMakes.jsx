@@ -1,0 +1,1 @@
+export const carMakes = ["Toyota", "Ford", "Chevrolet", "Honda", "BMW", "Mercedes-Benz", "Volkswagen", "Audi", "Nissan", "Hyundai", "Kia", "Subaru", "GMC", "Tesla", "Lexus", "Porsche", "Ferrari", "Aston Martin", "Jaguar", "Land Rover"];

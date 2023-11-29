@@ -1,0 +1,22 @@
+export const carModels = {
+    Toyota: ["Camry", "Corolla", "RAV4", "Prius", "Tacoma", "Highlander"],
+    Ford: ["F-150", "Mustang", "Focus", "Escape", "Explorer"],
+    Chevrolet: ["Silverado", "Malibu", "Equinox", "Cruze", "Tahoe"],
+    Honda: ["Civic", "Accord", "CR-V", "Pilot", "Odyssey"],
+    BMW: ["3 Series", "5 Series", "X3", "X5", "7 Series"],
+    "Mercedes-Benz": ["C-Class", "E-Class", "GLE", "GLC", "S-Class"],
+    Volkswagen: ["Golf", "Jetta", "Passat", "Tiguan", "Atlas"],
+    Audi: ["A4", "A6", "Q5", "Q7", "A3"],
+    Nissan: ["Altima", "Rogue", "Sentra", "Pathfinder", "Maxima"],
+    Hyundai: ["Elantra", "Sonata", "Santa Fe", "Tucson", "Kona"],
+    Kia: ["Optima", "Sorento", "Sportage", "Forte", "Telluride"],
+    Subaru: ["Outback", "Forester", "Impreza", "Legacy", "Crosstrek"],
+    GMC: ["Sierra", "Acadia", "Terrain", "Yukon"],
+    Tesla: ["Model S", "Model 3", "Model X", "Model Y"],
+    Lexus: ["RX", "ES", "NX", "IS", "LS"],
+    Porsche: ["911", "Cayenne", "Panamera", "Macan", "Boxster"],
+    Ferrari: ["488", "F8 Tributo", "Portofino", "SF90 Stradale"],
+    "Aston Martin": ["DB11", "Vantage", "DBS Superleggera"],
+    Jaguar: ["F-Pace", "XE", "XF", "F-Type"],
+    "Land Rover": ["Range Rover", "Discovery", "Range Rover Sport", "Evoque"]
+};

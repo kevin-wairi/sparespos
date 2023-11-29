@@ -1,0 +1,10 @@
+.profile-bg{
+    background-image: url('../../assets/images/bg.jpg');
+    background-position: center;
+    position: relative;
+}
+.profile-card{
+    position: absolute;
+    bottom: -40px;
+    width: 95%;
+}
