@@ -151,7 +151,7 @@ function App() {
   };
   
   return (
-    <div className="App bg-light ">
+    <div className="App bg-light">
       <div className='container-fluid'>
         <div className='row'>
     

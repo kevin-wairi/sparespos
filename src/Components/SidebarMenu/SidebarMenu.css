@@ -18,7 +18,21 @@ a span{
   }
   .sidebar-link.active{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: #fff;
+    
   }
   .sidebar-link.active .icon-bg{
-    background-color: #FB7009;
+    background-color: #219ffe;
+    color: #fff;
+  }
+  .sidebar-link.active .sidenav-icon{
+    color: #fff;
+  }
+  .logo{
+    color: rgb(97, 97, 97);
+  }
+  .sidenav-icon{
+    background-color: rgb(221, 220, 220);
+    height: 13px;
+    color: rgb(97, 97, 97);
   }

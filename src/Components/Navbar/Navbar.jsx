@@ -2,10 +2,22 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser,faGear,faHouse,faSlash,faCartShopping} from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
+import Profile from '../Profile/Profile';
 
 function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout}) {
 
+
+    const location = useLocation()
+    let pathname
+    if (location.pathname.length == 1) {
+        pathname = 'Dashboard'
+    }  else{
+        pathname = location.pathname.slice(1);
+    }
+    
+    
+ 
     function handleLogout(){
         sessionStorage.clear();
         loggedOut(true)
@@ -24,7 +36,7 @@ function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout}) {
                     <div className="d-flex gap-1">
                     <div><a href="/"><FontAwesomeIcon icon={faHouse} size="xs" style={{color: "#292929",}} /></a></div>
                     <div><FontAwesomeIcon icon={faSlash} rotation={90} size="2xs" /></div>
-                    <p>Dashboard</p>
+                    <p>{pathname}</p>
                     </div>
                     
                     <a className="navbar-brand ">Dashboard</a>
@@ -64,7 +76,7 @@ function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout}) {
                                     <FontAwesomeIcon className="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" icon={faGear} style={{color: "#000000",}} />
                                
                                 <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                    <li onClick={()=>handleLogout()}><a className="dropdown-item" href="#">Logout</a></li>
+                                    <li onClick={()=>handleLogout()}><a className="dropdown-item menu-p" href="#">Logout</a></li>
                                 </ul>
                             </div>
                                 </>
