@@ -6,6 +6,7 @@
 
 a span{
     color: black;
+    font-size: small;
 }
   /* hide scrollbar for chrome, safari and opera */
   #sidebar::-webkit-scrollbar {
@@ -14,4 +15,10 @@ a span{
   #sidebar{
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+  .sidebar-link.active{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  }
+  .sidebar-link.active .icon-bg{
+    background-color: #FB7009;
   }

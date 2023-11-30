@@ -1,8 +1,9 @@
 import React,{useState} from 'react'
 import './Signin.css'
 import { useNavigate } from 'react-router-dom'
+import Navbar from '../Navbar/Navbar';
 
-function Signin() {
+function Signin({onLogin,children,loggedOut}) {
     
     const navigate = useNavigate();
 
@@ -10,9 +11,6 @@ function Signin() {
 const [username, setUsername] = useState("");
 const [password, setPassword] = useState("");
 const [error, setError] = useState('');
-const [showFormLogin, setShowFormLogin] = useState(false);
-const [isLogged, setIsLogged] = useState(false);
-const [currentUser, setCurrentUser] = useState('');
 
     // Function to submit the login form
 async function submitLoginForm(e) {
@@ -33,12 +31,14 @@ async function submitLoginForm(e) {
         if (user) {
             if (user.password === password) {
                 // Update state and navigate to home page upon successful login
-                // onLogin(user);
-                setCurrentUser(user);
-                setIsLogged(true);
-                setShowFormLogin(false);
-                navigate('/');
+                onLogin(user);
+                loggedOut(false)
+                sessionStorage.setItem('username', user.username);
+                navigate('/')
+                setUsername('')
+                setPassword('')
                 console.log(user);
+                // navigate('/')
             } else {
                 setError('Invalid password');
             }
@@ -53,6 +53,9 @@ async function submitLoginForm(e) {
   return (
     <div class="wrapper">
    < div className='signup-container  m-0 p-0 container-fluid'>
+    <div className="col">
+        {children}
+    </div>
             <div className=" form-container rounded col-md-8 col-lg-6 col-xl-5 col-10 order-lg-1  mx-auto">
             <div className="row d-flex justify-content-end">  
                     </div>  

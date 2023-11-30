@@ -79,7 +79,7 @@ function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
                     <div className="col-10">
 
                         <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h3 className="fw-normal mb-0 text-black">Shopping Cart</h3>
+                        <h5 className="fw-normal mb-0 text-black">Shopping Cart</h5>
                         <div>
                             <p className="mb-0"><span className="text-muted">Sort by:</span> <a href="#!" className="text-body">price <i
                                 className="fas fa-angle-down mt-1"></i></a></p>
@@ -87,40 +87,43 @@ function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
                         </div>
                         {Array.isArray(cartItems) && cartItems.map((item,index)=>( 
                             <div className="card rounded-3 border-0 mb-2 bg-light" key={index}>
-                        <div className="card-body ">
-                            <div className="row d-flex justify-content-around align-items-center ">
-                            <div className="col-md-2 col-lg-2 col-xl-2 d-flex justify-content-center bg-white rounded p-1">
-                                <img
-                                style={{ width: '80px', height: '80px' }} 
-                                src={item.image}
-                                className="img-fluid rounded-3" alt={item.title}/>
-                            </div>
-                            <div className="col-md-4 col-lg-3 col-xl-3">
-                                <p className="fs-6 fw-normal mb-1">{item.title}</p>
-                                <p><span className="text-muted">model: </span>{item.carMake}  <span className="text-muted">Model: </span>{item.carModel}</p>
-                            </div>
-                            <div className="col-md-2 col-lg-2 col-xl-2 d-flex gap-1">
-                                <button className="btn btn-link px-2 border"
-                                onClick={()=>minusAmount(item)}>
-                                <FontAwesomeIcon icon={faMinus} style={{color: "#000000",}} />
-                                </button>
+                                <div className="card-body ">
+                                    <div className="row d-flex justify-content-around align-items-center ">
+                                    <div className="col-md-2 col-lg-2 col-xl-2 d-flex justify-content-center bg-white rounded p-1">
+                                        <img
+                                        style={{ width: '80px', height: '80px' }} 
+                                        src={item.image}
+                                        className="img-fluid rounded-3" alt={item.title}/>
+                                    </div>
+                                    <div className="col-md-4 col-lg-3 cart-card">
+                                        <p className=" fw-light mb-1">{item.title}</p>
+                                        <p ><div><span className="text-muted">model: </span>{item.carMake}
+                                            </div>  
+                                            <div>
+                                            <span className="text-muted">Model: </span>{item.carModel}</div></p>
+                                    </div>
+                                    <div className="col-md-2 col-lg-2 col-xl-2 d-flex gap-1">
+                                        <button className="btn btn-link px-2 border"
+                                        onClick={()=>minusAmount(item)}>
+                                        <FontAwesomeIcon icon={faMinus} style={{color: "#000000",}} />
+                                        </button>
 
-                                <input id="form1" min="0" name="quantity" value={item.cartQuantity} type="number"
-                                className="form-control text-center" />
+                                        <input id="form1" min="0" name="quantity" value={item.cartQuantity} type="number"
+                                        className="form-control text-center" />
 
-                                <button className="btn btn-link px-2 border"
-                                onClick={()=>addAmount(item)}>
-                                <FontAwesomeIcon icon={faPlus} style={{color: "#000000",}} />
-                                </button>
-                            </div>
-                            <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                <h5 className="mb-0">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h5>
-                            </div>
-                            <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                <a onClick={()=>HandleDeleteCartItem(item.id)} href="#!" className="text-danger"><i className="fas fa-trash fa-lg"></i></a>
-                            </div>
-                            </div>
-                        </div>
+                                        <button className="btn btn-link px-2 border"
+                                        onClick={()=>addAmount(item)}>
+                                        <FontAwesomeIcon icon={faPlus} style={{color: "#000000",}} />
+                                        </button>
+                                    </div>
+                                    <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                                        <h6 className="mb-0 ">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h6>
+                                    </div>
+                                    <div className="col-md-1 col-lg-1 col-xl-1 text-end">
+                                        <a onClick={()=>HandleDeleteCartItem(item.id)} href="#!" className="text-danger"><i className="fas fa-trash fa-lg"></i></a>
+                                    </div>
+                                    </div>
+                                </div>
                         </div>
                         )
                         )}

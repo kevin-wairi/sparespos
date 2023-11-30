@@ -4,16 +4,20 @@ import { faUser,faGear,faHouse,faSlash,faCartShopping} from '@fortawesome/free-s
 import './Navbar.css';
 import { NavLink } from 'react-router-dom'
 
-function Navbar({sticky,openSidebar,cartCount}) {
+function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout}) {
 
-   
+    function handleLogout(){
+        sessionStorage.clear();
+        loggedOut(true)
+        onLogout()
+    }
 
-  const navbarClasses = `navbar navbar-expand-sm my-3 p-1 rounded ${sticky ? 'sticky-top' : ''}`;
+  const navbarClassNamees = `navbar navbar-expand-sm my-3 p-1 rounded ${sticky ? 'sticky-top' : ''}`;
 
 
   return (
     <div wrapper>
-        <nav className={navbarClasses} id='navbar'>
+        <nav className={navbarClassNamees} id='navbar'>
             <div className="container-fluid">
                 <div className="col-md-6 col-8 ">
                     <div className='text-start'>
@@ -39,15 +43,35 @@ function Navbar({sticky,openSidebar,cartCount}) {
                             </div>
                             </NavLink>
                         </div>
-                        <div className='d-flex  col-lg-4 col-md-5  col-6 align-items-center gap-2 p-0 '>
+                        <div className='d-flex menu-p col-lg-4 col-md-5  col-6 align-items-center gap-2 p-0 '>
                              
-                        <NavLink to='/signin'>
+                        
                             <div className="d-flex gap-2 align-items-center">
-                             <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
-                            <p className='m-0'>sign in</p>
+                             
+                            {!user ?  (
+                                
+                                <NavLink to='/signin'>
+                                <div className="d-flex gap-2 align-items-center">
+                                    <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
+                                    <p className='m-0'>sign in</p>
+                                </div>
+                                </NavLink>
+                            ) : (
+                                <>
+                                    <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
+                                    <p className='m-0'>{user.business}</p>
+                                    <div className="dropdown dropstart">
+                                    <FontAwesomeIcon className="dropdown-toggle"  id="dropdownMenuButton1" data-bs-toggle="dropdown" icon={faGear} style={{color: "#000000",}} />
+                               
+                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li onClick={()=>handleLogout()}><a className="dropdown-item" href="#">Logout</a></li>
+                                </ul>
                             </div>
-                            </NavLink>
-                            <FontAwesomeIcon icon={faGear} style={{color: "#000000",}} />
+                                </>
+                            ) }
+                           
+                            </div>
+                            
                         </div>
                         </div>
                     </div>

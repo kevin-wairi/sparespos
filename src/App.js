@@ -8,8 +8,8 @@ import Cart from './Pages/Cart/Cart';
 import './App.css';
 import Checkout from './Pages/Checkout/Checkout';
 import Signin from './Components/Signin/Signin';
-import Signup from './Components/Signup/Signup';
 import Profile from './Components/Profile/Profile';
+import Tables from './Pages/Tables/Tables';
 
 
 
@@ -23,9 +23,28 @@ function App() {
   const[toggleMenu,setToggle] = useState(false)
   const [cartCount,setCartCount] = useState(0)
   const [loading, setLoading] = useState(true);
+  const[user,setUser]= useState()
+  const[allUser,setAllUser]= useState()
+  const [userLoggedOut,setLoggedOut] = useState(true)
 
 
-
+  useEffect(()=>{
+    const username = sessionStorage.getItem('username');
+    if (username) {
+      fetch('http://localhost:3000/users')
+      .then(resp=>resp.json())
+      .then(data=>{
+        const currentUser = data.filter((user)=>user.username === username)
+      setAllUser(data)
+      setUser(currentUser[0])
+      setLoading(false)
+      console.log('useUser',currentUser[0]);})
+    } else {
+      setUser(null)
+      setLoading(false)
+    }
+    
+  },[userLoggedOut])
 
 
   // const navigate = useNavigate();
@@ -106,11 +125,9 @@ function App() {
     fetch('http://localhost:3000/cart')
       .then(resp=>resp.json())
       .then(data=> {setCartItems(data)
-                setLoading(false)
       })
       .catch((error) => {
         console.error('Fetch error:', error);
-        setLoading(false)
       })
   },[])
 
@@ -144,7 +161,7 @@ function App() {
         
         <div id="scrollableDiv" className="main-section col-md-9 col-lg-10 col-sm-9  overflow-y-scroll" style={{ maxHeight: '100vh' }}onScroll={handleScroll} >
           
-        { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount}/>}
+        { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>}
         
         <div className={`${isSticky ? 'sticky-bottom' : ''}`}></div>
         {!loading ?(
@@ -153,9 +170,13 @@ function App() {
             <Route path="/items" element={<Items  items={items} purchase={handleAddToCart}/>} />
             <Route path="/cart" element={<Cart  cartItems={cartItems} setCartItems={setCartItems} />} />
             <Route path="/checkout" element={<Checkout  />} />
-            <Route path="/profile" element={<Profile  />} />
-            <Route path="/signin" element={<Signin  />} />
-            <Route path="/signup" element={<Signup  />} />
+            <Route path="/profile" element={<Profile   stock={items} updateStock={setItems}>
+              <Navbar openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>
+            </Profile>} />
+            <Route path="/signin" element={<Signin  onLogin={setUser} loggedOut={setLoggedOut} onLogout={setUser}>
+              <Navbar openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>
+            </Signin>} />
+            <Route path="/tables" element={<Tables stock={items}  allUser={allUser}/>} />
           </Routes>
             ) : (
           <p>Loading .....</p>
