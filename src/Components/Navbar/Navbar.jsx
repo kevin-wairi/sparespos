@@ -3,7 +3,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser,faGear,faHouse,faSlash,faCartShopping} from '@fortawesome/free-solid-svg-icons';
 import './Navbar.css';
 import { NavLink, useLocation } from 'react-router-dom'
-import Profile from '../Profile/Profile';
 
 function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout}) {
 
@@ -36,10 +35,10 @@ function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout}) {
                     <div className="d-flex gap-1">
                     <div><a href="/"><FontAwesomeIcon icon={faHouse} size="xs" style={{color: "#292929",}} /></a></div>
                     <div><FontAwesomeIcon icon={faSlash} rotation={90} size="2xs" /></div>
-                    <p>{pathname}</p>
+                    <p className='menu-p align-self-center'>{pathname}</p>
                     </div>
                     
-                    <a className="navbar-brand ">Dashboard</a>
+                    <a className="navbar-brand ">{pathname}</a>
                     </div>
                 </div>
                    <button className="navbar-toggler border-0" type="button" onClick={()=>openSidebar()}>

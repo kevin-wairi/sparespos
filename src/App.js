@@ -158,9 +158,7 @@ function App() {
         <div className={`${toggleMenu ? 'disp-overlay' : 'd-none'} ${isSticky && toggleMenu ? 'py-5' : ''}py-4 d-sm-flex col-sm-3 col-md-3 col-lg-2 min-vh-100`} >
                     { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState}/>}
         </div>
-        
         <div id="scrollableDiv" className="main-section col-md-9 col-lg-10 col-sm-9  overflow-y-scroll" style={{ maxHeight: '100vh' }}onScroll={handleScroll} >
-          
         { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>}
         
         <div className={`${isSticky ? 'sticky-bottom' : ''}`}></div>
@@ -173,9 +171,7 @@ function App() {
             <Route path="/profile" element={<Profile   stock={items} updateStock={setItems}>
               <Navbar openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>
             </Profile>} />
-            <Route path="/signin" element={<Signin  onLogin={setUser} loggedOut={setLoggedOut} onLogout={setUser}>
-              <Navbar openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>
-            </Signin>} />
+            <Route path="/signin" element={<Signin  onLogin={setUser} loggedOut={setLoggedOut} onLogout={setUser}/>}/>
             <Route path="/tables" element={<Tables stock={items}  allUser={allUser}/>} />
           </Routes>
             ) : (
