@@ -5,6 +5,8 @@ import {carModelsYears} from '../../Components/ArrayFiles/CarModelsYears'
 import {carModels} from '../../Components/ArrayFiles/CarModel'
 import {carMakes} from '../../Components/ArrayFiles/CarMakes'
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCartShopping} from '@fortawesome/free-solid-svg-icons';
 
             
 function Items({items,purchase}) {
@@ -116,16 +118,20 @@ function Items({items,purchase}) {
       <div className="row d-flex justiy-content-start">
         {
           allFilteredSpares.map((item)=>(
-            <div className="col-md-3 col-lg-2 col-sm-4 col-6 p-0">
-            <div className="card border-0 text-start mb-2 " style={{width: '10rem',height: '17rem'}}>
+            <div className="col-md-3 col-lg-2 col-sm-4 col-6 p-0  d-flex align-items-center justify-content-center">
+            <div className="card border-0 text-start mb-2 " style={{width: '9rem',height: '15rem'}} >
               <div className="card-img-div align-self-center my-2 border rounded">
               <img className="card-img-top image-fluid " src={item.image} alt="{item.title}"/>
               </div>
-              <div className="card-body p-1 d-flex flex-column justify-content-between" >
-              <p className="card-text m-0"><span className='fw-bold'>Ksh. </span>{item.markedPrice}</p>
+              <div className="card-body p-1 d-flex flex-column justify-content-center" >
+              <div className="d-flex justify-content-between"><p className="card-text m-0"><span className='fw-bold'>Ksh. </span>{item.markedPrice}</p>
+              <p onClick={() => purchase(item.id)} style={{ cursor: 'pointer' }}>
+                <FontAwesomeIcon icon={faCartShopping} style={{ color: "#000000" }} />
+              </p>
+
+              </div>
                 <p className=" card-title text-wrap m-0">{(item.title).slice(0,65)}</p>
                 
-                <buttton className="btn border col-12 p-0" onClick={()=>purchase(item.id)}>Purchase</buttton>
               </div>
             </div>
             </div>

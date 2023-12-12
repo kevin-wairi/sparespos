@@ -196,20 +196,20 @@
       "carModelNumber": 12345678
     },
     {
-        "id": 12,
-        "title": "Cross-Drilled Brake Rotor for Audi A4 (2018)",
-        "category": "Braking System Parts",
-        "description": "Cross-drilled brake rotor for improved heat dissipation.",
-        "carMake": "Audi",
-        "carModel": "A4",
-        "year": 2018,
-        "image": "https://m.media-amazon.com/images/I/61qr9BhcfeL.jpg",
-        "markedPrice": 6000,
-        "sellingPrice": 5498.9,
-        "rating": 4,
-        "quantity": 16,
-        "status": "arrived",
-        "datePosted": "2023-11-02"
+      "id": 12,
+      "title": "Cross-Drilled Brake Rotor for Audi A4 (2018)",
+      "category": "Braking System Parts",
+      "description": "Cross-drilled brake rotor for improved heat dissipation.",
+      "carMake": "Audi",
+      "carModel": "A4",
+      "year": 2018,
+      "image": "https://m.media-amazon.com/images/I/61qr9BhcfeL.jpg",
+      "markedPrice": 6000,
+      "sellingPrice": 5498.9,
+      "rating": 4,
+      "quantity": 16,
+      "status": "arrived",
+      "datePosted": "2023-11-02"
     },
     {
       "id": 13,
@@ -324,38 +324,7 @@
       "datePosted": "2023-11-05"
     }
   ],
-  "cart": [
-    {
-      "carMake": "Ford",
-      "carModel": "Mustang",
-      "description": "High-output alternator for improved electrical performance.",
-      "markedPrice": 18000,
-      "category": "Electrical System Parts",
-      "year": 2020,
-      "sellingPrice": 16498.9,
-      "image": "https://m.media-amazon.com/images/I/81krIl83PIL._AC_UF894,1000_QL80_.jpg",
-      "id": 1,
-      "rating": 5,
-      "status": "arrived",
-      "title": "High-Output Alternator",
-      "cartQuantity": 1
-    },
-    {
-      "carMake": "Ford",
-      "carModel": "Mustang",
-      "description": "High-output alternator for improved electrical performance.",
-      "markedPrice": 18000,
-      "category": "Electrical System Parts",
-      "year": 2020,
-      "sellingPrice": 16498.9,
-      "image": "https://m.media-amazon.com/images/I/81krIl83PIL._AC_UF894,1000_QL80_.jpg",
-      "id": 2,
-      "rating": 5,
-      "status": "arrived",
-      "title": "High-Output Alternator",
-      "cartQuantity": 1
-    }
-  ],
+  "cart": [],
   "users": [
     {
       "business": "manager",

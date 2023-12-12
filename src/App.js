@@ -27,6 +27,8 @@ function App() {
   const[allUser,setAllUser]= useState()
   const [userLoggedOut,setLoggedOut] = useState(true)
 
+  const [width, setWidth] = useState(window.innerWidth);
+
 
   useEffect(()=>{
     const username = sessionStorage.getItem('username');
@@ -149,16 +151,42 @@ function App() {
       setSticky(false);
     }
   };
+
+  // set width of main section
+  const getWidth = () => {
+    return width >= 1200 ? '80vw'  : '100vw';
+  };
+
+if (width === '80vw') {
+  toggleState();
+}
+
+  // const getSidebarWidth = () => {
+  //   return width >= 1200 ? '20vw' : '50%';
+  // };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWidth(window.innerWidth);
+      if (width === '80vw') {
+        toggleState('false');
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+
+   
+  }, [width]);
   
   return (
     <div className="App bg-light">
       <div className='container-fluid'>
-        <div className='row'>
+        <div className='row flex-nowrap'>
     
-        <div className={`${toggleMenu ? 'disp-overlay' : 'd-none'} ${isSticky && toggleMenu ? 'py-5' : ''}py-4 d-sm-flex col-sm-3 col-md-3 col-lg-2 min-vh-100`} >
-                    { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState}/>}
+        <div className={`${toggleMenu ? 'disp-overlay' : 'd-none'} ${isSticky && toggleMenu ? 'py-5' : ''} py-4 px-0   d-xl-flex`} style={{width: '20vw', height:'100vh'}} >
+                    { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState} getuser={userLoggedOut}/>}
         </div>
-        <div id="scrollableDiv" className="main-section col-md-9 col-lg-10 col-sm-9  overflow-y-scroll" style={{ maxHeight: '100vh' }}onScroll={handleScroll} >
+        <div id="scrollableDiv" className="main-section px-0  overflow-y-scroll" style={{  maxHeight: '100vh',width: getWidth()}} onScroll={handleScroll} >
         { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>}
         
         <div className={`${isSticky ? 'sticky-bottom' : ''}`}></div>
@@ -166,7 +194,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Dashboard  />} />
             <Route path="/items" element={<Items  items={items} purchase={handleAddToCart}/>} />
-            <Route path="/cart" element={<Cart  cartItems={cartItems} setCartItems={setCartItems} />} />
+            <Route path="/cart" element={<Cart  cartItems={cartItems} setCartItems={setCartItems} handleDelete={handleAddToCart}/>} />
             <Route path="/checkout" element={<Checkout  />} />
             <Route path="/profile" element={<Profile   stock={items} updateStock={setItems}>
               <Navbar openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>

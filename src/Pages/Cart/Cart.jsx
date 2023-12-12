@@ -1,11 +1,11 @@
 import React, { useRef,useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus,faMinus,faFilePdf} from '@fortawesome/free-solid-svg-icons';
+import { faPlus,faMinus,faTrashCan} from '@fortawesome/free-solid-svg-icons';
 import './Cart.css'
 
 
-function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
+function Cart({cartItems,setCartItems,handleDelete,cartCount}){
     const navigate = useNavigate()
     let cardRef = useRef()
 
@@ -67,61 +67,57 @@ function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
         navigate('/checkout')
       }
 
-      function HandleDeleteCartItem(item_id){
-        handleAddToCart(item_id)
-      }
+     
     return(
-        <div className="container ">
+        <div className="container p-2">
            
-            <section className="h-100 rounded bg-white" >
-                <div className="container h-100 py-5">
-                    <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="col-10">
+            <section className="h-100 rounded " >
+                <div className="container h-100 p-0">
+                    <div className="row d-flex justify-content-start align-items-center h-100">
+                    <div className="col-12">
 
-                        <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h5 className="fw-normal mb-0 text-black">Shopping Cart</h5>
-                        <div>
+                        <div className="d-flex">
                             <p className="mb-0"><span className="text-muted">Sort by:</span> <a href="#!" className="text-body">price <i
                                 className="fas fa-angle-down mt-1"></i></a></p>
                         </div>
-                        </div>
                         {Array.isArray(cartItems) && cartItems.map((item,index)=>( 
-                            <div className="card rounded-3 border-0 mb-2 bg-light" key={index}>
-                                <div className="card-body ">
+                            <div className="card rounded-3 border-0 mb-2 " key={index}>
+                                <div className="card-body p-0">
                                     <div className="row d-flex justify-content-around align-items-center ">
-                                    <div className="col-md-2 col-lg-2 col-xl-2 d-flex justify-content-center bg-white rounded p-1">
-                                        <img
-                                        style={{ width: '80px', height: '80px' }} 
-                                        src={item.image}
-                                        className="img-fluid rounded-3" alt={item.title}/>
-                                    </div>
-                                    <div className="col-md-4 col-lg-3 cart-card">
-                                        <p className=" fw-light mb-1">{item.title}</p>
-                                        <p ><div><span className="text-muted">model: </span>{item.carMake}
-                                            </div>  
-                                            <div>
-                                            <span className="text-muted">Model: </span>{item.carModel}</div></p>
-                                    </div>
-                                    <div className="col-md-2 col-lg-2 col-xl-2 d-flex gap-1">
-                                        <button className="btn btn-link px-2 border"
-                                        onClick={()=>minusAmount(item)}>
-                                        <FontAwesomeIcon icon={faMinus} style={{color: "#000000",}} />
-                                        </button>
-
-                                        <input id="form1" min="0" name="quantity" value={item.cartQuantity} type="number"
-                                        className="form-control text-center" />
-
-                                        <button className="btn btn-link px-2 border"
-                                        onClick={()=>addAmount(item)}>
-                                        <FontAwesomeIcon icon={faPlus} style={{color: "#000000",}} />
-                                        </button>
-                                    </div>
-                                    <div className="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                                        <h6 className="mb-0 ">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h6>
-                                    </div>
-                                    <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                        <a onClick={()=>HandleDeleteCartItem(item.id)} href="#!" className="text-danger"><i className="fas fa-trash fa-lg"></i></a>
-                                    </div>
+                                        <div className="col-md-2 col-lg-1  d-flex justify-content-center border rounded px-0">
+                                            <div className="bg-white p-2 rounded">
+                                            <img
+                                            style={{ width: '40px', height: '40px' }} 
+                                            src={item.image}
+                                            className="img-fluid rounded-3" alt={item.title}/>
+                                            </div>
+                                        </div>
+                                        <div className="col-md-4 col-lg-3 cart-card">
+                                            <p className=" fw-light mb-1">{item.title}</p>
+                                            <p ><div><span className="text-muted">model: </span>{item.carMake}
+                                                </div>  
+                                                <div>
+                                                <span className="text-muted">Model: </span>{item.carModel}</div></p>
+                                        </div>
+                                        <div className="col-md-2 col-lg-2  d-flex gap-1">
+                                            <button className="btn btn-link px-2 border"
+                                            onClick={()=>minusAmount(item)}>
+                                            <FontAwesomeIcon icon={faMinus} style={{color: "#000000",}} />
+                                            </button>
+                                            <button className="btn btn-link px-3 border text-black text-decoration-none">{item.cartQuantity}</button>
+                                            <button className="btn btn-link px-2 border"
+                                            onClick={()=>addAmount(item)}>
+                                            <FontAwesomeIcon icon={faPlus} style={{color: "#000000",}} />
+                                            </button>
+                                        </div>
+                                        <div className="col-md-3 col-lg-2  offset-lg-1">
+                                            <h6 className="mb-0 ">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h6>
+                                        </div>
+                                        <div className="col-md-1 col-lg-1 col-xl-1 text-end">
+                                            {/* <a  href="#!" className="text-danger"><FontAwesomeIcon icon={faTrashCan} /></a> */}
+                                            <button className="btn text-danger" onClick={()=>handleDelete(item.id)}><FontAwesomeIcon icon={faTrashCan} /> </button>
+                                            
+                                        </div>
                                     </div>
                                 </div>
                         </div>
@@ -132,7 +128,7 @@ function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
                                 <div className="card rounded-3 border-0 mb-2" >
                             <div className="card-body ">
                             <h6 className="text-warning">Cart is empty</h6>
-                            <button className="btn border border-success">Back</button>
+                            <button className="btn border border-success" navigate="../">Back</button>
                             </div>
                             </div>
                             )
@@ -167,15 +163,6 @@ function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
                                     <span><strong>ksh. {productTotal}</strong></span>
                                 </li>
                                 </ul>
-
-                                <div className="d-flex gap-2">
-                                    <button type="button" className="btn border-primary btn-lg btn-block">
-                                    Checkout
-                                    </button>
-                                    <button type="button" className="btn border-primary btn-lg btn-block">
-                                    <span><FontAwesomeIcon icon={faFilePdf} style={{color: "#000000",}} /></span> Invoice
-                                    </button>
-                                </div>
                             </div>
                             </div>
                         </div>
@@ -192,7 +179,8 @@ function Cart({cartItems,setCartItems,handleAddToCart,cartCount}){
                         </div>
 
                         <div className="card">
-                        <div className="card-body">
+                        <div className="card-body d-flex justify-content-center gap-2">
+                            <button type="button" className="btn btn-warning btn-block btn-lg">Invoice</button>
                             <button type="button" className="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
                         </div>
                         </div>
