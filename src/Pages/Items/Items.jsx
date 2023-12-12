@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping} from '@fortawesome/free-solid-svg-icons';
 
             
-function Items({items,purchase}) {
+function Items({items,purchase,user}) {
 
   const[catFiltered,setCatFiltered]= useState('')
   const[carMakeFiltered,setCarMakeFiltered]= useState('')
@@ -125,7 +125,7 @@ function Items({items,purchase}) {
               </div>
               <div className="card-body p-1 d-flex flex-column justify-content-center" >
               <div className="d-flex justify-content-between"><p className="card-text m-0"><span className='fw-bold'>Ksh. </span>{item.markedPrice}</p>
-              <p onClick={() => purchase(item.id)} style={{ cursor: 'pointer' }}>
+              <p onClick={() => purchase(item.id,user)} style={{ cursor: 'pointer' }}>
                 <FontAwesomeIcon icon={faCartShopping} style={{ color: "#000000" }} />
               </p>
 

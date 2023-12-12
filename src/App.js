@@ -44,6 +44,7 @@ function App() {
     } else {
       setUser(null)
       setLoading(false)
+      setCartItems([]);
     }
     
   },[userLoggedOut])
@@ -69,7 +70,7 @@ function App() {
   },[])
 
     //add items to cart
-  function handleAddToCart(spare_id){
+  function handleAddToCart(spare_id,user_id){
     
     let selected = items.find((item) => item.id === spare_id);
     let foundItem = cartItems.find((item) => item.id === spare_id);
@@ -111,7 +112,8 @@ function App() {
             "rating":selected.rating,
             "status":selected.status,
             "title":selected.title,
-            "cartQuantity": 1
+            "cartQuantity": 1,
+            "user_id": user.id
           })
       })
       .then(resp=>resp.json())
@@ -124,14 +126,19 @@ function App() {
 
    // fetches all cart Items
    useEffect(()=>{
-    fetch('http://localhost:3000/cart')
+    if (user) {
+      fetch('http://localhost:3000/cart')
       .then(resp=>resp.json())
-      .then(data=> {setCartItems(data)
+      .then(data=> {
+        console.log( user.id);
+        const myCart = data.filter(item=>parseInt(item.user_id )=== parseInt(user.id))
+        setCartItems(myCart)
       })
       .catch((error) => {
         console.error('Fetch error:', error);
       })
-  },[])
+    }
+  },[user])
 
     //counts cart items
   useEffect(()=>{
@@ -172,14 +179,23 @@ if (width === '80vw') {
         toggleState('false');
       }
     };
-
     window.addEventListener('resize', handleResize);
 
-   
   }, [width]);
   
+  // discount function
+  function getDiscount(item_id,user){
+   
+if (user.isAdmin) {
+    console.log('granted',item_id);
+    console.log(user);
+
+} else {
+ 
+}  
+}
   return (
-    <div className="App bg-light">
+    <div className="App">
       <div className='container-fluid'>
         <div className='row flex-nowrap'>
     
@@ -187,17 +203,17 @@ if (width === '80vw') {
                     { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState} getuser={userLoggedOut}/>}
         </div>
         <div id="scrollableDiv" className="main-section px-0  overflow-y-scroll" style={{  maxHeight: '100vh',width: getWidth()}} onScroll={handleScroll} >
-        { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>}
+        { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser} setCartItems={setCartItems}/>}
         
         <div className={`${isSticky ? 'sticky-bottom' : ''}`}></div>
         {!loading ?(
           <Routes>
             <Route path="/" element={<Dashboard  />} />
-            <Route path="/items" element={<Items  items={items} purchase={handleAddToCart}/>} />
-            <Route path="/cart" element={<Cart  cartItems={cartItems} setCartItems={setCartItems} handleDelete={handleAddToCart}/>} />
+            <Route path="/items" element={<Items  items={items} purchase={handleAddToCart} user={user}/>} />
+            <Route path="/cart" element={<Cart  cartItems={cartItems} setCartItems={setCartItems} handleDeleteCart={handleAddToCart} user={user} getDiscount={getDiscount} />} />
             <Route path="/checkout" element={<Checkout  />} />
-            <Route path="/profile" element={<Profile   stock={items} updateStock={setItems}>
-              <Navbar openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser}/>
+            <Route path="/profile" element={<Profile   stock={items} updateStock={setItems} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser} setCartItems={setCartItems}>
+              
             </Profile>} />
             <Route path="/signin" element={<Signin  onLogin={setUser} loggedOut={setLoggedOut} onLogout={setUser}/>}/>
             <Route path="/tables" element={<Tables stock={items}  allUser={allUser}/>} />

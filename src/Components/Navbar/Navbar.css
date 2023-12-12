@@ -21,9 +21,20 @@
     min-width: 78vw;
     top: 0;
     background-color: #ffffffea;
-    backdrop-filter: blur(10px);
-    
+    backdrop-filter: blur(10px); 
 }
 .menu-p{
     font-size: small;
 }
+
+
+/* navbar for md screen */
+@media screen and (min-width: 360px) and (max-width: 1200px) {
+    body {
+    .sticky-top{
+        width: 95vw;
+        /* left: 2%;  */
+    }
+    
+    }
+  }

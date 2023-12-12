@@ -1,16 +1,20 @@
 import React, { useRef,useState ,useEffect} from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus,faMinus,faTrashCan} from '@fortawesome/free-solid-svg-icons';
+import { faPlus,faMinus,faTrash,faTags} from '@fortawesome/free-solid-svg-icons';
+import { Tooltip } from 'react-tooltip'
 import './Cart.css'
 
 
-function Cart({cartItems,setCartItems,handleDelete,cartCount}){
+function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
+
+
     const navigate = useNavigate()
     let cardRef = useRef()
 
     const[selectedItem,setSelectedItem]= useState()
     const[productTotal,setProductTotal]= useState(0)
+    const[discountOveray,setDiscountOveray] = useState(false)
 
     //add cart quantity
     const addAmount = (selected) => {
@@ -67,12 +71,16 @@ function Cart({cartItems,setCartItems,handleDelete,cartCount}){
         navigate('/checkout')
       }
 
+      const handleDiscount = (item_id)=>{
+        console.log('waiiit');
+        setDiscountOveray(prevOverlay => !prevOverlay)
+        getDiscount(item_id,user)
+      }
      
     return(
-        <div className="container p-2">
            
-            <section className="h-100 rounded " >
-                <div className="container h-100 p-0">
+            <section >
+                <div className="container h-100 ">
                     <div className="row d-flex justify-content-start align-items-center h-100">
                     <div className="col-12">
 
@@ -82,40 +90,55 @@ function Cart({cartItems,setCartItems,handleDelete,cartCount}){
                         </div>
                         {Array.isArray(cartItems) && cartItems.map((item,index)=>( 
                             <div className="card rounded-3 border-0 mb-2 " key={index}>
-                                <div className="card-body p-0">
+                                <div className="card-body p-3">
                                     <div className="row d-flex justify-content-around align-items-center ">
-                                        <div className="col-md-2 col-lg-1  d-flex justify-content-center border rounded px-0">
+                                        <div className="col-md-2  col-4  d-flex justify-content-center rounded px-0">
                                             <div className="bg-white p-2 rounded">
                                             <img
-                                            style={{ width: '40px', height: '40px' }} 
+                                            style={{ width: '60px', height: '60px' }} 
                                             src={item.image}
-                                            className="img-fluid rounded-3" alt={item.title}/>
+                                            className="img-fluid rounded-3 " alt={item.title}/>
                                             </div>
                                         </div>
-                                        <div className="col-md-4 col-lg-3 cart-card">
-                                            <p className=" fw-light mb-1">{item.title}</p>
+                                        <div className="col-md-4 col-lg-3 col-7 text-start cart-card">
+                                            <p className=" m-0">{item.title}</p>
                                             <p ><div><span className="text-muted">model: </span>{item.carMake}
                                                 </div>  
                                                 <div>
                                                 <span className="text-muted">Model: </span>{item.carModel}</div></p>
                                         </div>
-                                        <div className="col-md-2 col-lg-2  d-flex gap-1">
-                                            <button className="btn btn-link px-2 border"
+                                        <div className="col-md-2 col-lg-2 col-3 d-flex gap-1 px-1">
+                                            <button className="btn btn-link px-2 p-sm-1 border"
                                             onClick={()=>minusAmount(item)}>
                                             <FontAwesomeIcon icon={faMinus} style={{color: "#000000",}} />
                                             </button>
-                                            <button className="btn btn-link px-3 border text-black text-decoration-none">{item.cartQuantity}</button>
-                                            <button className="btn btn-link px-2 border"
+                                            <button className="btn btn-link px-3  border text-black text-decoration-none">{item.cartQuantity}</button>
+                                            <button className="btn btn-link px-2  border"
                                             onClick={()=>addAmount(item)}>
                                             <FontAwesomeIcon icon={faPlus} style={{color: "#000000",}} />
                                             </button>
                                         </div>
-                                        <div className="col-md-3 col-lg-2  offset-lg-1">
-                                            <h6 className="mb-0 ">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h6>
+                                        <div className="col-md-2 col-lg-2  col-5 ">
+                                            <h6 className="mb-0">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h6>
                                         </div>
-                                        <div className="col-md-1 col-lg-1 col-xl-1 text-end">
-                                            {/* <a  href="#!" className="text-danger"><FontAwesomeIcon icon={faTrashCan} /></a> */}
-                                            <button className="btn text-danger" onClick={()=>handleDelete(item.id)}><FontAwesomeIcon icon={faTrashCan} /> </button>
+                                        <div className="col-md-1 col-lg-1 col-xl-1 col-2 p-0 m-0 rel-discount-card">
+                                            <button className="btn anchor-element"  onClick={()=>handleDiscount(item.id)}> <FontAwesomeIcon icon={faTags} /></button>
+                                            {discountOveray && 
+                                            <>
+                                                <div className="card discount-card m-0">
+                                                 <p className="card-title p-1 fs-small">Wait Approval</p>
+                                                   
+                                                </div>
+                                                
+                                            </>
+                                        }
+                                        <Tooltip anchorSelect=".anchor-element" place="top">
+                                            Request Discount
+                                        </Tooltip>
+                                        </div>
+                                        
+                                        <div className="col-md-1 col-lg-1 col-xl-1 col-2  ">
+                                            <button className="btn text-danger" onClick={()=>handleDeleteCart(item.id,user)}><FontAwesomeIcon icon={faTrash} /> </button>
                                             
                                         </div>
                                     </div>
@@ -128,7 +151,7 @@ function Cart({cartItems,setCartItems,handleDelete,cartCount}){
                                 <div className="card rounded-3 border-0 mb-2" >
                             <div className="card-body ">
                             <h6 className="text-warning">Cart is empty</h6>
-                            <button className="btn border border-success" navigate="../">Back</button>
+                            <button className="btn border border-success" onClick={()=>navigate(-1)}>Back</button>
                             </div>
                             </div>
                             )
@@ -189,7 +212,6 @@ function Cart({cartItems,setCartItems,handleDelete,cartCount}){
                     </div>
                 </div>
                 </section>
-        </div>
     )
 }
 

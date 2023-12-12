@@ -1,7 +1,7 @@
 import React from 'react'
 import './SidebarMenu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse,faBoxesStacked,faUser,faDoorOpen,faTableList ,faCartShopping} from '@fortawesome/free-solid-svg-icons';
+import { faHouse,faBoxesStacked,faUser,faDoorOpen,faTableList ,faCartShopping,faXmark} from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useLocation } from 'react-router-dom'
 
 
@@ -14,14 +14,14 @@ function SidebarMenu({closeSidebar,getuser}) {
   };
 
   return (
-      <div className=' sidebarmenu overflow-x-hidden overflow-y-scroll  border border-success' style={{ maxHeight: '100vh' }} id='sidebar'>
+      <div className=' sidebarmenu overflow-x-hidden overflow-y-scroll bg-white ' style={{ maxHeight: '100vh' ,  borderRadius: '10px 0  0 10px'}} id='sidebar'>
         <div className="wrapper rounded">
-          <div className="d-flex justify-content-between">
-          <a className=" d-flex justify-content-center p-2 ">
-            <span className="fs-6 logo ">Sparesandparts</span>
+          <div className="d-flex justify-content-center py-3">
+          <a className="col-md-9 col-10 text-center align-self-end ">
+            <span className="fs-6 logo ">Spares and parts</span>
           </a>
-          <div className="d-md-none py-2 m-1" >
-            <button  className="btn-close" onClick={()=>closeSidebar()}></button>
+          <div className="py-2 m-1 col-1 col-md-2 d-xl-none" >
+            <button  className=" btn p-0" onClick={()=>closeSidebar()}><FontAwesomeIcon icon={faXmark} /></button>
           </div>
           </div>
           <hr  className='text-secondary'/>
@@ -74,7 +74,7 @@ function SidebarMenu({closeSidebar,getuser}) {
               </NavLink>
             </li>
             <li className={"nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded "}>
-            <NavLink to={`${getuser ? '/signin' : '/'}`} >
+            <NavLink to={`${!getuser ? '/signin' : '#'}`} >
               <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
               <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faDoorOpen}  />
                 <span className='ms-2  d-md-inline my-1'>sign in</span>

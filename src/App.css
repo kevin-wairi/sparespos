@@ -3,6 +3,7 @@
 .App {
   text-align: center;
   font-family: 'Poppins', sans-serif;
+  background-color: #f0f1f2;
 }
 .main-section{
   height: 600px; /* Set the height of the parent container */
@@ -47,11 +48,11 @@
 .disp-overlay{
   position: fixed;
   top: 0;
-  left: 0;
-  /* width: 100%; */
-  /* height: 50%; */
-  margin: 0 auto;
-  background: rgba(255, 255, 255); /* semi-transparent background */
+  left: 5px;
+  min-width: 26%;
+  background:#f0f1f2; /* semi-transparent background */
   align-items: center;
   z-index: 999; /* Set a high z-index to appear on top */
+  border-radius: 10px 0 0 10px;
+  
 }

@@ -97,7 +97,7 @@ async function submitLoginForm(e) {
     <p className='menu-p'>Use these awesome forms to login</p>
     
     </div>
-            <div className=" form-container signinform rounded  col-lg-4 col-10" >
+            <div className=" form-container signinform rounded border col-lg-4 col-10" >
                     <p className="text-center h4 fw-bold mb-2 mx-1 mx-md-4 mt-2 pt-2">Log in</p>
 
                     <form className="mx-1 mx-md-4" onSubmit={(e)=>submitLoginForm(e)}>

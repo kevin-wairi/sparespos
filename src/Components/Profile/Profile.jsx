@@ -1,15 +1,17 @@
 import React,{useState,useEffect} from 'react'
 import './Profile.css'
+import Swal from 'sweetalert2';
 import profile from '../../assets/images/profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faScrewdriverWrench,faCircleDollarToSlot} from '@fortawesome/free-solid-svg-icons';
+import {faScrewdriverWrench,faCircleDollarToSlot,faUser,faGear,faHouse,faSlash,faCartShopping,faBars,faBell} from '@fortawesome/free-solid-svg-icons';
+import { NavLink, useLocation } from 'react-router-dom'
 
 import {carMakes} from '../ArrayFiles/CarMakes'
 import {carModels} from '../ArrayFiles/CarModel'
 import {carModelsYears} from '../ArrayFiles/CarModelsYears'
 import {carSparePartsCategories} from '../ArrayFiles/CarSparePartsCategories'
 
-function Profile({children,stock,updateStock}) {
+function Profile({stock,updateStock,openSidebar,cartCount,user,loggedOut,onLogout,setCartItems}) {
 
   const[description,setDescription] = useState('')
   const[carMake,setCarMake] = useState('')
@@ -139,7 +141,14 @@ const handleSignupForm = async (e) => {
 
       const data = await response.json();
       if (response.ok) {
-          console.log('userData signup',data);
+          console.log('userData signup',data.username);
+          setBusiness("")
+          setUsername("")
+          setFullname("")
+          setPhoneNumber("")
+          setPassword("")
+          setPasswordConfirmation("")
+          Swal.fire('Success!', 'Your action has been completed.', 'success');
 
       }   
 }
@@ -250,12 +259,104 @@ function handleDelete(spare_id,e){
 })
 
 }
+
+const location = useLocation()
+let pathname
+if (location.pathname.length == 1) {
+    pathname = 'Dashboard'
+}  else{
+    pathname = location.pathname.slice(1);
+}
+
+// handles logout
+function handleLogout(){
+  sessionStorage.clear();
+  loggedOut(true)
+  onLogout()
+  setCartItems([])
+}
+
   return (
     <div className="wrapper">
-    <div class="row justify-content-center align-items-center g-2 my-4 ">
-        <div class="col-12 profile-bg rounded d-flex justify-content-center" style={{minHeight: '250px'}}>
-            <div className="col-12">
-              {children}
+    <div class="row justify-content-center align-items-center g-2 my-3 mx-2  ">
+        <div class="col-12  profile-bg rounded d-flex justify-content-center" style={{minHeight: '250px'}}>
+        <div className=" container-fluid m-0  align-items-start w-100vw row ">
+              <div
+                class="row justify-content-center align-items-start g-2 m-0 rounded p-1 my-1 profile-nav"
+              >
+                <div class="col ">
+                <nav className='d-flex justify-content-between  '>
+                <div className="col-4">
+                    <div className='text-start'>
+                    <div className="d-flex gap-1">
+                    <div><a href="/"><FontAwesomeIcon icon={faHouse} size="xs" style={{color: "#292929",}} /></a></div>
+                    <div><FontAwesomeIcon icon={faSlash} rotation={90} size="2xs" /></div>
+                    <p className='menu-p align-self-center m-0'>{pathname}</p>
+                    </div>
+                    
+                    <a className="navbar-brand ">{pathname}</a>
+                    </div>
+                </div>
+                   
+                    <div className="col-7 d-flex justify-content-end align-items-end  ">
+                        <div className="row d-flex justify-content-end align-items-end gap-2 m-0  ">
+                            <div className="col-5 col-xl-4 pt-2 d-flex align-items-end gap-3 justify-content-end">
+                                
+                                <NavLink to='/cart'>
+                                <div className="d-flex align-items-end justify-content-center gap-1">
+                                    <FontAwesomeIcon icon={faCartShopping} style={{color: "#000000",}} />
+                                    <p className='m-0 lh-1 '>{cartCount}</p>
+                                </div>
+                                </NavLink>
+                                <FontAwesomeIcon className='d-xl-none d-md-flex' onClick={()=>openSidebar()} icon={faBars} />
+                                <NavLink to='/profile'>
+                                    <div className="d-flex align-items-end justify-content-center gap-1">
+                                            <FontAwesomeIcon icon={faBell} />
+                                            <p className='m-0 lh-1 '>0</p>
+                                    </div>
+                                </NavLink>
+                                
+                            </div>
+                            <div className='d-flex menu-p col-6 col-xl-7 align-items-center gap-2 p-0'>
+                                
+                            
+                                <div className="d-flex gap-2 align-items-end">
+                                
+                                {!user ?  (
+                                    
+                                    <NavLink to='/signin'>
+                                    <div className="d-flex gap-2 align-items-center">
+                                        <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
+                                        <p className='m-0'>sign in</p>
+                                    </div>
+                                    </NavLink>
+                                ) : (
+                                    <>
+                                        <NavLink to='/profile'>
+                                        <div className="d-flex align-items-center justify-content-center gap-2">
+                                            <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
+                                            <p className='m-0 d-none d-md-flex '>{user.business}</p>
+                                        </div>
+                                        </NavLink>
+                                        <div className="dropdown dropstart lh-1 mx-3">
+                                                <FontAwesomeIcon className="dropdown-toggle "  id="dropdownMenuButton1" data-bs-toggle="dropdown" icon={faGear} style={{color: "#000000",}} />
+                                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li onClick={()=>handleLogout()}><a className="dropdown-item menu-p" href="#">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </>
+                                ) }
+                            
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                  </nav>
+                </div>
+              </div>
+              
+                
             </div>
             <div class="card profile-card border-0">
               <div class="card-body p-2">
@@ -265,7 +366,7 @@ function handleDelete(spare_id,e){
                       <img className='img-fluid rounded' src={profile} alt="username" />
                     </div>
                     <div className="profile-tag">
-                      <h6>Alex Thompson</h6>
+                      <h6>James Doe</h6>
                       <p>CEO / Co-founder</p>
                     </div>
                 </div>
@@ -278,7 +379,7 @@ function handleDelete(spare_id,e){
             </div>
         </div>
     </div>
-  <div class="row justify-content-center align-items-center g-2 my-5">
+  <div class="row justify-content-center align-items-center g-2 my-5 mx-1">
     <div class="col-lg-3 col-md-6 col-12">
           <div class="card border-0">
             <div class="card-body d-flex p-2">
@@ -539,7 +640,7 @@ function handleDelete(spare_id,e){
 
       </div>
 
-      <div className="row d-flex ">
+      <div className="row d-flex m-0">
   
                       {/* update form for items */}
             <div className="col-12">

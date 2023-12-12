@@ -324,7 +324,40 @@
       "datePosted": "2023-11-05"
     }
   ],
-  "cart": [],
+  "cart": [
+    {
+      "carMake": "Honda",
+      "carModel": "Civic",
+      "description": "Synthetic transmission fluid for smooth gear shifting.",
+      "markedPrice": 2500,
+      "category": "Transmission and Drivetrain Parts",
+      "year": 2017,
+      "sellingPrice": 2198.9,
+      "image": "https://m.media-amazon.com/images/I/81mPqrgqdDL._AC_UF894,1000_QL80_.jpg",
+      "id": 2,
+      "rating": 3,
+      "status": "arrived",
+      "title": "Synthetic Transmission Fluid for Honda Civic (2017)",
+      "cartQuantity": 1,
+      "user_id": 1
+    },
+    {
+      "carMake": "Chevrolet",
+      "carModel": "Silverado",
+      "description": "High-performance engine components for improved power.",
+      "markedPrice": 850,
+      "category": "Engine Components",
+      "year": 2021,
+      "sellingPrice": "768",
+      "image": "https://m.media-amazon.com/images/I/71AhwBuaa2L._AC_UF894,1000_QL80_.jpg",
+      "id": 3,
+      "rating": 5,
+      "status": "inTransit",
+      "title": "High-Performance Engine Components for Chevrolet Silverado (2021)",
+      "cartQuantity": 1,
+      "user_id": 1
+    }
+  ],
   "users": [
     {
       "business": "manager",
@@ -333,7 +366,7 @@
       "phoneNumber": "12345678",
       "password": "qwerty",
       "passwordConfirmation": "qwerty",
-      "isAdmin": "false",
+      "isAdmin": "true",
       "id": 1,
       "creditWorthy": "false"
     },
@@ -342,11 +375,22 @@
       "username": "john",
       "fullname": "john",
       "phoneNumber": "1234567890",
-      "password": "",
-      "passwordConfirmation": "",
+      "password": "qwerty",
+      "passwordConfirmation": "qwerty",
       "isAdmin": "false",
       "id": 2,
       "creditWorthy": "false"
+    },
+    {
+      "business": "kk",
+      "username": "kk",
+      "fullname": "kk",
+      "phoneNumber": "123456789",
+      "password": "kk",
+      "passwordConfirmation": "kk",
+      "creditWorthy": "false",
+      "isAdmin": "false",
+      "id": 3
     }
   ],
   "wishlist": [
