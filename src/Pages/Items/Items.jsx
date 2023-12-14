@@ -7,6 +7,7 @@ import {carMakes} from '../../Components/ArrayFiles/CarMakes'
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartShopping} from '@fortawesome/free-solid-svg-icons';
+import Swal from 'sweetalert2';
 
             
 function Items({items,purchase,user}) {
@@ -63,6 +64,18 @@ function Items({items,purchase,user}) {
   // allFilteredSpares
   const allFilteredSpares = yearFiltered ? filteredSparesByYear : filteredItems;
 
+
+  function getAlert(){
+    let timerInterval;
+Swal.fire({
+  title: "Please signin!",
+  timer: 2000,
+
+  willClose: () => {
+    clearInterval(timerInterval);
+  }
+})
+  }
   return (
     <div className="container-fluid">
       <div className="row">
@@ -125,7 +138,7 @@ function Items({items,purchase,user}) {
               </div>
               <div className="card-body p-1 d-flex flex-column justify-content-center" >
               <div className="d-flex justify-content-between"><p className="card-text m-0"><span className='fw-bold'>Ksh. </span>{item.markedPrice}</p>
-              <p onClick={() => purchase(item.id,user)} style={{ cursor: 'pointer' }}>
+              <p  onClick={ user ? ()=>purchase(item.item_id,user.id) : () =>getAlert()}  style={{ cursor: 'pointer' }}>
                 <FontAwesomeIcon icon={faCartShopping} style={{ color: "#000000" }} />
               </p>
 

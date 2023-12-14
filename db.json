@@ -2,6 +2,7 @@
   "parts": [
     {
       "id": 0,
+      "item_id": 0,
       "title": "High-Output Alternator",
       "category": "Electrical System Parts",
       "description": "High-output alternator for improved electrical performance.",
@@ -12,12 +13,13 @@
       "markedPrice": 18000,
       "sellingPrice": 16498.9,
       "rating": 5,
-      "quantity": 10,
+      "quantity": 9,
       "status": "arrived",
       "datePosted": "2023-06-15"
     },
     {
       "id": 1,
+      "item_id": 1,
       "title": "Premium Ceramic Brake Pads for Toyota Camry (2019)",
       "category": "Braking System Parts",
       "description": "Premium ceramic brake pads for enhanced stopping power.",
@@ -28,13 +30,14 @@
       "markedPrice": 6000,
       "sellingPrice": 5498.9,
       "rating": 4,
-      "quantity": "14",
+      "quantity": -4,
       "status": "arrived",
       "datePosted": "2023-06-20",
       "carModelNumber": 12345678
     },
     {
       "id": 2,
+      "item_id": 2,
       "title": "Synthetic Transmission Fluid for Honda Civic (2017)",
       "category": "Transmission and Drivetrain Parts",
       "description": "Synthetic transmission fluid for smooth gear shifting.",
@@ -45,12 +48,13 @@
       "markedPrice": 2500,
       "sellingPrice": 2198.9,
       "rating": 3,
-      "quantity": 8,
+      "quantity": 6,
       "status": "arrived",
       "datePosted": "2023-06-25"
     },
     {
       "id": 3,
+      "item_id": 3,
       "title": "High-Performance Engine Components for Chevrolet Silverado (2021)",
       "category": "Engine Components",
       "description": "High-performance engine components for improved power.",
@@ -61,13 +65,14 @@
       "markedPrice": 850,
       "sellingPrice": "768",
       "rating": 5,
-      "quantity": 12,
+      "quantity": 8,
       "status": "inTransit",
       "datePosted": "2023-07-02",
       "selectedStatus": "inTransit"
     },
     {
       "id": 4,
+      "item_id": 4,
       "title": "Efficient Cooling System Parts for BMW 3 Series (2018)",
       "category": "Cooling System Parts",
       "description": "Efficient cooling system parts for temperature control.",
@@ -78,12 +83,13 @@
       "markedPrice": 1800,
       "sellingPrice": 1648.9,
       "rating": 4,
-      "quantity": 18,
+      "quantity": 17,
       "status": "arrived",
       "datePosted": "2023-07-05"
     },
     {
       "id": 5,
+      "item_id": 5,
       "title": "Performance Exhaust System Parts for Volkswagen Golf (2016)",
       "category": "Exhaust System Parts",
       "description": "Performance exhaust system parts for better engine sound.",
@@ -100,6 +106,7 @@
     },
     {
       "id": 6,
+      "item_id": 6,
       "title": "Durable Transmission and Drivetrain Parts for Nissan Altima (2017)",
       "category": "Transmission and Drivetrain Parts",
       "description": "Durable transmission and drivetrain parts for smooth gear shifting.",
@@ -116,6 +123,7 @@
     },
     {
       "id": 7,
+      "item_id": 7,
       "title": "High-Quality Suspension and Steering Components for Subaru Outback (2020)",
       "category": "Suspension and Steering Components",
       "description": "High-quality suspension and steering components for a smoother ride.",
@@ -126,12 +134,13 @@
       "markedPrice": 12000,
       "sellingPrice": 10998.9,
       "rating": 4,
-      "quantity": 7,
+      "quantity": 6,
       "status": "arrived",
       "datePosted": "2023-07-20"
     },
     {
       "id": 8,
+      "item_id": 8,
       "title": "Gas-Charged Shock Absorber for Hyundai Sonata (2019)",
       "category": "Suspension and Steering Components",
       "description": "Gas-charged shock absorber for a smoother ride.",
@@ -142,12 +151,13 @@
       "markedPrice": 3500,
       "sellingPrice": 3298.9,
       "rating": 3,
-      "quantity": 11,
+      "quantity": 10,
       "status": "arrived",
       "datePosted": "2023-07-25"
     },
     {
       "id": 9,
+      "item_id": 9,
       "title": "High-Performance Engine Components for Dodge Charger (2018)",
       "category": "Engine Components",
       "description": "High-performance engine components for improved power.",
@@ -164,6 +174,7 @@
     },
     {
       "id": 10,
+      "item_id": 10,
       "title": "Maintenance-Free Car Battery for GMC Sierra (2021)",
       "category": "Electrical System Parts",
       "description": "Maintenance-free car battery with a long lifespan.",
@@ -180,6 +191,7 @@
     },
     {
       "id": 11,
+      "item_id": 11,
       "title": "Precision Wheel Bearing for Mercedes-Benz E-Class (2017)",
       "category": "Engine Components",
       "description": "Precision wheel bearing for reduced friction.",
@@ -197,6 +209,7 @@
     },
     {
       "id": 12,
+      "item_id": 12,
       "title": "Cross-Drilled Brake Rotor for Audi A4 (2018)",
       "category": "Braking System Parts",
       "description": "Cross-drilled brake rotor for improved heat dissipation.",
@@ -213,6 +226,7 @@
     },
     {
       "id": 13,
+      "item_id": 13,
       "title": "High-Precision Oxygen Sensor for Jeep Wrangler (2016)",
       "category": "Electrical System Parts",
       "description": "High-precision oxygen sensor for optimal fuel efficiency.",
@@ -229,6 +243,7 @@
     },
     {
       "id": 14,
+      "item_id": 14,
       "title": "Heavy-Duty Tie Rod End for Chrysler 300 (2019)",
       "category": "Suspension and Steering Components",
       "description": "Heavy-duty tie rod end for precise steering control.",
@@ -245,6 +260,7 @@
     },
     {
       "id": 15,
+      "item_id": 15,
       "title": "Reinforced Control Arm for Mazda CX-5 (2020)",
       "category": "Suspension and Steering Components",
       "description": "Reinforced control arm for better suspension performance.",
@@ -261,6 +277,7 @@
     },
     {
       "id": 16,
+      "item_id": 16,
       "title": "Durable Water Pump for Volvo XC90 (2018)",
       "category": "Cooling System Parts",
       "description": "Durable water pump for efficient engine cooling.",
@@ -277,6 +294,7 @@
     },
     {
       "id": 17,
+      "item_id": 17,
       "title": "Electronic Throttle Body for Subaru Impreza (2019)",
       "category": "Engine Components",
       "description": "Electronic throttle body for improved engine response.",
@@ -293,6 +311,7 @@
     },
     {
       "id": 18,
+      "item_id": 18,
       "title": "High-Performance Radiator Fan for Toyota Corolla (2020)",
       "category": "Cooling System Parts",
       "description": "High-performance radiator fan for cooling efficiency.",
@@ -309,6 +328,7 @@
     },
     {
       "id": 19,
+      "item_id": 19,
       "title": "Premium Fuel Filter for Ford Focus (2017)",
       "category": "Engine Components",
       "description": "Premium fuel filter for cleaner fuel delivery.",
@@ -326,6 +346,23 @@
   ],
   "cart": [
     {
+      "carMake": "BMW",
+      "carModel": "3 Series",
+      "description": "Efficient cooling system parts for temperature control.",
+      "markedPrice": 1800,
+      "category": "Cooling System Parts",
+      "year": 2018,
+      "sellingPrice": 1648.9,
+      "image": "https://m.media-amazon.com/images/I/81rq5Ge6sBL.jpg",
+      "item_id": 4,
+      "rating": 4,
+      "status": "arrived",
+      "title": "Efficient Cooling System Parts for BMW 3 Series (2018)",
+      "cartQuantity": 2,
+      "user_id": 2,
+      "id": 1
+    },
+    {
       "carMake": "Honda",
       "carModel": "Civic",
       "description": "Synthetic transmission fluid for smooth gear shifting.",
@@ -334,137 +371,89 @@
       "year": 2017,
       "sellingPrice": 2198.9,
       "image": "https://m.media-amazon.com/images/I/81mPqrgqdDL._AC_UF894,1000_QL80_.jpg",
-      "id": 2,
+      "item_id": 2,
       "rating": 3,
       "status": "arrived",
       "title": "Synthetic Transmission Fluid for Honda Civic (2017)",
       "cartQuantity": 1,
-      "user_id": 1
+      "user_id": 2,
+      "id": 2
     },
     {
-      "carMake": "Chevrolet",
-      "carModel": "Silverado",
-      "description": "High-performance engine components for improved power.",
-      "markedPrice": 850,
-      "category": "Engine Components",
-      "year": 2021,
-      "sellingPrice": "768",
-      "image": "https://m.media-amazon.com/images/I/71AhwBuaa2L._AC_UF894,1000_QL80_.jpg",
-      "id": 3,
-      "rating": 5,
-      "status": "inTransit",
-      "title": "High-Performance Engine Components for Chevrolet Silverado (2021)",
+      "carMake": "Toyota",
+      "carModel": "Camry",
+      "description": "Premium ceramic brake pads for enhanced stopping power.",
+      "markedPrice": 6000,
+      "category": "Braking System Parts",
+      "year": 2019,
+      "sellingPrice": 5498.9,
+      "image": "https://m.media-amazon.com/images/I/71EYeM2ZpZS.jpg",
+      "item_id": 1,
+      "rating": 4,
+      "status": "arrived",
+      "title": "Premium Ceramic Brake Pads for Toyota Camry (2019)",
       "cartQuantity": 1,
-      "user_id": 1
+      "user_id": 2,
+      "id": 3
+    },
+    {
+      "carMake": "Subaru",
+      "carModel": "Outback",
+      "description": "High-quality suspension and steering components for a smoother ride.",
+      "markedPrice": 12000,
+      "category": "Suspension and Steering Components",
+      "year": 2020,
+      "sellingPrice": 10998.9,
+      "image": "https://m.media-amazon.com/images/I/81HARh2rwVL._AC_UF894,1000_QL80_.jpg",
+      "item_id": 7,
+      "rating": 4,
+      "status": "arrived",
+      "title": "High-Quality Suspension and Steering Components for Subaru Outback (2020)",
+      "cartQuantity": 1,
+      "user_id": 2,
+      "id": 4
+    },
+    {
+      "carMake": "Hyundai",
+      "carModel": "Sonata",
+      "description": "Gas-charged shock absorber for a smoother ride.",
+      "markedPrice": 3500,
+      "category": "Suspension and Steering Components",
+      "year": 2019,
+      "sellingPrice": 3298.9,
+      "image": "https://m.media-amazon.com/images/I/61khRzpXBmL._AC_UF894,1000_QL80_.jpg",
+      "item_id": 8,
+      "rating": 3,
+      "status": "arrived",
+      "title": "Gas-Charged Shock Absorber for Hyundai Sonata (2019)",
+      "cartQuantity": 1,
+      "user_id": 2,
+      "id": 5
     }
   ],
   "users": [
     {
-      "business": "manager",
-      "username": "manager",
-      "fullname": "manager",
-      "phoneNumber": "12345678",
-      "password": "qwerty",
-      "passwordConfirmation": "qwerty",
-      "isAdmin": "true",
-      "id": 1,
-      "creditWorthy": "false"
-    },
-    {
-      "business": "john business",
-      "username": "john",
-      "fullname": "john",
+      "business": "Admin",
+      "username": "Admin",
+      "fullname": "admin",
       "phoneNumber": "1234567890",
       "password": "qwerty",
       "passwordConfirmation": "qwerty",
-      "isAdmin": "false",
-      "id": 2,
-      "creditWorthy": "false"
+      "creditWorthy": "true",
+      "isAdmin": "true",
+      "id": 1
     },
     {
-      "business": "kk",
-      "username": "kk",
-      "fullname": "kk",
-      "phoneNumber": "123456789",
-      "password": "kk",
-      "passwordConfirmation": "kk",
+      "business": "kanyoni spares",
+      "username": "kanyoni",
+      "fullname": "kanyoni spares",
+      "phoneNumber": "1234567890",
+      "password": "qwerty",
+      "passwordConfirmation": "qwerty",
       "creditWorthy": "false",
       "isAdmin": "false",
-      "id": 3
+      "id": 2
     }
   ],
-  "wishlist": [
-    {
-      "carMake": "Chevrolet",
-      "carModel": "Silverado",
-      "description": "High-performance engine components for improved power.",
-      "markedPrice": 850,
-      "category": "Engine Components",
-      "year": 2021,
-      "sellingPrice": "768",
-      "image": "",
-      "id": 3,
-      "rating": 5,
-      "status": "inTransit",
-      "title": "High-Performance Engine Components for Chevrolet Silverado (2021)",
-      "cartQuantity": 1
-    },
-    {
-      "carMake": "Honda",
-      "carModel": "Civic",
-      "description": "Synthetic transmission fluid for smooth gear shifting.",
-      "markedPrice": 2500,
-      "category": "Transmission and Drivetrain Parts",
-      "year": 2017,
-      "sellingPrice": 2198.9,
-      "image": "https://m.media-amazon.com/images/I/81mPqrgqdDL._AC_UF894,1000_QL80_.jpg",
-      "id": 2,
-      "rating": 3,
-      "status": "arrived",
-      "title": "Synthetic Transmission Fluid for Honda Civic (2017)",
-      "cartQuantity": 1
-    },
-    {
-      "carMake": "Ford",
-      "carModel": "Mustang",
-      "description": "High-output alternator for improved electrical performance.",
-      "markedPrice": 18000,
-      "category": "Electrical System Parts",
-      "year": 2020,
-      "sellingPrice": 16498.9,
-      "image": "https://m.media-amazon.com/images/I/81krIl83PIL._AC_UF894,1000_QL80_.jpg",
-      "id": 4,
-      "rating": 5,
-      "status": "arrived",
-      "title": "High-Output Alternator"
-    },
-    {
-      "carMake": "Ford",
-      "carModel": "Focus",
-      "description": "Premium fuel filter for cleaner fuel delivery.",
-      "markedPrice": 1200,
-      "category": "Engine Components",
-      "year": 2017,
-      "sellingPrice": 1098.9,
-      "image": "https://m.media-amazon.com/images/I/61-6JImUGUL._AC_UF894,1000_QL80_.jpg",
-      "id": 19,
-      "rating": 2,
-      "status": "arrived",
-      "title": "Premium Fuel Filter for Ford Focus (2017)"
-    },
-    {
-      "carMake": "Toyota",
-      "carModel": "Corolla",
-      "description": "High-performance radiator fan for cooling efficiency.",
-      "markedPrice": 3000,
-      "category": "Cooling System Parts",
-      "year": 2020,
-      "sellingPrice": 2748.9,
-      "image": "https://m.media-amazon.com/images/I/71P6CMvdOXL._AC_UF894,1000_QL80_.jpg",
-      "id": 18,
-      "rating": 4,
-      "status": "arrived",
-      "title": "High-Performance Radiator Fan for Toyota Corolla (2020)"
-    }
-  ]
+  "sold": []
 }

@@ -1,11 +1,11 @@
 import React from 'react'
 import './SidebarMenu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse,faBoxesStacked,faUser,faDoorOpen,faTableList ,faCartShopping,faXmark} from '@fortawesome/free-solid-svg-icons';
+import { faHouse,faBoxesStacked,faUser,faTableList ,faCartShopping,faXmark} from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useLocation } from 'react-router-dom'
 
 
-function SidebarMenu({closeSidebar,getuser}) {
+function SidebarMenu({closeSidebar}) {
 
   const location = useLocation()
   
@@ -35,7 +35,7 @@ function SidebarMenu({closeSidebar,getuser}) {
               </a>
               </NavLink>
             </li>
-            <li className={`  nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/items') ? 'active' : ''}`}>
+            <li className={` nav-item col-12 mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/items') ? 'active' : ''}`}>
             <NavLink  to="/items"  >
               <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
               <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faBoxesStacked} />
@@ -43,7 +43,7 @@ function SidebarMenu({closeSidebar,getuser}) {
               </a>
             </NavLink>
             </li>
-            <li className={` nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/cart') ? 'active' : ''}`}>
+            <li className={` nav-item  mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/cart') ? 'active' : ''}`}>
               <NavLink  to="/cart"  >
                 <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
                 <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg'icon={faCartShopping}  />
@@ -73,14 +73,6 @@ function SidebarMenu({closeSidebar,getuser}) {
               </a>
               </NavLink>
             </li>
-            <li className={"nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded "}>
-            <NavLink to={`${!getuser ? '/signin' : '#'}`} >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faDoorOpen}  />
-                <span className='ms-2  d-md-inline my-1'>sign in</span>
-              </a>
-              </NavLink>
-            </li>
             
             <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/tables') ? 'active' : ''}`}>
             <NavLink  to="/tables"  >
@@ -90,46 +82,7 @@ function SidebarMenu({closeSidebar,getuser}) {
               </a>
               </NavLink>
             </li>
-            <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/tables') ? 'active' : ''}`}>
-            <NavLink  to="/tables"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg ' icon={faTableList}  />
-                <span className='ms-2  d-md-inline my-1'>Tables</span>
-              </a>
-              </NavLink>
-            </li>
-            <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/tables') ? 'active' : ''}`}>
-            <NavLink  to="/tables"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg ' icon={faTableList}  />
-                <span className='ms-2  d-md-inline my-1'>Tables</span>
-              </a>
-              </NavLink>
-            </li>
-            <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/tables') ? 'active' : ''}`}>
-            <NavLink  to="/tables"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg ' icon={faTableList}  />
-                <span className='ms-2  d-md-inline my-1'>Tables</span>
-              </a>
-              </NavLink>
-            </li>
-            <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/tables') ? 'active' : ''}`}>
-            <NavLink  to="/tables"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg ' icon={faTableList}  />
-                <span className='ms-2  d-md-inline my-1'>Tables</span>
-              </a>
-              </NavLink>
-            </li>
-            <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/tables') ? 'active' : ''}`}>
-            <NavLink  to="/tables"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg ' icon={faTableList}  />
-                <span className='ms-2  d-md-inline my-1'>Tables</span>
-              </a>
-              </NavLink>
-            </li>
+           
 
             
           </ul>

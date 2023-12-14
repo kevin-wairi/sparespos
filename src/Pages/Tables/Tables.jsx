@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import profile from '../../assets/images/profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faX,faPenToSquare} from '@fortawesome/free-solid-svg-icons';
+import {faX,faPenToSquare,faFilePdf,faCalendarDays} from '@fortawesome/free-solid-svg-icons';
 import './Tables.css'
 
 function Tables({stock,allUser}) {
@@ -11,6 +11,7 @@ function Tables({stock,allUser}) {
   const[fullname,setFullname] = useState("")
   const[phoneNumber,setPhoneNumber] = useState("")
   const[password,setPassword] = useState("")
+  const[creditWorthy,setCreditWorthy] = useState(false)
   const[passwordConfirmation,setPasswordConfirmation] = useState("")
   const[error,setError] = useState("")
 
@@ -68,8 +69,7 @@ function Tables({stock,allUser}) {
                   phoneNumber,
                   password,
                   passwordConfirmation,
-                  creditWorthy:'false',
-                  isAdmin: 'false'
+                  creditWorthy
               }),
           });
     
@@ -84,27 +84,54 @@ function Tables({stock,allUser}) {
     
   return (
     <div>
-       <div class="row justify-content-center align-items-center g-2 bg-white p-2 rounded">
+       <div class="row justify-content-center align-items-center g-2  rounded m-0">
         <div class="col-12">
         <div className="card text-center">
-          <div className="card-header pb-2">
-            <ul className="nav nav-tabs card-header-tabs">
+          <div className="card-header px-3">
+            <ul className="nav nav-tabs card-header-tabs  ">
               <li className="nav-item table-nav">
                 <a
-                  className={`nav-link ${activeTab === 0 ? 'active' : ''}`}
+                  className={`nav-link px-1 px-sm-3  ${activeTab === 0 ? 'active' : ''}`}
                   onClick={() => handleTabClick(0)}
                   href="#"
                 >
-                  Items Table
+                  Items
                 </a>
               </li>
               <li className="nav-item table-nav">
                 <a
-                  className={`nav-link ${activeTab === 1 ? 'active' : ''}`}
+                  className={`nav-link px-1 px-sm-3  ${activeTab === 1 ? 'active' : ''}`}
                   onClick={() => handleTabClick(1)}
                   href="#"
                 >
-                  Users Table
+                  Users
+                </a>
+              </li>
+              <li className="nav-item table-nav">
+                <a
+                  className={`nav-link px-1 px-sm-3  ${activeTab === 2 ? 'active' : ''}`}
+                  onClick={() => handleTabClick(2)}
+                  href="#"
+                >
+                  Invoices
+                </a>
+              </li>
+              <li className="nav-item table-nav">
+                <a
+                  className={`nav-link px-1 px-sm-3  ${activeTab === 3 ? 'active' : ''}`}
+                  onClick={() => handleTabClick(3)}
+                  href="#"
+                >
+                  Customers
+                </a>
+              </li>
+              <li className="nav-item table-nav">
+                <a
+                  className={`nav-link px-1 px-sm-3  ${activeTab === 4 ? 'active' : ''}`}
+                  onClick={() => handleTabClick(4)}
+                  href="#"
+                >
+                  Transactions
                 </a>
               </li>
             </ul>
@@ -233,7 +260,7 @@ function Tables({stock,allUser}) {
                   </label>
                 </div>
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id=""/>
+                  <input class="form-check-input" type="checkbox" checked='' value="" id=""/>
                   <label class="form-check-label" for="">
                     Discounted
                   </label>
@@ -281,6 +308,57 @@ function Tables({stock,allUser}) {
           </div>
        </div>
        )}
+
+{`${activeTab === 2 ? 'active' : ''}` &&
+              <>
+              <div className="col-12 invoice-div ">
+                <div className="card p-4 rounded  border-0">
+                    <div className="card-body d-flex justify-content-start">
+                        <h4 className="card-title fs-6">Invoices</h4>
+                    </div>
+                    <ul className="list-group list-group-flush">
+                        <li className="list-group-item">
+                            <div className="d-flex justify-content-between">
+                            <div><p>March, 01, 2020</p>
+                            </div>
+                            <div>ksh. 3456</div>
+                            <div><span><FontAwesomeIcon icon={faFilePdf} style={{color: "#000000",}} /></span>PDF</div>
+                            </div>
+                        </li>
+                    
+                    </ul>
+                </div>
+            </div>
+              </>
+            }
+            { `${activeTab === 3 ? 'active' : ''}` &&
+              <>
+                <div className="col-12">
+                <div className="card">
+                    <div className="card-body">
+                        <div className="d-flex justify-content-between">
+                        <p>Customer Details</p>
+                        <p className="card-text "><span><FontAwesomeIcon icon={faCalendarDays} style={{color: "#000000",}} /></span>  23 - 30 March 2020</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              </>
+            }
+            { `${activeTab === 4 ? 'active' : ''}` &&
+              <>
+                <div className="col-12">
+                <div className="card">
+                    <div className="card-body">
+                        <div className="d-flex justify-content-between">
+                        <p>Your Transactions</p>
+                        <p className="card-text "><span><FontAwesomeIcon icon={faCalendarDays} style={{color: "#000000",}} /></span>  23 - 30 March 2020</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+              </>
+            }
 
           </div>
         </div>

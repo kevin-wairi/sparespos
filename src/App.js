@@ -26,9 +26,11 @@ function App() {
   const[user,setUser]= useState()
   const[allUser,setAllUser]= useState()
   const [userLoggedOut,setLoggedOut] = useState(true)
+  const [selectedItemId, setSelectedItemId] = useState(null);
 
   const [width, setWidth] = useState(window.innerWidth);
 
+  
 
   useEffect(()=>{
     const username = sessionStorage.getItem('username');
@@ -69,15 +71,72 @@ function App() {
       })
   },[])
 
+    // update Items and Cart Quantity 
+   async function addQuantityToCart(selectedCartItem,operator) {
+  
+    let selected_id = selectedCartItem.item_id
+    let SelectedCart_id = selectedCartItem.id
+    let selected = null;
+    if (selectedItemId === null) {
+       selected = items.find(item => item.item_id === selected_id);
+      setSelectedItemId(selected)
+    } else if(selectedItemId !== null && selectedItemId.item_id !== selected_id){
+       selected = items.find(item => item.item_id === selected_id);
+      setSelectedItemId(selected)
+    }else if(selectedItemId.item_id === selected_id){
+      selected = selectedItemId
+    }
+     // update cart quantity
+    await fetch(`http://localhost:3000/cart/${SelectedCart_id}`,{
+      method:"PATCH",
+      headers:{
+        "Content-Type": "application/json",
+        "accepts":"application/json"  
+      },
+      body:JSON.stringify({
+        "cartQuantity": (selectedCartItem.cartQuantity += (operator === 'add' ? 1 : -1))
+    })
+    })
+      .then(resp=>resp.json())
+      .then(data=> {
+        // setCartItems(data)
+        console.log('cartDATA',data);
+        })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+    })
+  
+
+    // update items quantity
+   await fetch(`http://localhost:3000/parts/${selected.item_id}`,{
+      method:"PATCH",
+      headers:{
+        "Content-Type": "application/json",
+        "accepts":"application/json"  
+      },
+      body:JSON.stringify({
+        "quantity": (selected.quantity+= (operator === 'add' ? -1 : 1))
+    })
+    })
+      .then(resp=>resp.json())
+      .then(data=> {
+        setItems(data)
+        console.log(data);
+        })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+    })
+  }
+
+
     //add items to cart
   function handleAddToCart(spare_id,user_id){
-    
-    let selected = items.find((item) => item.id === spare_id);
-    let foundItem = cartItems.find((item) => item.id === spare_id);
+    let selected = items.find((item) => item.item_id === spare_id);
+    let foundItem = cartItems.find((item) => item.item_id === spare_id);
+   
+      if(foundItem && foundItem.user_id === parseInt(user_id)){
 
-
-      if(foundItem ){
-        fetch(`http://localhost:3000/cart/${spare_id}`,{
+        fetch(`http://localhost:3000/cart/${foundItem.id}`,{
           method: "DELETE",
           headers:{
             "Content-Type": "application/json",
@@ -85,20 +144,65 @@ function App() {
           }
         }) 
         .then(() => {
-          const updatedCartItems = cartItems.filter((item) => item.id !== spare_id);
-          setCartItems(updatedCartItems); 
+          fetch('http://localhost:3000/cart')
+          .then(resp=>resp.json())
+          .then(data=> {
+            const myCart = data.filter(item=>parseInt(item.user_id )=== parseInt(user_id))
+            setCartItems(myCart)
+          })
           console.log('deleted');
         })
         .catch((error) => {
           console.error('Fetch error:', error);
         });
-    }else{
-      fetch('http://localhost:3000/cart',{
+      }else if(foundItem && foundItem.user_id !== parseInt(user_id)){
+        fetch('http://localhost:3000/cart',{
         method: "POST",
         headers:{
           "Content-Type": "application/json",
           "accepts":"application/json"
         },
+        body:JSON.stringify({
+            'carMake': foundItem.carMake,
+            'carModel': foundItem.carModel,
+            "description": foundItem.description,
+            "markedPrice": foundItem.markedPrice,
+            "category": foundItem.category,
+            "year": foundItem.year,
+            "sellingPrice":foundItem.status,
+            "title":foundItem.title,
+            "cartQuantity": 1,
+            "user_id": foundItem.user_id,
+            "image": selected.image,
+            "item_id": selected.id,
+            "rating":selected.rating,
+            "status":selected.status,
+          })
+      })
+      .then(resp=>resp.json())
+      .then((data)=> {  setCartItems([...cartItems, data]) 
+        console.log('added');
+        // updates item quantity
+        fetch(`http://localhost:3000/parts/${selected.item_id}`,{
+          method:"PATCH",
+          headers:{
+            "Content-Type": "application/json",
+            "accepts":"application/json"
+          },
+          body:JSON.stringify({
+              "quantity": (selected.quantity-1)
+        })
+        })
+        })
+        
+    }else if(selected ){
+      console.log(selected);
+      fetch('http://localhost:3000/cart',{
+        method: "POST",
+        headers:{
+          "Content-Type": "application/json",
+          "accepts":"application/json"
+        },  
         body:JSON.stringify({
             'carMake': selected.carMake,
             'carModel': selected.carModel,
@@ -108,19 +212,33 @@ function App() {
             "year": selected.year,
             "sellingPrice":selected.sellingPrice,
             "image": selected.image,
-            "id": selected.id,
+            "item_id": selected.id,
             "rating":selected.rating,
             "status":selected.status,
             "title":selected.title,
             "cartQuantity": 1,
-            "user_id": user.id
+            "user_id": user_id
           })
       })
       .then(resp=>resp.json())
       .then((data)=> {  setCartItems([...cartItems, data]) 
         console.log('added');
+
+        // update item quantity 
+        fetch(`http://localhost:3000/parts/${selected.item_id}`,{
+          method:"PATCH",
+          headers:{
+            "Content-Type": "application/json",
+            "accepts":"application/json"
+          },
+          body:JSON.stringify({
+              "quantity": (selected.quantity-1)
+        })
+        })
         })
       .catch((error) =>  console.log(error))
+    }else{
+      console.log('err');
     }
   }
 
@@ -130,7 +248,7 @@ function App() {
       fetch('http://localhost:3000/cart')
       .then(resp=>resp.json())
       .then(data=> {
-        console.log( user.id);
+        // console.log( user.id);
         const myCart = data.filter(item=>parseInt(item.user_id )=== parseInt(user.id))
         setCartItems(myCart)
       })
@@ -145,7 +263,7 @@ function App() {
     const totalCount = cartItems.reduce((total,item)=>total = total + parseInt(item.cartQuantity),0)
     // console.log('totalCount',totalCount );
       setCartCount(totalCount)
-  },[cartItems,setCartItems])
+  },[cartItems,setCartItems,handleAddToCart])
 
   const [isSticky, setSticky] = useState(false);
 
@@ -200,7 +318,7 @@ if (user.isAdmin) {
         <div className='row flex-nowrap'>
     
         <div className={`${toggleMenu ? 'disp-overlay' : 'd-none'} ${isSticky && toggleMenu ? 'py-5' : ''} py-4 px-0   d-xl-flex`} style={{width: '20vw', height:'100vh'}} >
-                    { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState} getuser={userLoggedOut}/>}
+                    { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState} />}
         </div>
         <div id="scrollableDiv" className="main-section px-0  overflow-y-scroll" style={{  maxHeight: '100vh',width: getWidth()}} onScroll={handleScroll} >
         { !(location.pathname.includes('/profile') || location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <Navbar sticky={isSticky} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser} setCartItems={setCartItems}/>}
@@ -210,8 +328,8 @@ if (user.isAdmin) {
           <Routes>
             <Route path="/" element={<Dashboard  />} />
             <Route path="/items" element={<Items  items={items} purchase={handleAddToCart} user={user}/>} />
-            <Route path="/cart" element={<Cart  cartItems={cartItems} setCartItems={setCartItems} handleDeleteCart={handleAddToCart} user={user} getDiscount={getDiscount} />} />
-            <Route path="/checkout" element={<Checkout  />} />
+            <Route path="/cart" element={<Cart updateCartQuantity={addQuantityToCart} cartItems={cartItems} setCartItems={setCartItems} handleDeleteCart={handleAddToCart} user={user} getDiscount={getDiscount} />}  />
+            <Route path="/checkout" element={<Checkout  cartItems={cartItems}/>} />
             <Route path="/profile" element={<Profile   stock={items} updateStock={setItems} openSidebar={toggleState} cartCount={cartCount} user={user} loggedOut={setLoggedOut} onLogout={setUser} setCartItems={setCartItems}>
               
             </Profile>} />

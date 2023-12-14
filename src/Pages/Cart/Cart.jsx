@@ -5,8 +5,11 @@ import { faPlus,faMinus,faTrash,faTags} from '@fortawesome/free-solid-svg-icons'
 import { Tooltip } from 'react-tooltip'
 import './Cart.css'
 
+      
 
-function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
+
+            
+function Cart({cartItems,handleDeleteCart,  user,updateCartQuantity}){
 
 
     const navigate = useNavigate()
@@ -14,28 +17,16 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
 
     const[selectedItem,setSelectedItem]= useState()
     const[productTotal,setProductTotal]= useState(0)
-    const[discountOveray,setDiscountOveray] = useState(false)
 
-    //add cart quantity
-    const addAmount = (selected) => {
-        const updatedCart = cartItems.map(item => {
-            if (item.id === selected.id) {
-                return { ...item, cartQuantity: item.cartQuantity + 1 };
-            }
-            return item;
-        });
-        setCartItems(updatedCart);
-    }
+
     
     //minus cart quantity
     const minusAmount = (selected) => {
-        const updatedCart = cartItems.map(item => {
-            if (item.id === selected.id && item.cartQuantity > 1) {
-                return { ...item, cartQuantity: item.cartQuantity - 1 };
-            }
-            return item;
-        });
-        setCartItems(updatedCart);
+        updateCartQuantity(selected,'minus')
+    }
+     //minus cart quantity
+     const addAmount = (selected) => {
+        updateCartQuantity(selected,'add')
     }
 
     //calculate total of all products
@@ -44,17 +35,14 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
             return acc + item.markedPrice * item.cartQuantity;
         }, 0);
         setProductTotal(total);
-    }, [cartItems]);
+    }, [cartItems,updateCartQuantity]);
+
 
     const handleCartDetails = (item)=>{
         setSelectedItem(item)
         console.log('itemin',item);
     }
 
-
-    function handleClose(){
-        handleCartDetails(null)
-    }
     useEffect(()=>{
         let handler = (e)=>{
           if(cardRef.current && !cardRef.current.contains(e.target)){
@@ -67,15 +55,20 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
         }
       })
 
-      const handleCheckout = ()=>{
+      const handleCheckout = (cartItems)=>{
         navigate('/checkout')
+        console.log(cartItems);
       }
 
-      const handleDiscount = (item_id)=>{
+      const handleDiscount = (item,user)=>{
         console.log('waiiit');
-        setDiscountOveray(prevOverlay => !prevOverlay)
-        getDiscount(item_id,user)
+        if(user.isAdmin = true){
+            console.log('YES');
+        }else{
+            console.log('NO');
+        }
       }
+
      
     return(
            
@@ -84,10 +77,6 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
                     <div className="row d-flex justify-content-start align-items-center h-100">
                     <div className="col-12">
 
-                        <div className="d-flex">
-                            <p className="mb-0"><span className="text-muted">Sort by:</span> <a href="#!" className="text-body">price <i
-                                className="fas fa-angle-down mt-1"></i></a></p>
-                        </div>
                         {Array.isArray(cartItems) && cartItems.map((item,index)=>( 
                             <div className="card rounded-3 border-0 mb-2 " key={index}>
                                 <div className="card-body p-3">
@@ -122,23 +111,14 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
                                             <h6 className="mb-0">ksh. {Math.trunc((item.markedPrice*item.cartQuantity)*100)/100}</h6>
                                         </div>
                                         <div className="col-md-1 col-lg-1 col-xl-1 col-2 p-0 m-0 rel-discount-card">
-                                            <button className="btn anchor-element"  onClick={()=>handleDiscount(item.id)}> <FontAwesomeIcon icon={faTags} /></button>
-                                            {discountOveray && 
-                                            <>
-                                                <div className="card discount-card m-0">
-                                                 <p className="card-title p-1 fs-small">Wait Approval</p>
-                                                   
-                                                </div>
-                                                
-                                            </>
-                                        }
+                                            <button className="btn anchor-element"  onClick={()=>handleDiscount(item,user)}> <FontAwesomeIcon icon={faTags} /></button>
                                         <Tooltip anchorSelect=".anchor-element" place="top">
                                             Request Discount
                                         </Tooltip>
                                         </div>
                                         
                                         <div className="col-md-1 col-lg-1 col-xl-1 col-2  ">
-                                            <button className="btn text-danger" onClick={()=>handleDeleteCart(item.id,user)}><FontAwesomeIcon icon={faTrash} /> </button>
+                                            <button className="btn text-danger" onClick={()=>handleDeleteCart(item.item_id,user.id)}><FontAwesomeIcon icon={faTrash} /> </button>
                                             
                                         </div>
                                     </div>
@@ -157,8 +137,6 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
                             )
                         }
                         
-
-
                         <div className="col-md-12 col-sm-4">
                             <div className="card mb-4 ">
                             <div className="card-header py-3">
@@ -170,10 +148,6 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
                                     className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                                     Products
                                     <span>ksh. {productTotal}</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between align-items-center px-0">
-                                    Shipping
-                                    <span>Gratis</span>
                                 </li>
                                 <li
                                     className="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
@@ -191,20 +165,10 @@ function Cart({cartItems,setCartItems,handleDeleteCart,getDiscount,user}){
                         </div>
 
 
-                        <div className="card mb-4">
-                        <div className="card-body p-4 d-flex flex-row">
-                            <div className="form-outline flex-fill">
-                            <input type="text" id="form1" className="form-control form-control-lg" />
-                            <label className="form-label" for="form1">Discound code</label>
-                            </div>
-                            <button type="button" className="btn btn-outline-warning btn-lg ms-3">Apply</button>
-                        </div>
-                        </div>
-
                         <div className="card">
                         <div className="card-body d-flex justify-content-center gap-2">
                             <button type="button" className="btn btn-warning btn-block btn-lg">Invoice</button>
-                            <button type="button" className="btn btn-warning btn-block btn-lg">Proceed to Pay</button>
+                            <button type="button" className="btn btn-warning btn-block btn-lg" onClick={()=>handleCheckout()}>Proceed to Pay</button>
                         </div>
                         </div>
 

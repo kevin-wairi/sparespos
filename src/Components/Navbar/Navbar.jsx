@@ -84,7 +84,7 @@ function Navbar({sticky,openSidebar,cartCount,user,loggedOut,onLogout,setCartIte
                                             <NavLink to='/profile'>
                                             <div className="d-flex align-items-center justify-content-center gap-2">
                                                 <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
-                                                <p className='m-0 d-none d-md-flex '>{user.business}</p>
+                                                <p className='m-0 d-none d-md-flex '>{(user.business).slice(0,10)+'..'}</p>
                                             </div>
                                             </NavLink>
                                         </div>

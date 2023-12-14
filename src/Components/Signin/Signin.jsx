@@ -31,8 +31,8 @@ async function submitLoginForm(e) {
     const response = await fetch('http://localhost:3000/users');
     const data = await response.json();
     if (response.ok) {
-        const user = data.find(user => user.username.toLowerCase === username.toLowerCase);
-
+        const user = data.find((user) => user.username.toLowerCase() === username.toLowerCase());
+        console.log('found',user);
         if (user) {
             if (user.password === password) {
                 // Update state and navigate to home page upon successful login
@@ -97,10 +97,10 @@ async function submitLoginForm(e) {
     <p className='menu-p'>Use these awesome forms to login</p>
     
     </div>
-            <div className=" form-container signinform rounded border col-lg-4 col-10" >
+            <div className=" form-container signinform rounded border col-lg-4 col-xl-4  col-md-4  col-sm-6" >
                     <p className="text-center h4 fw-bold mb-2 mx-1 mx-md-4 mt-2 pt-2">Log in</p>
 
-                    <form className="mx-1 mx-md-4" onSubmit={(e)=>submitLoginForm(e)}>
+                    <form className="mx-1 mx-md-4  " onSubmit={(e)=>submitLoginForm(e)}>
 
                         <div className="d-flex flex-row align-items-center mb-2">
                             <div className="form-outline flex-fill mb-0 form__div">

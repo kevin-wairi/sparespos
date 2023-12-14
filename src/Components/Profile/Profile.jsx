@@ -40,7 +40,6 @@ function Profile({stock,updateStock,openSidebar,cartCount,user,loggedOut,onLogou
     const[itemId,setItemId] = useState('')
 
 
-
     const[searchCategory,setSearchCategory] = useState('')
     const[searchCarMake,setSearchCarMake] = useState('')
     const[searchCarModel,setSearchCarModel] = useState('')
@@ -135,7 +134,7 @@ const handleSignupForm = async (e) => {
               password,
               passwordConfirmation,
               creditWorthy:'false',
-              isAdmin: 'false'
+              discounted: 'false'
           }),
       });
 
@@ -148,7 +147,7 @@ const handleSignupForm = async (e) => {
           setPhoneNumber("")
           setPassword("")
           setPasswordConfirmation("")
-          Swal.fire('Success!', 'Your action has been completed.', 'success');
+          Swal.fire('Success!', 'User has been registered.', 'success');
 
       }   
 }
@@ -335,7 +334,7 @@ function handleLogout(){
                                         <NavLink to='/profile'>
                                         <div className="d-flex align-items-center justify-content-center gap-2">
                                             <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
-                                            <p className='m-0 d-none d-md-flex '>{user.business}</p>
+                                            <p className='m-0 d-none d-md-flex '>{(user.business).slice(0,10)+'..'}</p>
                                         </div>
                                         </NavLink>
                                         <div className="dropdown dropstart lh-1 mx-3">
@@ -366,8 +365,8 @@ function handleLogout(){
                       <img className='img-fluid rounded' src={profile} alt="username" />
                     </div>
                     <div className="profile-tag">
-                      <h6>James Doe</h6>
-                      <p>CEO / Co-founder</p>
+                      <h6>{user ? user.username : 'User'}</h6>
+                      <p>{user ? user.business : 'Untitled'} </p>
                     </div>
                 </div>
                 <div class="col-lg-2 px-2  col-3  d-flex align-items-center align-self-end gap-2 justify-content-end">

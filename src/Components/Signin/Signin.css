@@ -27,7 +27,7 @@
     position: relative;
   }
 
-  @media only screen and (max-width: 400px) {
+  /* @media only screen and (max-width: 400px) {
     .signinform{
       
       left: 8%;
@@ -40,10 +40,32 @@
       left: 8%;
     }
   }
-  @media only screen and (min-width: 768px) {
+  */
+ 
+
+  @media only  screen and (min-width: 768px) and (max-width: 1400px) {
     .signinform{
       
       left: 30%;
+    }
+  }
+  @media only  screen and (min-width: 586px) and (max-width: 767px) {
+    .signinform{
+      
+      left: 25%;
+    }
+  }
+  @media only  screen and (min-width: 300px) and (max-width: 585px) {
+    .signinform{
+      
+      left: 20%;
+    }
+  }
+
+  @media only  screen and (max-width: 490px) {
+    .signinform{
+      
+      left: 8%;
     }
   }
 
