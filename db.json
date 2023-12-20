@@ -48,7 +48,7 @@
       "markedPrice": 2500,
       "sellingPrice": 2198.9,
       "rating": 3,
-      "quantity": 6,
+      "quantity": 3,
       "status": "arrived",
       "datePosted": "2023-06-25"
     },
@@ -433,7 +433,7 @@
   ],
   "users": [
     {
-      "business": "Admin",
+      "business": "Manager",
       "username": "Admin",
       "fullname": "admin",
       "phoneNumber": "1234567890",

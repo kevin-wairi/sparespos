@@ -194,7 +194,7 @@ function Tables({stock,allUser}) {
                                 </tr>
                             </thead>
                             <tbody>
-                            { allUser.map((user,index)=>(
+                            {allUser && allUser.map((user,index)=>(
                                     <tr key={user.id} className="table-content">
                                     <td>{index+1}</td>
                                     <td>

@@ -326,7 +326,7 @@ if (user.isAdmin) {
         <div className={`${isSticky ? 'sticky-bottom' : ''}`}></div>
         {!loading ?(
           <Routes>
-            <Route path="/" element={<Dashboard  />} />
+            <Route path="/" element={<Dashboard  user={user}/>} />
             <Route path="/items" element={<Items  items={items} purchase={handleAddToCart} user={user}/>} />
             <Route path="/cart" element={<Cart updateCartQuantity={addQuantityToCart} cartItems={cartItems} setCartItems={setCartItems} handleDeleteCart={handleAddToCart} user={user} getDiscount={getDiscount} />}  />
             <Route path="/checkout" element={<Checkout  cartItems={cartItems}/>} />

@@ -86,18 +86,18 @@ function Checkout({cartItems}) {
                     <div className="card-body">
                     <p className='fw-bold text-start'>Billing Customer Details</p>
                         <form className="col-11 mx-auto" onSubmit={(e)=>handleSignupForm(e)}>
-                            <div className="form-outline  mb-0 col">
+                            <div className="form-outline  mb-2 col">
                                     <div className="form__div m-1">
                                     <input type="text" className="form-control rounded"  value={business} onChange={(e)=>setBusiness(e.target.value)}/>
                                     <label className="form__label text-start text-capitalize" >Business Name</label>
                                     </div>
                                     
                                 </div>
-                            <div className="align-items-center  mb-2">
+                            <div className="align-items-center  mb-2 ">
                                 <div className="form-outline  mb-0 col">
                                     <div className="form__div m-1">
                                     <input type="text" className="form-control rounded"  value={username} onChange={(e)=>setUsername(e.target.value)}/>
-                                    <label className="form__label text-start text-capitalize" >Username</label>
+                                    <label className="form__label  text-start text-capitalize" >Username</label>
                                     </div>
                                     
                                 </div>
@@ -131,8 +131,8 @@ function Checkout({cartItems}) {
                        <div
                         className="row justify-content-center align-items-center g-2"
                        >
-                        <div className={`col-6 border border-black rounded rounded-end-0 btn   ${activeCheckTab === 0 ? 'active' : ''}`}  onClick={() => handleCHeckTabClick(0)}><p className='m-1'>Credit card</p></div>
-                        <div className={`col-6 border border-black border-start-0 rounded rounded-start-0 btn  ${activeCheckTab === 1 ? 'active' : ''}`} onClick={() => handleCHeckTabClick(1)}><p  className='m-1'>Mobile</p></div>
+                        <div className={`col-6 border tabBtn border-black rounded rounded-end-0 btn   ${activeCheckTab === 0 ? 'active bg-black text-white' : ''}`}  onClick={() => handleCHeckTabClick(0)}><p className='m-1'>Credit card</p></div>
+                        <div className={`col-6 border tabBtn border-black border-start-0 rounded rounded-start-0 btn  ${activeCheckTab === 1 ? 'active bg-black text-white' : ''}`} onClick={() => handleCHeckTabClick(1)}><p  className='m-1'>Mobile</p></div>
                        </div>
                        <div className="payment-details py-4" style={{minHeight: '47vh'}}>
                        {`${activeCheckTab === 0 ? 'active' : ''}` &&

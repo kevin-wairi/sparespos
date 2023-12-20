@@ -1,7 +1,7 @@
 import React from 'react'
 import './SidebarMenu.css'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse,faBoxesStacked,faUser,faTableList ,faCartShopping,faXmark} from '@fortawesome/free-solid-svg-icons';
+import { faHouse,faWarehouse,faUser,faTableList ,faCartShopping,faXmark,faCreditCard} from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useLocation } from 'react-router-dom'
 
 
@@ -14,7 +14,7 @@ function SidebarMenu({closeSidebar}) {
   };
 
   return (
-      <div className=' sidebarmenu overflow-x-hidden overflow-y-scroll bg-white ' style={{ maxHeight: '100vh' ,  borderRadius: '10px 0  0 10px'}} id='sidebar'>
+      <div className=' sidebarmenu overflow-x-hidden overflow-y-scroll ' style={{ maxHeight: '100vh' ,  borderRadius: '10px 0  0 10px'}} id='sidebar'>
         <div className="wrapper rounded">
           <div className="d-flex justify-content-center py-3">
           <a className="col-md-9 col-10 text-center align-self-end ">
@@ -38,7 +38,7 @@ function SidebarMenu({closeSidebar}) {
             <li className={` nav-item col-12 mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/items') ? 'active' : ''}`}>
             <NavLink  to="/items"  >
               <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faBoxesStacked} />
+              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faWarehouse} />
                 <span className='ms-2  d-md-inline my-1 mx-1'>Items</span>
               </a>
             </NavLink>
@@ -54,7 +54,7 @@ function SidebarMenu({closeSidebar}) {
             <li className={`nav-item mx-md-3 text-start sidebar-link my-1 flex-fill  rounded ${isNavLinkActive('/checkout') ? 'active' : ''}`}>
             <NavLink  to="/checkout"  >
               <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faBoxesStacked} />
+              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-bg' icon={faCreditCard} />
                 <span className='ms-2  d-md-inline my-1'>Checkout</span>
               </a>
               </NavLink>
