@@ -321,7 +321,7 @@ function handleLogout(){
                             
                                 <div className="d-flex gap-2 align-items-end">
                                 
-                                {!user ?  (
+                                {!user &&
                                     
                                     <NavLink to='/signin'>
                                     <div className="d-flex gap-2 align-items-center">
@@ -329,8 +329,9 @@ function handleLogout(){
                                         <p className='m-0'>sign in</p>
                                     </div>
                                     </NavLink>
-                                ) : (
-                                    <>
+                                }
+                                {user  &&
+                                    <div>
                                         <NavLink to='/profile'>
                                         <div className="d-flex align-items-center justify-content-center gap-2">
                                             <FontAwesomeIcon icon={faUser} style={{color: "#000000",}} />
@@ -343,8 +344,8 @@ function handleLogout(){
                                                 <li onClick={()=>handleLogout()}><a className="dropdown-item menu-p" href="#">Logout</a></li>
                                             </ul>
                                         </div>
-                                    </>
-                                ) }
+                                    </div>
+                               }
                             
                                 </div>
                                 

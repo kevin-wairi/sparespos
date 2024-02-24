@@ -279,7 +279,7 @@ function App() {
 
   // set width of main section
   const getWidth = () => {
-    return width >= 1200 ? '80vw'  : '100vw';
+    return width >= 1200 ? '82vw'  : '100vw';
   };
 
 if (width === '80vw') {
@@ -294,7 +294,7 @@ if (width === '80vw') {
     const handleResize = () => {
       setWidth(window.innerWidth);
       if (width === '80vw') {
-        toggleState('false');
+        toggleState(false);
       }
     };
     window.addEventListener('resize', handleResize);
@@ -317,7 +317,7 @@ if (user.isAdmin) {
       <div className='container-fluid'>
         <div className='row flex-nowrap'>
     
-        <div className={`${toggleMenu ? 'disp-overlay' : 'd-none'} ${isSticky && toggleMenu ? 'py-5' : ''} py-4 px-0   d-xl-flex`} style={{width: '20vw', height:'100vh'}} >
+        <div className={`${toggleMenu ? 'disp-overlay' : 'd-none'} ${isSticky && toggleMenu ? 'py-5' : ''} px-0   d-xl-flex`} style={{width: '18vw', height:'100vh'}} >
                     { !(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu closeSidebar={toggleState} />}
         </div>
         <div id="scrollableDiv" className="main-section px-0  overflow-y-scroll" style={{  maxHeight: '100vh',width: getWidth()}} onScroll={handleScroll} >

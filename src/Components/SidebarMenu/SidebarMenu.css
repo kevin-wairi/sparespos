@@ -19,13 +19,24 @@ a span{
   .sidebar-link.active{
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     background-color: #fff;
-    
   }
   .sidebar-link.active .icon-bg{
     background-color: #219ffe;
     color: #fff;
   }
   .sidebar-link.active .sidenav-icon{
+    color: #fff;
+  }
+
+  .user_settings.active{
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    background-color: #fff;
+  }
+  .user_settings.active .icon-bg{
+    background-color: #219ffe;
+    color: #fff;
+  }
+  .user_settings.active .profile-icon{
     color: #fff;
   }
   .logo{

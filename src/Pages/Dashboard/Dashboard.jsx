@@ -7,7 +7,7 @@ import back from '../../assets/images/bg.jpg'
 import './Dashboard.css'
 import Quotes from '../../Components/ArrayFiles/Quotes'
 
-function Dashboard({user={user}}) {
+function Dashboard({user}) {
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
