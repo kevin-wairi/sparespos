@@ -19,9 +19,9 @@ function SidebarMenu({closeSidebar}) {
           
         <div>
             <div className="py-3">
-              <button className="btn">
-                <span className="logo fw-bold">COMPANY NAME</span>
-              </button>
+              <p className="btn" onClick={()=>closeSidebar()}>
+                <span className="logo fw-bold fs-1">C</span>
+              </p>
               <hr  className='text-secondary mx-auto' style={{width:'80%'}}/>
             </div>
 

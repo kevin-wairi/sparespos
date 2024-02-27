@@ -20,7 +20,7 @@ function App() {
  
   const[items,setItems] = useState([])
   const[cartItems,setCartItems] = useState([])
-  const[toggleMenu,setToggle] = useState(false)
+  const[toggleMenu,setToggleMenu] = useState(false)
   const [cartCount,setCartCount] = useState(0)
   const [loading, setLoading] = useState(true);
   const[user,setUser]= useState()
@@ -57,7 +57,7 @@ function App() {
 
   const toggleState = () => {
     // Use the callback function to toggle the state
-    setToggle(prevState => !prevState);
+    setToggleMenu(prevState => !prevState);
   };
 
    // fetches all items
