@@ -1,38 +1,5 @@
-/* .sidebar-link:active{
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    background-color: #fff;
 
-} */
 
-a span{
-    color: black;
-    font-size: small;
-}
-  /* hide scrollbar for chrome, safari and opera */
-  /* #sidebar::-webkit-scrollbar {
-    display: none;
-  }
-  #sidebar{
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  } */
-  #sidebar::-webkit-scrollbar {
-    width:thin;               /* width of the entire scrollbar */
-  }
-  #sidebar::-webkit-scrollbar-track {
-    background: #f6fbfe;        /* color of the tracking area */
-  }
-  
-  #sidebar::-webkit-scrollbar-thumb {
-    background-color:skyblue;    /* color of the scroll thumb */
-    border-radius: 20px;       /* roundness of the scroll thumb */
-    border: 3px solid lightblue;  /* creates padding around scroll thumb */
-  }
-
-  .sidebar-link.active{
-    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-    /* background-color: #fff; */
-  }
   .sidebar-link.active .icon-bg{
     background-color: #219ffe;
     color: #fff;

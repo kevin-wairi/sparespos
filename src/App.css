@@ -3,56 +3,33 @@
 .App {
   text-align: center;
   font-family: 'Poppins', sans-serif;
-  background-color: #F6FBFE;
-}
-.main-section{
-  height: 600px; /* Set the height of the parent container */
-}
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+/* Track */
+::-webkit-scrollbar-track {
+  background: #cfd8dc;
+  border-radius: 5px;
 }
 
-.App-link {
-  color: #61dafb;
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b0bec5;
+  border-radius: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #90a4ae;
 }
-.sticky-bottom{
-  margin-top: 120px;
+.bg-blue-gray-50 {
+  background-color: #eceff1;
 }
-.disp-overlay{
-  position: fixed;
-  top: 0;
-  left: 5px;
-  min-width: 26%;
-  background:#f0f1f2; /* semi-transparent background */
-  align-items: center;
-  z-index: 999; /* Set a high z-index to appear on top */
-  border-radius: 10px 0 0 10px;
-  
+.bg-cyan-500 {
+  background-color: #00bcd4;
 }
+

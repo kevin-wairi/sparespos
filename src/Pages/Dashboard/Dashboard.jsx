@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWarehouse,faUser,faTableList ,faCartShopping,faCreditCard} from '@fortawesome/free-solid-svg-icons';
-import { NavLink } from 'react-router-dom'
+import { faWarehouse,faUser,faLinesLeaning,faGear} from '@fortawesome/free-solid-svg-icons';
+import { NavLink, useNavigate } from 'react-router-dom'
 import profileImg from '../../assets/images/profile.jpg'
 import back from '../../assets/images/bg.jpg'
 import './Dashboard.css'
 import Quotes from '../../Components/ArrayFiles/Quotes'
+import Navbar from '../../Components/Navbar/Navbar'
 
 function Dashboard({user}) {
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+
+  const navigate = useNavigate()
 
     // time function
   useEffect(() => {
@@ -37,49 +40,24 @@ function Dashboard({user}) {
 
 
   return (
-    <div className="wrapper px-3">
-      <div className="container  p-0">
+    <div className="wrapper px-3" style={{height:'100vh'}}>
+      <div className="container  p-0 ">
+        <Navbar />
          <div
           className="row  justify-content-start align-items-center g-2 mb-3"
          >
-          <ul
-            className="nav justify-content-around col-xl-3 col-7 col-md-3 col-sm-5  rounded bg-white"
-            style={{boxShadow: 'rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px'}}
-          >
-            <li className="nav-item ">
-            <NavLink  to="/items"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
+          <ul className='d-flex list-unstyled align-items-center justify-content-start gap-3 m-0'>
+              <li className="nav-item " onClick={()=>navigate('/items')}>
               <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash' icon={faWarehouse} />
-              </a>
-            </NavLink>
             </li>
-            <li className="nav-item ">
-              <NavLink  to="/cart"  >
-                <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-                <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash'icon={faCartShopping}  />
-                </a>
-              </NavLink>
+            <li className="nav-item" onClick={()=>navigate('/settings')}>
+              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash' icon={faGear}  />
             </li>
-            <li className="nav-item ">
-              <NavLink  to="/checkout"  >
-                <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-                <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash' icon={faCreditCard} />
-                </a>
-              </NavLink>
+            <li className="nav-item" onClick={()=>navigate('/tables')}>
+              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash ' icon={faLinesLeaning}  />
             </li>
-            <li className="nav-item ">
-              <NavLink  to="/profile"  >
-                <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-                <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash' icon={faUser}  />
-                </a>
-              </NavLink>
-            </li>
-            <li className="nav-item ">
-            <NavLink  to="/tables"  >
-              <a href="#" className="nav-link p-0 d-flex gap-2 p-1" aria-current="page">
-              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash ' icon={faTableList}  />
-              </a>
-              </NavLink>
+            <li className="nav-item" onClick={()=>navigate('/settings')}>
+              <FontAwesomeIcon className='sidenav-icon p-2 rounded icon-Dash ' icon={faUser}  />
             </li>
           </ul>
          

@@ -1,4 +1,4 @@
-
+/* 
 .searcIcon{
     border: 1px solid rgb(2, 2, 2  ,0.1);
     border-radius:  5px 0 0 5px;
@@ -16,25 +16,17 @@
 .searchFormInput:focus{
     padding-left: 20px;
 }
-.sticky-top{
-    position: fixed;
-    min-width: 78vw;
-    top: 0;
-    background-color: #ffffffea;
-    backdrop-filter: blur(10px); 
-}
 .menu-p{
     font-size: small;
 }
 
 
 /* navbar for md screen */
-@media screen and (min-width: 360px) and (max-width: 1200px) {
+/* @media screen and (min-width: 360px) and (max-width: 1200px) {
     body {
     .sticky-top{
         width: 95vw;
-        /* left: 2%;  */
     }
     
     }
-  }
+  }  */

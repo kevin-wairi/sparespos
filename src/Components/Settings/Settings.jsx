@@ -1,9 +1,9 @@
 import React,{useState,useEffect} from 'react'
-import './Profile.css'
+import './Settings.css'
 import Swal from 'sweetalert2';
 import profile from '../../assets/images/profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faScrewdriverWrench,faCircleDollarToSlot,faUser,faGear,faHouse,faSlash,faCartShopping,faBars,faBell} from '@fortawesome/free-solid-svg-icons';
+import {faCircleDollarToSlot,faUser,faGear,faHouse,faSlash,faCartShopping,faBars,faBell} from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useLocation } from 'react-router-dom'
 
 import {carMakes} from '../ArrayFiles/CarMakes'
@@ -11,7 +11,7 @@ import {carModels} from '../ArrayFiles/CarModel'
 import {carModelsYears} from '../ArrayFiles/CarModelsYears'
 import {carSparePartsCategories} from '../ArrayFiles/CarSparePartsCategories'
 
-function Profile({stock,updateStock,openSidebar,cartCount,user,loggedOut,onLogout,setCartItems}) {
+function Settings({stock,updateStock,openSidebar,cartCount,user,loggedOut,onLogout,setCartItems}) {
 
   const[description,setDescription] = useState('')
   const[carMake,setCarMake] = useState('')
@@ -276,7 +276,7 @@ function handleLogout(){
 }
 
   return (
-    <div className="wrapper">
+    <div className="wrapper h-100 overflow-y-scroll" style={{width:'95vw'}}>
     <div class="row justify-content-center align-items-center g-2 my-3 mx-2  ">
         <div class="col-12  profile-bg rounded d-flex justify-content-center" style={{minHeight: '250px'}}>
         <div className=" container-fluid m-0  align-items-start w-100vw row ">
@@ -308,7 +308,7 @@ function handleLogout(){
                                 </div>
                                 </NavLink>
                                 <FontAwesomeIcon className='d-xl-none d-md-flex' onClick={()=>openSidebar()} icon={faBars} />
-                                <NavLink to='/profile'>
+                                <NavLink to='/settings'>
                                     <div className="d-flex align-items-end justify-content-center gap-1">
                                             <FontAwesomeIcon icon={faBell} />
                                             <p className='m-0 lh-1 '>0</p>
@@ -371,7 +371,7 @@ function handleLogout(){
                     </div>
                 </div>
                 <div class="col-lg-2 px-2  col-3  d-flex align-items-center align-self-end gap-2 justify-content-end">
-                  <FontAwesomeIcon icon={faScrewdriverWrench} style={{color: "#000000",}} />
+                  <FontAwesomeIcon icon={faGear} style={{color: "#000000",}} />
                   <p className='m-0'>Settings</p>
                 </div>
                </div>
@@ -824,4 +824,4 @@ function handleLogout(){
   )
 }
 
-export default Profile
+export default Settings

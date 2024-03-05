@@ -1,0 +1,6 @@
+.exclamation_btn{
+    display: none;
+}
+.item_card:hover .exclamation_btn{
+    display: block;
+}

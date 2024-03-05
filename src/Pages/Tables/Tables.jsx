@@ -83,56 +83,56 @@ function Tables({stock,allUser}) {
       
     
   return (
-    <div>
-       <div class="row justify-content-center align-items-center g-2  rounded m-0">
-        <div class="col-12">
+    <div className="wrapper" style={{width:'95vw'}}>
+       <div class="row m-0">
+        <div class="col-12 overflow-y-scroll  px-4 py-3" style={{height:'100vh'}}>
         <div className="card text-center">
           <div className="card-header px-3">
             <ul className="nav nav-tabs card-header-tabs  ">
               <li className="nav-item table-nav">
-                <a
+                <p
                   className={`nav-link px-1 px-sm-3  ${activeTab === 0 ? 'active' : ''}`}
                   onClick={() => handleTabClick(0)}
-                  href="#"
+                  
                 >
                   Items
-                </a>
+                </p>
               </li>
               <li className="nav-item table-nav">
-                <a
+                <p
                   className={`nav-link px-1 px-sm-3  ${activeTab === 1 ? 'active' : ''}`}
                   onClick={() => handleTabClick(1)}
-                  href="#"
+                  
                 >
                   Users
-                </a>
+                </p>
               </li>
               <li className="nav-item table-nav">
-                <a
+                <p
                   className={`nav-link px-1 px-sm-3  ${activeTab === 2 ? 'active' : ''}`}
                   onClick={() => handleTabClick(2)}
-                  href="#"
+                  
                 >
                   Invoices
-                </a>
+                </p>
               </li>
               <li className="nav-item table-nav">
-                <a
+                <p
                   className={`nav-link px-1 px-sm-3  ${activeTab === 3 ? 'active' : ''}`}
                   onClick={() => handleTabClick(3)}
-                  href="#"
+                  
                 >
                   Customers
-                </a>
+                </p>
               </li>
               <li className="nav-item table-nav">
-                <a
+                <p
                   className={`nav-link px-1 px-sm-3  ${activeTab === 4 ? 'active' : ''}`}
                   onClick={() => handleTabClick(4)}
-                  href="#"
+                  
                 >
                   Transactions
-                </a>
+                </p>
               </li>
             </ul>
           </div>
@@ -217,99 +217,99 @@ function Tables({stock,allUser}) {
             }
 
 
-       {editUser && (
-        <div className='updateUserOverlay'>
-        
-          <div class="card border-0">
-            <div class="card-body">
-            <div className="row d-flex justify-content-between">
-              <div className="col-6 m-0">
-              <p className='fw-bold text-start'>Add Users</p>
-              </div>
-              <div className="col-2  ">
-              <button className='btn py-0 px-2' onClick={(e)=>openUserOverlay(e)}>
-              <FontAwesomeIcon icon={faX} style={{color: "#000000",}} />
-              </button>
-              </div>
-            </div>
-            <form className="col mx-auto" onSubmit={(e)=>handleUpdateUser(e,altUser)}>
-            <div className="align-items-center  my-3">
-                <div className="form-outline  mb-0 col">
-                    <div className="form__div m-1">
-                      <input type="text" className="form-control rounded"  value={username} onChange={(e)=>setUsername(e.target.value)}/>
-                    <label className="form__label text-start text-capitalize" >Username</label>
+            {editUser && (
+              <div className='updateUserOverlay'>
+              
+                <div class="card border-0">
+                  <div class="card-body">
+                  <div className="row d-flex justify-content-between">
+                    <div className="col-6 m-0">
+                    <p className='fw-bold text-start'>Add Users</p>
                     </div>
+                    <div className="col-2  ">
+                    <button className='btn py-0 px-2' onClick={(e)=>openUserOverlay(e)}>
+                    <FontAwesomeIcon icon={faX} style={{color: "#000000",}} />
+                    </button>
+                    </div>
+                  </div>
+                  <form className="col mx-auto" onSubmit={(e)=>handleUpdateUser(e,altUser)}>
+                  <div className="align-items-center  my-3">
+                      <div className="form-outline  mb-0 col">
+                          <div className="form__div m-1">
+                            <input type="text" className="form-control rounded"  value={username} onChange={(e)=>setUsername(e.target.value)}/>
+                          <label className="form__label text-start text-capitalize" >Username</label>
+                          </div>
+                          
+                      </div>
+                  </div>
+                  <div className="align-items-center mb-2">
                     
-                </div>
-            </div>
-            <div className="align-items-center mb-2">
-               
-                <div className="form-outline  mb-0 col">
-                <div className="form__div m-1">
-                  <input type="text" className="form-control rounded"  value={phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)}/>
-                <label className="form__label text-start text-capitalize" >Phone Number</label>
-                </div>
+                      <div className="form-outline  mb-0 col">
+                      <div className="form__div m-1">
+                        <input type="text" className="form-control rounded"  value={phoneNumber} onChange={(e)=>setPhoneNumber(e.target.value)}/>
+                      <label className="form__label text-start text-capitalize" >Phone Number</label>
+                      </div>
 
-                </div>
-            </div>
-            <div className="form-outline  mb-0 col text-start pb-2">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id=""/>
-                  <label class="form-check-label" for="">
-                    credit worthy
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" checked='' value="" id=""/>
-                  <label class="form-check-label" for="">
-                    Discounted
-                  </label>
-                </div>
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="" id=""/>
-                  <label class="form-check-label" for="">
-                    Block user
-                  </label>
-                </div>
-                </div>
+                      </div>
+                  </div>
+                  <div className="form-outline  mb-0 col text-start pb-2">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id=""/>
+                        <label class="form-check-label" for="">
+                          credit worthy
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" checked='' value="" id=""/>
+                        <label class="form-check-label" for="">
+                          Discounted
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id=""/>
+                        <label class="form-check-label" for="">
+                          Block user
+                        </label>
+                      </div>
+                      </div>
 
-            <div className="  align-items-center mb-2">
-                <div className="form-outline mb-0">
-                <div className="form__div m-1">
-                  <input type="password" className="form-control rounded"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
-                <label className="form__label text-start text-capitalize" >Password</label>
-                </div>
-                
-                </div>
-            </div>
+                  <div className="  align-items-center mb-2">
+                      <div className="form-outline mb-0">
+                      <div className="form__div m-1">
+                        <input type="password" className="form-control rounded"  value={password} onChange={(e)=>setPassword(e.target.value)}/>
+                      <label className="form__label text-start text-capitalize" >Password</label>
+                      </div>
+                      
+                      </div>
+                  </div>
 
-            <div className=" align-items-center mb-2">
-                <div className="form-outline  mb-0">
-                <div className="form__div m-1">
-                  <input type="password" className="form-control rounded"  value={passwordConfirmation} onChange={(e)=>setPasswordConfirmation(e.target.value)}/>
-                <label className="form__label text-start text-capitalize" >confirm password</label>
-                </div>
-                
-                </div>
-            </div>
-            {/* 
-            <div className="form-check d-flex justify-content-center mb-5">
-                <label className="form-check-label" for="form2Example3">
-                I agree all statements in <a href="#!">Terms of service</a>
-                </label>
-            </div> */}
+                  <div className=" align-items-center mb-2">
+                      <div className="form-outline  mb-0">
+                      <div className="form__div m-1">
+                        <input type="password" className="form-control rounded"  value={passwordConfirmation} onChange={(e)=>setPasswordConfirmation(e.target.value)}/>
+                      <label className="form__label text-start text-capitalize" >confirm password</label>
+                      </div>
+                      
+                      </div>
+                  </div>
+                  {/* 
+                  <div className="form-check d-flex justify-content-center mb-5">
+                      <label className="form-check-label" for="form2Example3">
+                      I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                  </div> */}
 
-            {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
-            <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
-                <button type="submit"  className="btn btn-primary ">Update User</button>
+                  {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
+                  <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
+                      <button type="submit"  className="btn btn-primary ">Update User</button>
+                  </div>
+              </form>
+                  </div>
+                </div>
             </div>
-        </form>
-            </div>
-          </div>
-       </div>
-       )}
+            )}
 
-{`${activeTab === 2 ? 'active' : ''}` &&
+            {`${activeTab === 2 ? 'active' : ''}` &&
               <>
               <div className="col-12 invoice-div ">
                 <div className="card p-4 rounded  border-0">
