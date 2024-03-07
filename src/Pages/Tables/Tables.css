@@ -1,19 +1,7 @@
 .user-relative{
     position: relative;
 }
-.updateUserOverlay{
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    margin: 0 auto;
-    background: rgba(0, 0, 0, 0.5); /* semi-transparent background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999; /* Set a high z-index to appear on top */
-}
+
 
 .table-header th{
     font-size:x-small;

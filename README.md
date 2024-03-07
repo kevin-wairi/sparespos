@@ -1,7 +1,16 @@
 
-`# Auto Parts POS System
+# POS System
 
 This project is a Point of Sale (POS) system. The system allows users to manage inventory, track sales, and perform various other tasks related to running a business in the auto parts industry.
+
+### Built With
+
+This section should list any major frameworks/libraries used to bootstrap your project.
+
+* [![React][React.js]][React-url]
+* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
+
+
 
 ## Table of Contents
 
@@ -18,38 +27,43 @@ To set up the project locally, follow these steps:
 
 1. Clone the repository:
 
-`git@github.com:kevin-wairi/sparespos.git` 
+```sh
+git@github.com:kevin-wairi/sparespos.git
+```
 
 2. Open file
 
-    `cd auto-parts-pos`
+```sh
+cd auto-parts-pos
+```
 
 3.  Install the required dependencies:
 
-bashCopy code
+```sh
+npm install
+```
+4.  Also to run the JSON-server, first install requires dependency
 
-`npm install` 
+```sh
+npm install -g json-server
+```
+
 
 ## Usage
 
 To run the application locally, use the following command:
 
-bashCopy code
-
-`npm start` 
+```sh
+npm start
+```
 
 This will start the development server, and you can access the application at `http://localhost:3000` in your web browser.
 
-
-Also to run the JSON-server, first install requires dependency
-
-`npm install -g json-server`
-
 To start the server run
 
-
-`json-server --watch db.json
-`
+```sh
+json-server --watch db.json
+```
 
 ## Features
 
@@ -86,8 +100,22 @@ The project relies on the following npm packages:
 
 ## Contributing
 
+Contributing
+Fork the Project
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+Push to the Branch (git push origin feature/AmazingFeature)
+Open a Pull Request
 Contributions to the project are welcome. Please follow the [contribution guidelines](https://chat.openai.com/c/CONTRIBUTING.md) for details.
 
 ## License
 
 This project is licensed under the [MIT License](https://chat.openai.com/c/LICENSE).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
+[React-url]: https://reactjs.org/
+
+[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
+[Bootstrap-url]: https://getbootstrap.com
