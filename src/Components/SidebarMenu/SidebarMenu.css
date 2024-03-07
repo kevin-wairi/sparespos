@@ -22,8 +22,6 @@
   .logo{
     color: rgb(97, 97, 97);
   }
-  .sidenav-icon{
-    background-color: rgb(221, 220, 220);
-    height: 13px;
-    color: rgb(97, 97, 97);
+  .sidenav-icon:hover{
+    background-color: #26c6da;
   }
