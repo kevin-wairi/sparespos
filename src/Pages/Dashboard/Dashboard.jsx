@@ -8,7 +8,7 @@ import './Dashboard.css'
 import Quotes from '../../Components/ArrayFiles/Quotes'
 import Navbar from '../../Components/Navbar/Navbar'
 
-function Dashboard({ user }) {
+function Dashboard({ children,user }) {
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
@@ -45,7 +45,7 @@ function Dashboard({ user }) {
 
         <div className="row justify-content-center align-items-start bg-white ps-3  m-0   g-2" style={{ height: '98vh', width: '94vw', borderRadius: '30px 0 0 0 ' }}>
           <div className="col-12">
-            <Navbar />
+            {children}
           </div>
           <div className="col-lg-8 ">
             <section>

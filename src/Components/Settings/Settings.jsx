@@ -9,9 +9,8 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { carMakes } from '../ArrayFiles/CarMakes'
 import { carModels } from '../ArrayFiles/CarModel'
 import { carModelsYears } from '../ArrayFiles/CarModelsYears'
-import { carSparePartsCategories } from '../ArrayFiles/CarSparePartsCategories'
 
-function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut, onLogout, setCartItems }) {
+function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogged, onLogout, setCartItems,carpartCategories}) {
 
   const [description, setDescription] = useState('')
   const [carMake, setCarMake] = useState('')
@@ -153,7 +152,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut,
   }
 
   // filter goods from form
-  useEffect(() => {
+  useEffect(({}) => {
 
     const filterForUpdates = stock.filter((spare) => {
       const spareCategory = (spare.category || '').toLowerCase();
@@ -261,7 +260,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut,
 
   const location = useLocation()
   let pathname
-  if (location.pathname.length == 1) {
+  if (location.pathname.length === 1) {
     pathname = 'Dashboard'
   } else {
     pathname = location.pathname.slice(1);
@@ -270,7 +269,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut,
   // handles logout
   function handleLogout() {
     sessionStorage.clear();
-    loggedOut(true)
+    setIsLogged(false)
     onLogout()
     setCartItems([])
   }
@@ -455,7 +454,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut,
 
 
                     <datalist id='data3'>
-                      {carSparePartsCategories.map((element) => (
+                      {carpartCategories.map((element) => (
                         <option key={element} value={element}>{element}</option>
                       ))}
                     </datalist>
@@ -560,83 +559,6 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut,
 
         </div>
 
-        {/* add users */}
-        <div className="col-lg-6 col-11">
-
-          <div className="card border-0">
-            <div className="card-body">
-              <p className='fw-bold text-start'>Add Users</p>
-              <form className="col-11 mx-auto" onSubmit={(e) => handleSignupForm(e)}>
-                <div className="form-outline  mb-0 col">
-                  <div className="form__div m-1">
-                    <input type="text" className="form-control rounded" value={business} onChange={(e) => setBusiness(e.target.value)} />
-                    <label className="form__label text-start text-capitalize" >Business Name</label>
-                  </div>
-
-                </div>
-                <div className="align-items-center  mb-2">
-                  <div className="form-outline  mb-0 col">
-                    <div className="form__div m-1">
-                      <input type="text" className="form-control rounded" value={username} onChange={(e) => setUsername(e.target.value)} />
-                      <label className="form__label text-start text-capitalize" >Username</label>
-                    </div>
-
-                  </div>
-                </div>
-                <div className="form-outline  mb-0 col">
-                  <div className="form-outline flex-fill mb-0">
-                    <div className="form__div m-1">
-                      <input type="text" className="form-control rounded" value={fullname} onChange={(e) => setFullname(e.target.value)} />
-                      <label className="form__label text-start text-capitalize" >Full Name</label>
-                    </div>
-
-                  </div>
-                </div>
-                <div className="align-items-center mb-2">
-
-                  <div className="form-outline  mb-0 col">
-                    <div className="form__div m-1">
-                      <input type="text" className="form-control rounded" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} />
-                      <label className="form__label text-start text-capitalize" >Phone Number</label>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div className="  align-items-center mb-2">
-                  <div className="form-outline mb-0">
-                    <div className="form__div m-1">
-                      <input type="password" className="form-control rounded" value={password} onChange={(e) => setPassword(e.target.value)} />
-                      <label className="form__label text-start text-capitalize" >Password</label>
-                    </div>
-
-                  </div>
-                </div>
-
-                <div className=" align-items-center mb-2">
-                  <div className="form-outline  mb-0">
-                    <div className="form__div m-1">
-                      <input type="password" className="form-control rounded" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
-                      <label className="form__label text-start text-capitalize" >confirm password</label>
-                    </div>
-
-                  </div>
-                </div>
-                {/* 
-            <div className="form-check d-flex justify-content-center mb-5">
-                <label className="form-check-label" for="form2Example3">
-                I agree all statements in <a href="#!">Terms of service</a>
-                </label>
-            </div> */}
-
-                {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
-                <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
-                  <button type="submit" className="btn btn-primary ">Register User</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
 
       </div>
 
@@ -752,7 +674,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, loggedOut,
                     <label className="form__label text-start text-capitalize">Category</label>
                   </div>
                   <datalist id='data3'>
-                    {carSparePartsCategories.map((element) => (
+                    {carpartCategories.map((element) => (
                       <option key={element} value={element}>{element}</option>
                     ))}
                   </datalist>

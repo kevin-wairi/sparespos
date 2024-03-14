@@ -351,24 +351,24 @@
     {
       "id": "b478",
       "firstname": "John",
-      "lastname": "doe",
-      "businessName": "johns",
+      "lastname": "johns",
+      "businessName": "",
       "role": "customer",
       "email": "john@mail.com",
       "password": "john",
       "passwordConfirmation": "john",
-      "creditLimit": "100000"
+      "creditLimit": "20000"
     },
     {
       "id": "0421",
       "firstname": "james",
-      "lastname": "doe",
-      "businessName": "jamesss",
+      "lastname": "jamesss",
+      "businessName": "",
       "role": "customer",
       "email": "james@mail",
       "password": "james",
       "passwordConfirmation": "james",
-      "creditLimit": "50000"
+      "creditLimit": "100000"
     },
     {
       "id": "ee3c",
