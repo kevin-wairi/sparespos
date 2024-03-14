@@ -1,32 +1,11 @@
-/* 
-.searcIcon{
-    border: 1px solid rgb(2, 2, 2  ,0.1);
-    border-radius:  5px 0 0 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    border-right: none;
-    background-color: #fff;
+.dash_profile_div{
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
 }
-.searchFormInput{
-    border-radius: 0 5px 5px 0; 
-    border: 1px solid rgb(2, 2, 2  0.5);
-    border-left: none;
+.dash_profile_div img{
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    border-radius: 50%;
 }
-.searchFormInput:focus{
-    padding-left: 20px;
-}
-.menu-p{
-    font-size: small;
-}
-
-
-/* navbar for md screen */
-/* @media screen and (min-width: 360px) and (max-width: 1200px) {
-    body {
-    .sticky-top{
-        width: 95vw;
-    }
-    
-    }
-  }  */

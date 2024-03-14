@@ -1,13 +1,15 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faGear, faHouse, faSlash, faCartShopping, faBars, faBell } from '@fortawesome/free-solid-svg-icons';
+import { faGear, faHouse, faSlash, faUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
+import profile from '../../assets/images/profile.jpg'
 import './Navbar.css';
-import { NavLink, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 
-function Navbar({ sticky, openSidebar, cartCount, user, loggedOut, onLogout, setCartItems }) {
+function Navbar({ sticky, openSidebar, user, setIsLogged, onLogout }) {
 
 
+    const navigate = useNavigate()
     const location = useLocation()
     let pathname
     if (location.pathname.length == 1) {
@@ -20,9 +22,8 @@ function Navbar({ sticky, openSidebar, cartCount, user, loggedOut, onLogout, set
 
     function handleLogout() {
         sessionStorage.clear();
-        loggedOut(true)
-        onLogout()
-        setCartItems([])
+        setIsLogged(false)
+        onLogout('')
     }
 
     const navbarClassNamees = `navbar mx-2 my-4 p-2 rounded  ${sticky ? 'sticky-top' : ''}`;
@@ -40,66 +41,31 @@ function Navbar({ sticky, openSidebar, cartCount, user, loggedOut, onLogout, set
                                 <p className='menu-p align-self-center m-0'>{pathname}</p>
                             </div>
 
-                            <a className="navbar-brand ">{pathname}</a>
+                            <p className="navbar-brand  p-0 lh-1 m-0 text-capitalize">{pathname}</p>
                         </div>
                     </div>
                     {/* <button className="navbar-toggler border-0" type="button" onClick={()=>openSidebar()}>
                     <span className="navbar-toggler-icon"></span>
                     </button> */}
                     <div className="col-md-5 col-4 d-flex justify-content-end">
-                        <div className="row d-flex justify-content-end align-items-end gap-2 m-0  ">
-                            <div className="col-5 col-xl-4 pt-2 d-flex align-items-end gap-3 justify-content-end">
-
-                                <NavLink to='/cart'>
-                                    <div className="d-flex align-items-end justify-content-center gap-1">
-                                        <FontAwesomeIcon icon={faCartShopping} style={{ color: "#000000", }} />
-                                        <p className='m-0 lh-1 '>{cartCount}</p>
+                        <div className="btn-group d-flex justify-content-end align-items-center gap-2 m-0  ">
+                            <div onClick={() => navigate('/user_profile')}><FontAwesomeIcon icon={faGear} /></div>
+                            {user &&
+                                <div className="dash_profile d-flex justify-content-between align-items-center gap-1 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div className="dash_profile_div">
+                                        <img className='img-fluid img' src={user.img ? user.img : profile} alt="profile" />
                                     </div>
-                                </NavLink>
-                                <FontAwesomeIcon className='d-xl-none d-md-flex' onClick={() => openSidebar()} icon={faBars} />
-                                <NavLink to='/profile'>
-                                    <div className="d-flex align-items-end justify-content-center gap-1">
-                                        <FontAwesomeIcon icon={faBell} />
-                                        <p className='m-0 lh-1 '>0</p>
+                                    <div className='d-flex align-items-center gap-1'>
+                                        <p className="m-0 text-capitalize">{user.firstname}</p>
                                     </div>
-                                </NavLink>
-
-                            </div>
-                            <div className='d-flex menu-p col-6 col-xl-7 align-items-center gap-2 p-0'>
-
-
-                                <div className="d-flex gap-2 align-items-end ">
-
-                                    {!user ? (
-                                        <NavLink to='/signin'>
-                                            <div className="d-flex gap-2 align-items-center">
-                                                <FontAwesomeIcon icon={faUser} style={{ color: "#000000", }} />
-                                                <p className='m-0'>sign in</p>
-                                            </div>
-                                        </NavLink>
-                                    ) : (
-                                        <>
-                                            <div >
-                                                <NavLink to='/profile'>
-                                                    <div className="d-flex align-items-center justify-content-center gap-2">
-                                                        <FontAwesomeIcon icon={faUser} style={{ color: "#000000", }} />
-                                                        <p className='m-0 d-none d-md-flex '>{(user.business).slice(0, 10) + '..'}</p>
-                                                    </div>
-                                                </NavLink>
-                                            </div>
-                                            <div className="dropdown dropstart lh-1 mx-3">
-                                                <FontAwesomeIcon className="dropdown-toggle" id="dropdownMenuButton1" data-bs-toggle="dropdown" icon={faGear} style={{ color: "#000000", }} />
-
-                                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                                    <li onClick={() => handleLogout()}><a className="dropdown-item menu-p " href="#">Logout</a></li>
-                                                </ul>
-                                            </div>
-                                        </>
-                                    )}
-
+                                    <ul className="dropdown-menu dropdown-menu-end">
+                                        <li><button className='dropdown-item' disabled>{user.email}</button></li>
+                                        <li><button className='dropdown-item' disabled><hr className='m-0 text-black' /></button></li>
+                                        <li><button className="dropdown-item" type="button" onClick={() => navigate('/user_profile')}><p className="m-0"><span><FontAwesomeIcon icon={faUser} /></span>&nbsp;&nbsp;Profile</p></button></li>
+                                        <li><button className="dropdown-item" onClick={() => handleLogout()} type="button"><p className="m-0"><span><FontAwesomeIcon icon={faArrowRightFromBracket} /></span>&nbsp;&nbsp;Signout</p></button></li>
+                                    </ul>
                                 </div>
-
-                            </div>
+                            }
                         </div>
                     </div>
 
