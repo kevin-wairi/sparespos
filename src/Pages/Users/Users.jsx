@@ -4,94 +4,120 @@ import { Trash2, Edit, X, PlusCircle, Search } from 'react-feather';
 import DataTable from 'react-data-table-component';
 import './Users.css'
 
-function Users({ allUsers, setAllUsers }) {
+function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllSuppliers, allSuppliers }) {
 
-    const [currentPage, setCurrentPage] = useState(1);
-    const [recordsPerPage] = useState(10);
-    const indexOfLastRecord = currentPage * recordsPerPage;
-    const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const nPages = Math.ceil(allUsers.length / recordsPerPage)
-
-    // *user states
-    const [firstname, setfirstname] = useState("")
-    const [lastname, setLastname] = useState("")
+    const [username, setUsername] = useState("")
     const [email, setEmail] = useState("")
-    const [businessName, setBusinessName] = useState("")
-    const [role, setRole] = useState()
+    const [credit_limit, setCredit_limit] = useState()
     const [password, setPassword] = useState("")
-    const [creditLimit, setCreditLimit] = useState(0)
-    const [passwordConfirmation, setPasswordConfirmation] = useState("")
+    const [password_confirmation, setPassword_confirmation] = useState("")
 
-    const [updateUser, setUpdateUser] = useState(false)
-    const [createUser, setCreateUser] = useState(false)
-    const [altUser, setAltUser] = useState();
+    const [updateCustomer, setUpdateCustomer] = useState(false)
+    const [createCustomer, setCreateCustomer] = useState(false)
+    const [altCustomer, setAltCustomer] = useState();
     const [error, setError] = useState("")
-    const [records, setRecords] = useState(allUsers)
+    const [customerRecords, setCustomerRecords] = useState(allCustomers);
+
+    const [firstname, setFirstname] = useState("")
+    const [lastname, setLastname] = useState("")
+    const [business_name, setBusiness_name] = useState('')
+    const [role, setRole] = useState('')
+    const [office_phone, setOffice_phone] = useState('')
+    const [phone_number, setPhone_number] = useState('')
+    const [createEmployee, setCreateEmployee] = useState(false)
+    const [createSupplier, setCreateSupplier] = useState(false)
+    const [company_name, setCompany_name] = useState('')
+
+    const [employeeRecords, setEmployeeRecords] = useState(employees)
+    const [updateEmployee, setUpdateEmployee] = useState(false)
+    const [altEmployee, setAltEmployee] = useState();
+
+    const [supplierRecords, setSupplierRecords] = useState(allSuppliers)
+    const [altSupplier, setAltSupplier] = useState();
+    const [updateSupplier, setUpdateSupplier] = useState(false)
+
+    const [activeTab, setActiveTab] = useState(0);
 
 
-    //!delete user
-    function handleDeleteUser(e, user_id) {
+    //!delete Customers
+    function handleDeleteCustomer(e, user_id) {
         e.preventDefault()
-        fetch(`http://localhost:3000/users/${user_id}`, {
+        fetch(`http://127.0.0.1:3000/customers/${user_id}`, {
             method: "DELETE",
         })
             .then(() => {
-                const currentUsers = allUsers.filter(user => user.id === user_id)
-                setAllUsers(() => currentUsers)
+                const current = allCustomers.filter(user => user.id !== user_id)
+                setAllCustomers(() => current)
             })
     }
-    // !open create user overlay
-    const openCreateUser = (e) => {
-        e.preventDefault()
-        setCreateUser(true)
-    }
-    // !closes create user overlay
-    const closeCreateUser = (e) => {
-        e.preventDefault()
-        setUpdateUser(false)
-        setAltUser('')
-        setLastname("");
-        setfirstname("");
-        setBusinessName("");
-        setRole("");
-        setEmail("");
-        setPassword('');
-        setPasswordConfirmation('');
-        setCreateUser(false)
 
+    //!delete Employees
+    function handleDeleteEmployee(e, user_id) {
+        e.preventDefault()
+        fetch(`http://127.0.0.1:3000/employees/${user_id}`, {
+            method: "DELETE",
+        })
+            .then(() => {
+                const current = employees.filter(user => user.id !== user_id)
+                setEmployees(() => current)
+            })
     }
 
-    //!Update user
-    function handleUserUpdate(e) {
+    //!delete Supplier
+    function handleDeleteSupplier(e, user_id) {
+        e.preventDefault()
+        fetch(`http://127.0.0.1:3000/suppliers/${user_id}`, {
+            method: "DELETE",
+        })
+            .then(() => {
+                const current = allSuppliers.filter(user => user.id !== user_id)
+                setAllSuppliers(() => current)
+            })
+    }
+
+    // !open create Customer overlay
+    const openCreateCustomer = (e) => {
+        e.preventDefault()
+        setCreateCustomer(prevVal => !prevVal)
+    }
+    // !open create Employees overlay
+    const openCreateEmployee = (e) => {
+        e.preventDefault()
+        setCreateEmployee(prevVal => !prevVal)
+    }
+    // !open create supplier overlay
+    const openCreateSupplier = (e) => {
+        e.preventDefault()
+        setCreateSupplier(prevVal => !prevVal)
+    }
+
+    //!Update Customers
+    function handleCustomer(e) {
         e.preventDefault()
         console.log('STARRT');
-        if (lastname === '' || firstname === '' || role === '' || email === '') {
-            setError('Please fill out all fields');
+        if (username === '' || email === '') {
+            setError('Please fill username and email fields');
             return;
-        } else if (password !== passwordConfirmation) {
+        } else if (password !== password_confirmation) {
             setError('Passwords do not match');
             return;
         }
         console.log('CONT...');
-        const user_id = altUser.id
+        const user_id = altCustomer.id
         // const token = sessionStorage.getItem("jwt");
         // const user_id = sessionStorage.getItem("user_id");
         setError('');
-        fetch(`http://localhost:3000/users/${user_id}`, {
+        fetch(`http://127.0.0.1:3000/customers/${user_id}`, {
             method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
             },
             //Authorization: `Bearer ${token}`,
             body: JSON.stringify({
-                lastname,
-                firstname,
-                businessName,
-                role,
+                username,
                 email,
-                password,
-                passwordConfirmation,
-                creditLimit
+                phone_number,
+                credit_limit
             })
         })
             .then(resp => {
@@ -102,7 +128,7 @@ function Users({ allUsers, setAllUsers }) {
             })
             .then((updatedUser) => {
                 console.log('D', updatedUser);
-                setAllUsers(prevUsers => {
+                setAllCustomers(prevUsers => {
                     return prevUsers.map(user => {
                         if (user.id === updatedUser.id) {
                             return updatedUser;
@@ -111,29 +137,22 @@ function Users({ allUsers, setAllUsers }) {
                         }
                     })
                 })
+                closeCreateUser(e)
             })
             .catch(error => {
                 console.error('Error updating user:', error);
             });
     }
 
-    //!Create user
-    function handleCreateUser(e) {
+    //!Update Employee
+    function handleEmployeeUpdate(e) {
         e.preventDefault()
-        console.log('STARRT');
-        if (lastname === '' || firstname === '' || role === '' || email === '' || businessName === "") {
-            setError('Please fill out all fields');
-            return;
-        } else if (password !== passwordConfirmation) {
-            setError('Passwords do not match');
-            return;
-        }
-        console.log('CONT...');
+        const user_id = altEmployee.id
         // const token = sessionStorage.getItem("jwt");
         // const user_id = sessionStorage.getItem("user_id");
         setError('');
-        fetch('http://localhost:3000/users', {
-            method: "POST",
+        fetch(`http://127.0.0.1:3000/employees/${user_id}`, {
+            method: "PATCH",
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -141,12 +160,105 @@ function Users({ allUsers, setAllUsers }) {
             body: JSON.stringify({
                 firstname,
                 lastname,
-                businessName,
+                business_name,
                 role,
                 email,
                 password,
-                passwordConfirmation,
-                creditLimit
+                password_confirmation
+            })
+        })
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return resp.json()
+            })
+            .then((updatedUser) => {
+                console.log('D', updatedUser);
+                setEmployees(prevUsers => {
+                    return prevUsers.map(user => {
+                        if (user.id === updatedUser.id) {
+                            return updatedUser;
+                        } else {
+                            return user;
+                        }
+                    })
+                })
+                closeCreateUser(e)
+            })
+            .catch(error => {
+                console.error('Error updating user:', error);
+            });
+    }
+
+    //!Update Supplier
+    function handleSupplierUpdate(e) {
+        e.preventDefault()
+        const user_id = altSupplier.id
+        // const token = sessionStorage.getItem("jwt");
+        // const user_id = sessionStorage.getItem("user_id");
+        setError('');
+        fetch(`http://127.0.0.1:3000/suppliers/${user_id}`, {
+            method: "PATCH",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            //Authorization: `Bearer ${token}`,
+            body: JSON.stringify({
+                firstname,
+                lastname,
+                company_name,
+                phone_number,
+                email
+            })
+        })
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return resp.json()
+            })
+            .then((updatedUser) => {
+                console.log('D', updatedUser);
+                setAllSuppliers(prevUsers => {
+                    return prevUsers.map(user => {
+                        if (user.id === updatedUser.id) {
+                            return updatedUser;
+                        } else {
+                            return user;
+                        }
+                    })
+                })
+                closeCreateUser(e)
+            })
+            .catch(error => {
+                console.error('Error updating user:', error);
+            });
+    }
+
+    //!Create customers
+    function handleCreateCustomers(e) {
+        e.preventDefault()
+        console.log('STARRT');
+        if (username === '' || email === '' || phone_number === "") {
+            setError('Please fill out all fields');
+            return;
+        } else if (password !== password_confirmation) {
+            setError('Passwords do not match');
+            return;
+        }
+        console.log('CONT...');
+        setError('');
+        fetch('http://127.0.0.1:3000/customers', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username,
+                email,
+                phone_number,
+                credit_limit
             })
         })
             .then(resp => {
@@ -156,78 +268,224 @@ function Users({ allUsers, setAllUsers }) {
                 return resp.json()
             })
             .then((newUser) => {
-                console.log('D', newUser);
-                setAllUsers(() => [...allUsers, newUser])
+                setAllCustomers(() => [...allCustomers, newUser])
+                closeCreateUser(e)
+                console.log('newUser', newUser);
             })
             .catch(error => {
                 console.error('Error updating user:', error);
             });
     }
 
-    const openUserOverlay = (e, user) => {
-        e.preventDefault()
-        setAltUser(user)
-        setUpdateUser(true)
-    }
-    const closeUserOverlay = (e) => {
-        e.preventDefault()
-        setUpdateUser(false)
-        setLastname("");
-        setAltUser('')
-        setfirstname("");
-        setBusinessName("");
-        setRole("");
-        setEmail("");
-        setPassword('');
-        setPasswordConfirmation('');
-    }
 
-    useEffect(() => {
-        if (updateUser || altUser) {
-            setLastname(altUser.lastname || "");
-            setfirstname(altUser.firstname || "");
-            setLastname(altUser.businessName || "");
-            setRole(altUser.role || "");
-            setEmail(altUser.email || "");
-            setPassword(altUser.password); // You may or may not want to set a default password
-            setPasswordConfirmation(altUser.passwordConfirmation);
+    //!Create Employees
+    function handleCreateEmployee(e) {
+        e.preventDefault()
+        console.log('STARRT');
+        if (lastname === '' || firstname === '' || business_name === '' || role === '' || office_phone === '' || phone_number === "") {
+            setError('Please fill out all fields');
+            return;
+        } else if (password !== password_confirmation) {
+            setError('Passwords do not match');
+            return;
         }
-    }, [updateUser, altUser]);
+        console.log('CONT...');
+        // const token = sessionStorage.getItem("jwt");
+        // const user_id = sessionStorage.getItem("user_id");
+        setError('');
+        fetch('http://127.0.0.1:3000/employees', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            //Authorization: `Bearer ${token}`,
+            body: JSON.stringify({
+                firstname,
+                lastname,
+                business_name,
+                role,
+                email,
+                office_phone,
+                phone_number,
+                password,
+                password_confirmation
+            })
+        })
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return resp.json()
+            })
+            .then((newUser) => {
+                setEmployees(() => [...employees, newUser])
+                closeCreateUser(e)
+            })
+            .catch(error => {
+                console.error('Error updating user:', error);
+            });
+    }
 
-    const columns = [
+    //!Create Supplier
+    function handleCreateSupplier(e) {
+        e.preventDefault()
+        console.log('STARRT');
+        if (lastname === '' || firstname === '' || company_name === '' || phone_number === "") {
+            setError('Please fill out all fields');
+            return;
+        } else if (password !== password_confirmation) {
+            setError('Passwords do not match');
+            return;
+        }
+        console.log('CONT...');
+        // const token = sessionStorage.getItem("jwt");
+        // const user_id = sessionStorage.getItem("user_id");
+        setError('');
+        fetch('http://127.0.0.1:3000/suppliers', {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            //Authorization: `Bearer ${token}`,
+            body: JSON.stringify({
+                firstname,
+                lastname,
+                company_name,
+                email,
+                phone_number
+            })
+        })
+            .then(resp => {
+                if (!resp.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return resp.json()
+            })
+            .then((newUser) => {
+                setAllSuppliers(() => [...allSuppliers, newUser])
+                closeCreateUser(e)
+            })
+            .catch(error => {
+                console.error('Error updating user:', error);
+            });
+    }
+
+    // !closes create_customer_overlay
+    const closeCreateUser = (e) => {
+        e.preventDefault()
+        setUpdateEmployee(false)
+        setAltEmployee('')
+        setUsername("")
+        setCredit_limit()
+        setFirstname("");
+        setLastname("");
+        setCompany_name("")
+        setEmail("");
+        setRole("")
+        setBusiness_name("")
+        setOffice_phone("")
+        setPhone_number("")
+        setPassword('');
+        setPassword_confirmation('');
+        setCreateEmployee(false)
+        setCreateCustomer(false)
+        setCreateSupplier(false)
+        setUpdateCustomer(false)
+        setUpdateSupplier(false)
+        setError('')
+    }
+
+
+    const openCustomerOverlay = (e, user) => {
+        e.preventDefault()
+        setAltCustomer(user)
+        setUpdateCustomer(true)
+    }
+
+    const openEmployeeOverlay = (e, user) => {
+        e.preventDefault()
+        setAltEmployee(user)
+        setUpdateEmployee(true)
+    }
+
+    const openSupplierOverlay = (e, user) => {
+        e.preventDefault()
+        setAltSupplier(user)
+        setUpdateSupplier(true)
+    }
+
+    // !Customer update form states
+    useEffect(() => {
+        if (altCustomer) {
+            setUsername(altCustomer.username || "");
+            setCredit_limit(altCustomer.credit_limit || 9);
+            setEmail(altCustomer.email || "");
+            setPhone_number(altCustomer.phone_number || "");
+        }
+    }, [altCustomer]);
+
+    // !Employee update form states
+    useEffect(() => {
+        if (altEmployee) {
+            setFirstname(altEmployee.firstname || "");
+            setLastname(altEmployee.lastname || "");
+            setBusiness_name(altEmployee.business_name || "")
+            setRole(altEmployee.role || "")
+            setEmail(altEmployee.email || "");
+            setPhone_number(altEmployee.phone_number || "");
+            setOffice_phone(altEmployee.office_phone || "");
+        }
+    }, [altEmployee]);
+
+    // !Supplier update form states
+    useEffect(() => {
+        if (altSupplier) {
+            setFirstname(altSupplier.firstname || "");
+            setLastname(altSupplier.lastname || "");
+            setCompany_name(altSupplier.company_name || "")
+            setEmail(altSupplier.email || "");
+            setPhone_number(altSupplier.phone_number || "");
+        }
+    }, [altSupplier]);
+
+    // !customers DataTable columns
+    const Customer_columns = [
         {
-            name: 'Fullname',
-            selector: row => row.firstname + " " + row.lastname,
+            name: <span style={{ fontWeight: 'bold' }}>ID</span>,
+            selector: row => row.id,
+            sortable: true,
+            style: {
+                fontWeight: 'bold'
+            }
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Username</span>,
+            selector: row => row.username,
             sortable: true
         },
         {
-            name: 'Business Name',
-            selector: row => row.businessName,
-            sortable: true
+            name: <span style={{ fontWeight: 'bold' }}>Phone Number</span>,
+            selector: row => row.phone_number,
+            sortable: false
         },
         {
-            name: 'Role',
-            selector: row => row.role,
-            sortable: true
-        },
-        {
-            name: 'E-mail',
+            name: <span style={{ fontWeight: 'bold' }}>E-mail</span>,
             selector: row => row.email,
-            sortable: true
+            sortable: false
         },
         {
-            name: 'Credit Limit',
-            selector: row => row.creditLimit,
+            name: <span style={{ fontWeight: 'bold' }}>Credit Limit</span>,
+            selector: row => row.credit_limit,
             sortable: true
         }, {
-            name: 'Action',
+            name: <span style={{ fontWeight: 'bold' }}>Action</span>,
             cell: (row) => {
                 return (
                     <>
-                        <button className="btn" onClick={(e) => handleDeleteUser(e, row.id)}>
+                        <button className="btn" onClick={(e) => handleDeleteCustomer(e, row.id)}>
                             <Trash2 strokeWidth={1} color="#ff0000" size={20} />
                         </button>
-                        <button className="btn" onClick={(e) => openUserOverlay(e, row)}>
+                        <button className="btn" onClick={(e) => openCustomerOverlay(e, row)}>
                             <Edit strokeWidth={1} color="blue" size={20} />
                         </button>
                     </>
@@ -236,19 +494,164 @@ function Users({ allUsers, setAllUsers }) {
         },
     ];
 
-    const data = records
+    // !employees DataTable columns
+    const employee_columns = [
+        {
+            name: <span style={{ fontWeight: 'bold' }}>ID</span>,
+            selector: row => row.id,
+            sortable: true,
+            style: {
+                fontWeight: 'bold' // Make this header bold
+            }
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Fullname</span>,
+            selector: row => row.firstname + " " + row.lastname,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Business Name</span>,
+            selector: row => row.business_name,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Roles</span>,
+            selector: row => row.role,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>E-mail</span>,
+            selector: row => row.email,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Phone No.</span>,
+            selector: row => row.phone_number,
+            sortable: false
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Office No.</span>,
+            selector: row => row.office_phone,
+            sortable: false
+        }, {
+            name: <span style={{ fontWeight: 'bold' }}>Action</span>,
+            cell: (row) => {
+                return (
+                    <>
+                        <button className="btn" onClick={(e) => handleDeleteEmployee(e, row.id)}>
+                            <Trash2 strokeWidth={1} color="#ff0000" size={20} />
+                        </button>
+                        <button className="btn" onClick={(e) => openEmployeeOverlay(e, row)}>
+                            <Edit strokeWidth={1} color="blue" size={20} />
+                        </button>
+                    </>
+                );
+            }
+        },
+    ];
 
-    const handleFilter = (e) => {
-        e.preventDefault()
-        const newData = allUsers.filter(row => {
-            return row.firstname.toLowerCase().includes(e.target.value)
+    // !supplier DataTable columns
+    const supplier_columns = [
+        {
+            name: <span style={{ fontWeight: 'bold' }}>ID</span>,
+            selector: row => row.id,
+            sortable: true,
+            style: {
+                fontWeight: 'bold' // Make this header bold
+            }
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Fullname</span>,
+            selector: row => row.firstname + " " + row.lastname,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Company Name</span>,
+            selector: row => row.company_name,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>E-mail</span>,
+            selector: row => row.email,
+            sortable: true
+        },
+        {
+            name: <span style={{ fontWeight: 'bold' }}>Phone No.</span>,
+            selector: row => row.phone_number,
+            sortable: false
+        }, {
+            name: <span style={{ fontWeight: 'bold' }}>Action</span>,
+            cell: (row) => {
+                return (
+                    <>
+                        <button className="btn" onClick={(e) => handleDeleteSupplier(e, row.id)}>
+                            <Trash2 strokeWidth={1} color="#ff0000" size={20} />
+                        </button>
+                        <button className="btn" onClick={(e) => openSupplierOverlay(e, row)}>
+                            <Edit strokeWidth={1} color="blue" size={20} />
+                        </button>
+                    </>
+                );
+            }
+        },
+    ];
+
+    // !update filter state after refresh
+    useEffect(() => {
+        setCustomerRecords(() => allCustomers)
+    }, [allCustomers])
+
+    // !update filter state after refresh
+    useEffect(() => {
+        setEmployeeRecords(() => employees)
+    }, [employees])
+
+    // !update filter state after refresh
+    useEffect(() => {
+        setSupplierRecords(() => allSuppliers)
+    }, [allSuppliers])
+
+
+
+    // !form filter for Customers
+    const handleFilterCustomers = (e) => {
+        const searchQuery = e.target.value.toLowerCase().trim();
+        const newData = allCustomers.filter(row => {
+            return row.username.includes(searchQuery)
         })
-        setRecords(() => newData)
+        setCustomerRecords(() => newData)
     }
 
+    // !form filter for Employee
+
+    const handleFilteremployee = (e) => {
+        e.preventDefault()
+        const searchQuery = e.target.value.toLowerCase().trim();
+        const newData = employees.filter(row => {
+            return row.firstname.includes(searchQuery)
+        })
+        setEmployeeRecords(() => newData)
+    }
+
+    // !form filter for Employee
+    const handleFiltersuppliers = (e) => {
+        e.preventDefault()
+        const searchQuery = e.target.value.toLowerCase().trim();
+        const newData = allSuppliers.filter(row => {
+            return row.firstname.includes(searchQuery)
+        })
+        setSupplierRecords(() => newData)
+    }
+
+
+    // !Switch between table tabs
+    const handleTabClick = (index) => {
+        setActiveTab(index);
+    };
+
     return (
-        <div className="wrapper " style={{ width: '95vw' }}>
-            <div className="container-fluid">
+        <div className="wrapper overflow-y-scroll" style={{ width: '95vw', height: '100vh' }}>
+            <div className="container-fluid ">
 
                 <div
                     className="row justify-content-center align-items-center g-2"
@@ -256,109 +659,308 @@ function Users({ allUsers, setAllUsers }) {
                     <div className="col-12">
                         <Navbar />
                     </div>
-                    <div class="card border-0 text-start">
-                        <div class="card-body">
-                            <div className="row justify-content-between align-items-center g-2"
-                            >
-                                <div className='col-3'><button className="btn bg-primary text-white py-1" onClick={(e) => openCreateUser(e)}><PlusCircle strokeWidth={1} />  Add User</button></div>
-                                <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilter(e)} /></div>
-                            </div>
+                    <div className="col-12">
+                        <div className="card text-center">
+                            <div className="card-header px-3">
+                                <ul className="nav nav-tabs card-header-tabs  ">
+                                    <li className="nav-item table-nav">
+                                        <p
+                                            className={`nav-link px-1 px-sm-3  ${activeTab === 0 ? 'active' : ''}`}
+                                            onClick={() => handleTabClick(0)}
 
-                            <DataTable
-                                columns={columns}
-                                data={data}
-                                fixedHeader
-                                pagination
-                            />
+                                        >
+                                            Customers Information
+                                        </p>
+                                    </li>
+                                    <li className="nav-item table-nav">
+                                        <p
+                                            className={`nav-link px-1 px-sm-3  ${activeTab === 1 ? 'active' : ''}`}
+                                            onClick={() => handleTabClick(1)}
+
+                                        >
+                                            Suppliers Information
+                                        </p>
+                                    </li>
+                                    <li className="nav-item table-nav">
+                                        <p
+                                            className={`nav-link px-1 px-sm-3  ${activeTab === 2 ? 'active' : ''}`}
+                                            onClick={() => handleTabClick(2)}
+
+                                        >
+                                            Employees Information
+                                        </p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="card-body">
+                                {`${activeTab === 0 ? 'active' : ''}` &&
+                                    <>
+                                        {/* Customers table */}
+                                        <div className="col-12">
+                                            <div class="card border-0 text-start">
+                                                <div class="card-body">
+                                                    <div className="row justify-content-between align-items-center g-2"
+                                                    >
+                                                        <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateCustomer(e)}><PlusCircle strokeWidth={1} />  Add Customers</button></div>
+                                                        <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilterCustomers(e)} /></div>
+                                                    </div>
+
+                                                    <DataTable
+                                                        columns={Customer_columns}
+                                                        data={customerRecords}
+                                                        fixedHeader
+                                                        pagination
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+                                {`${activeTab === 1 ? 'active' : ''}` &&
+                                    <>
+                                        {/* suppliers table */}
+                                        <div className="col-12">
+                                            <div class="card border-0  text-start">
+                                                <div class="card-body">
+                                                    <div className="row justify-content-between align-items-center g-2"
+                                                    >
+                                                        <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateSupplier(e)}><PlusCircle strokeWidth={1} />  Add Supplier</button></div>
+                                                        <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFiltersuppliers(e)} /></div>
+                                                    </div>
+
+                                                    <DataTable
+                                                        columns={supplier_columns}
+                                                        data={supplierRecords}
+                                                        fixedHeader
+                                                        pagination
+                                                        className="custom-data-table"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </>
+                                }
+                                {`${activeTab === 2 ? 'active' : ''}` &&
+                                    <>
+                                        {/* Employees table */}
+                                        <div className="col-12">
+                                            <div class="card border-0 text-start">
+                                                <div class="card-body">
+                                                    <div className="row justify-content-between align-items-center g-2"
+                                                    >
+                                                        <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateEmployee(e)}><PlusCircle strokeWidth={1} />  Add Employees</button></div>
+                                                        <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilteremployee(e)} /></div>
+                                                    </div>
+
+                                                    <DataTable
+                                                        columns={employee_columns}
+                                                        data={employeeRecords}
+                                                        fixedHeader
+                                                        pagination
+                                                        className="custom-data-table"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                }
+                            </div>
                         </div>
                     </div>
+
+
+
                 </div>
-                {updateUser &&
-                    <div className='updateUserOverlay'>
+                {/* update Customers */}
+                {updateCustomer &&
+                    <div className='updateOverlay'>
 
                         <div className="card border-0 " style={{ width: '35vw' }}>
                             <div className="card-body">
                                 <div className="row d-flex justify-content-between">
                                     <div className="col-6 m-0">
-                                        <p className='fw-bold text-start'>Update User</p>
+                                        <p className='fw-bold text-start'>Update Customer</p>
                                     </div>
                                     <div className="col-2  ">
-                                        <button className='btn py-0' onClick={(e) => closeUserOverlay(e)}>
+                                        <button className='btn py-0' onClick={(e) => closeCreateUser(e)}>
                                             <X size={30} />
                                         </button>
                                     </div>
                                 </div>
-                                <form className="col mx-auto" onSubmit={(e) => handleUserUpdate(e)}>
-                                    <div className="align-items-center  my-3">
+                                <form className="col mx-auto" onSubmit={(e) => handleCustomer(e)}>
+                                    <div className="align-items-center  mb-3">
                                         <div className="form-outline  mb-0 col">
                                             <div className="form__div m-1">
-                                                <input type="text" className="form-control rounded" value={lastname} onChange={(e) => setLastname(e.target.value)} />
-                                                <label className="form__label text-start text-capitalize" >lastname</label>
+                                                <input type="text" className="form-control rounded" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Username</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div className="align-items-center  mb-3">
+                                        <div className="form-outline  mb-0 col">
+                                            <div className="form__div m-1">
+                                                <select className="form-control rounded form-select-lg"
+                                                    value={parseInt(credit_limit)}
+                                                    onChange={(e) => setCredit_limit(parseInt(e.target.value))}
+                                                >
+                                                    <option default value={10}>0</option>
+                                                    <option value={20000}>20,000</option>
+                                                    <option value={50000}>50,000</option>
+                                                    <option value={100000}>100,000</option>
+                                                </select>
+                                                <label className="form__label text-start text-capitalize" >credit Limit</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <div className="align-items-center mb-2">
+
+                                        <div className="form-outline  mb-0 col">
+                                            <div className="form__div m-1">
+                                                <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Email</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="align-items-center mb-2">
+
+                                        <div className="form-outline  mb-0 col">
+                                            <div className="form__div m-1">
+                                                <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Phone Number</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="form-outline  mb-0 col text-start pb-2 d-flex justify-content-around">
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="checkbox" value="" />
+                                            <label className="form-check-label" for="">
+                                                Discounted
+                                            </label>
+                                        </div>
+                                        <div className="form-check">
+                                            <input className="form-check-input" type="checkbox" value="" />
+                                            <label className="form-check-label" for="">
+                                                Block user
+                                            </label>
+                                        </div>
+                                    </div>
+
+
+                                    {/* 
+                            <div className="form-check d-flex justify-content-center mb-5">
+                                <label className="form-check-label" for="form2Example3">
+                                I agree all statements in <a href="#!">Terms of service</a>
+                                </label>
+                            </div> */}
+
+                                    {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
+                                    <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
+                                        <button type="submit" className="btn btn-primary ">Update Customer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {/* Update employees */}
+                {updateEmployee &&
+                    <div className='updateOverlay'>
+
+                        <div className="card border-0 " style={{ width: '30vw' }}>
+                            <div className="card-body">
+                                <div className="row d-flex justify-content-between">
+                                    <div className="col-6 m-0">
+                                        <p className='fw-bold text-start'>Update Employee</p>
+                                    </div>
+                                    <div className="col-2  ">
+                                        <button className='btn py-0' onClick={(e) => closeCreateUser(e)}>
+                                            <X size={30} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <form className="col mx-auto" onSubmit={(e) => handleEmployeeUpdate(e)}>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className=" col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >First Name</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div className="col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={lastname} onChange={(e) => setLastname(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Last Name</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="align-items-center  mb-3">
+                                        <div className="form-outline  mb-0 col">
+                                            <div className="form__div m-1">
+                                                <input type="text" className="form-control rounded" value={business_name} onChange={(e) => setBusiness_name(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Business Name</label>
                                             </div>
 
                                         </div>
                                     </div>
 
-                                    {altUser.role !== 'administrator' &&
-                                        <>
-                                            <div className="align-items-center  my-3">
-                                                <div className="form-outline  mb-0 col">
-                                                    <div className="form__div m-1">
-                                                        <select className="form-control rounded form-select-lg"
-                                                            onChange={(e) => setRole(e.target.value)}
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <div class="mb-3 form__div">
+                                                        <select
+                                                            class="form-select"
+                                                            value={role}
+                                                             onChange={(e) =>setRole(e.target.value)}
                                                         >
                                                             <option selected>Select one</option>
-                                                            <option value="sales">Sales/Cashier</option>
-                                                            <option value="customer">Customer</option>
-                                                            <option value="supplier">Supplier</option>
+                                                            <option value="default">Member</option>
+                                                            <option value="admin">Admin</option>
+                                                            <option value="manager">Manager</option>
+                                                            <option value="blocked">blocked</option>
                                                         </select>
-                                                        <label className="form__label text-start text-capitalize" >Role</label>
+                                                        <label className="form__label text-start text-capitalize" style={{top:'-10px',left:'10px',fontSize:'12px'}}>Role</label>
                                                     </div>
-
+                                                    
                                                 </div>
                                             </div>
-                                            <div className="align-items-center  my-3">
-                                                <div className="form-outline  mb-0 col">
-                                                    <div className="form__div m-1">
-                                                        <select className="form-control rounded form-select-lg"
-                                                            onChange={(e) => setCreditLimit(e.target.value)}
-                                                        >
-                                                            <option selected value="0">0</option>
-                                                            <option value="20000">20,000</option>
-                                                            <option value="50000">50,000</option>
-                                                            <option value="100000">100000</option>
-                                                        </select>
-                                                        <label className="form__label text-start text-capitalize" >credit Limit</label>
-                                                    </div>
-
+                                        </div>
+                                    </div>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className="col-6 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="tel" className="form-control rounded" value={office_phone} onChange={(e) => setOffice_phone(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Office Phone</label>
                                                 </div>
                                             </div>
-                                            <div className="align-items-center mb-2">
-
-                                                <div className="form-outline  mb-0 col">
-                                                    <div className="form__div m-1">
-                                                        <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                                        <label className="form__label text-start text-capitalize" >Email</label>
-                                                    </div>
+                                        </div>
+                                        <div className="col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Phone Number</label>
                                                 </div>
                                             </div>
-                                            <div className="form-outline  mb-0 col text-start pb-2 d-flex justify-content-around">
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" value="" />
-                                                    <label className="form-check-label" for="">
-                                                        Discounted
-                                                    </label>
-                                                </div>
-                                                <div className="form-check">
-                                                    <input className="form-check-input" type="checkbox" value="" />
-                                                    <label className="form-check-label" for="">
-                                                        Block user
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </>
-                                    }
-
+                                        </div>
+                                    </div>
                                     <div className="  align-items-center mb-2">
                                         <div className="form-outline mb-0">
                                             <div className="form__div m-1">
@@ -372,7 +974,7 @@ function Users({ allUsers, setAllUsers }) {
                                     <div className=" align-items-center mb-2">
                                         <div className="form-outline  mb-0">
                                             <div className="form__div m-1">
-                                                <input type="password" className="form-control rounded" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
+                                                <input type="password" className="form-control rounded" value={password_confirmation} onChange={(e) => setPassword_confirmation(e.target.value)} />
                                                 <label className="form__label text-start text-capitalize" >confirm password</label>
                                             </div>
                                         </div>
@@ -385,24 +987,23 @@ function Users({ allUsers, setAllUsers }) {
                   </div> */}
 
                                     {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
-                                    <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
-                                        <button type="submit" className="btn btn-primary ">Update User</button>
+                                    <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
+                                        <button type="submit" className="btn btn-primary ">Submit</button>
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 }
+                {/* Update Supplier */}
+                {updateSupplier &&
+                    <div className='updateOverlay'>
 
-                {/* create new user form */}
-                {createUser &&
-                    <div className='createUserOverlay'>
-
-                        <div className="card border-0 " style={{ width: '45vw' }}>
+                        <div className="card border-0 " style={{ width: '30vw' }}>
                             <div className="card-body">
                                 <div className="row d-flex justify-content-between">
                                     <div className="col-6 m-0">
-                                        <p className='fw-bold text-start'>Add User</p>
+                                        <p className='fw-bold text-start'>Update Supplier</p>
                                     </div>
                                     <div className="col-2  ">
                                         <button className='btn py-0' onClick={(e) => closeCreateUser(e)}>
@@ -410,18 +1011,18 @@ function Users({ allUsers, setAllUsers }) {
                                         </button>
                                     </div>
                                 </div>
-                                <form className="col mx-auto" onSubmit={(e) => handleCreateUser(e)}>
+                                <form className="col mx-auto" onSubmit={(e) => handleSupplierUpdate(e)}>
                                     <div className="row justify-content-center align-items-center g-2">
-                                        <div className=" col-6 align-items-center  my-3">
+                                        <div className=" col-6 align-items-center  mb-3">
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
-                                                    <input type="text" className="form-control rounded" value={firstname} onChange={(e) => setfirstname(e.target.value)} />
+                                                    <input type="text" className="form-control rounded" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
                                                     <label className="form__label text-start text-capitalize" >First Name</label>
                                                 </div>
 
                                             </div>
                                         </div>
-                                        <div className="col-6 align-items-center  my-3">
+                                        <div className="col-6 align-items-center  mb-3">
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
                                                     <input type="text" className="form-control rounded" value={lastname} onChange={(e) => setLastname(e.target.value)} />
@@ -431,18 +1032,18 @@ function Users({ allUsers, setAllUsers }) {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="align-items-center  my-3">
+                                    <div className="align-items-center  mb-3">
                                         <div className="form-outline  mb-0 col">
                                             <div className="form__div m-1">
-                                                <input type="text" className="form-control rounded" value={businessName} onChange={(e) => setBusinessName(e.target.value)} />
-                                                <label className="form__label text-start text-capitalize" >Business Name</label>
+                                                <input type="text" className="form-control rounded" value={company_name} onChange={(e) => setCompany_name(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Company Name</label>
                                             </div>
 
                                         </div>
                                     </div>
 
                                     <div className="row justify-content-center align-items-center g-2">
-                                        <div className="col-6 align-items-center mb-2">
+                                        <div className="col-12 align-items-center mb-2">
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
                                                     <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
@@ -450,35 +1051,92 @@ function Users({ allUsers, setAllUsers }) {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-6 align-items-center  my-3">
+                                        <div className="col-12 align-items-center  mb-3">
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
-                                                    <select className="form-control rounded form-select-lg"
-                                                        onChange={(e) => setRole(e.target.value)}
-                                                    >
-                                                        <option selected>Select one</option>
-                                                        <option value="sales">Sales/Cashier</option>
-                                                        <option value="customer">Customer</option>
-                                                        <option value="supplier">Supplier</option>
-                                                    </select>
-                                                    <label className="form__label text-start text-capitalize" >Role</label>
+                                                    <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Phone Number</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* 
+                  <div className="form-check d-flex justify-content-center mb-5">
+                      <label className="form-check-label" for="form2Example3">
+                      I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                  </div> */}
+
+                                    {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
+                                    <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
+                                        <button type="submit" className="btn btn-primary ">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+
+                {/* create new Customer form */}
+                {createCustomer &&
+                    <div className='createUserOverlay'>
+
+                        <div className="card border-0 " style={{ width: '30vw' }}>
+                            <div className="card-body">
+                                <div className="row d-flex justify-content-between">
+                                    <div className="col-6 m-0">
+                                        <p className='fw-bold text-start'>Add Customer</p>
+                                    </div>
+                                    <div className="col-2  ">
+                                        <button className='btn py-0' onClick={(e) => openCreateCustomer(e)}>
+                                            <X size={30} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <form className="col mx-auto" onSubmit={(e) => handleCreateCustomers(e)}>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className=" col-12 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={username} onChange={(e) => setUsername(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Username</label>
                                                 </div>
 
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Phone Number</label>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="row justify-content-center align-items-center g-2">
-                                        <div className="col-6 align-items-center  my-3">
+                                        <div className="col-6 align-items-center  mb-3">
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
                                                     <select className="form-control rounded form-select-lg"
-                                                        onChange={(e) => setCreditLimit(e.target.value)}
+                                                        value={parseInt(credit_limit)}
+                                                        onChange={(e) => setCredit_limit(parseInt(e.target.value))}
                                                     >
-                                                        <option selected value="0">0</option>
-                                                        <option value="20000">20,000</option>
-                                                        <option value="50000">50,000</option>
-                                                        <option value="100000">100000</option>
+                                                        <option selected value={0}>0</option>
+                                                        <option value={20000}>20,000</option>
+                                                        <option value={50000}>50,000</option>
+                                                        <option value={100000}>100,000</option>
                                                     </select>
                                                     <label className="form__label text-start text-capitalize" >credit Limit</label>
                                                 </div>
@@ -503,6 +1161,116 @@ function Users({ allUsers, setAllUsers }) {
 
 
 
+
+                                    {/* 
+                  <div className="form-check d-flex justify-content-center mb-5">
+                      <label className="form-check-label" for="form2Example3">
+                      I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                  </div> */}
+
+                                    {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
+                                    <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
+                                        <button type="submit" className="btn btn-primary ">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+
+                {/* create new Employees form */}
+                {createEmployee &&
+                    <div className='createUserOverlay'>
+
+                        <div className="card border-0 " style={{ width: '30vw' }}>
+                            <div className="card-body">
+                                <div className="row d-flex justify-content-between">
+                                    <div className="col-6 m-0">
+                                        <p className='fw-bold text-start'>Add Employee</p>
+                                    </div>
+                                    <div className="col-2  ">
+                                        <button className='btn py-0' onClick={(e) => openCreateEmployee(e)}>
+                                            <X size={30} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <form className="col mx-auto" onSubmit={(e) => handleCreateEmployee(e)}>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className=" col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >First Name</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div className="col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={lastname} onChange={(e) => setLastname(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Last Name</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="align-items-center  mb-3">
+                                        <div className="form-outline  mb-0 col">
+                                            <div className="form__div m-1">
+                                                <input type="text" className="form-control rounded" value={business_name} onChange={(e) => setBusiness_name(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Business Name</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <select
+                                                        class="form-select"
+                                                        value={role}
+                                                        onChange={(e) => setRole(e.target.value)}>
+                                                        
+                                                        <option value="menmber" selected>Member</option>
+                                                        <option value="Manager">Manager</option>
+                                                        <option value="admin">admin</option>
+                                                        <option value="Cashier">blocked</option>
+                                                    </select>
+                                                    <label className="form__label text-start text-capitalize" >Job Title</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className="col-6 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="tel" className="form-control rounded" value={office_phone} onChange={(e) => setOffice_phone(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Office Phone</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Phone Number</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     <div className="  align-items-center mb-2">
                                         <div className="form-outline mb-0">
                                             <div className="form__div m-1">
@@ -516,7 +1284,7 @@ function Users({ allUsers, setAllUsers }) {
                                     <div className=" align-items-center mb-2">
                                         <div className="form-outline  mb-0">
                                             <div className="form__div m-1">
-                                                <input type="password" className="form-control rounded" value={passwordConfirmation} onChange={(e) => setPasswordConfirmation(e.target.value)} />
+                                                <input type="password" className="form-control rounded" value={password_confirmation} onChange={(e) => setPassword_confirmation(e.target.value)} />
                                                 <label className="form__label text-start text-capitalize" >confirm password</label>
                                             </div>
                                         </div>
@@ -529,7 +1297,90 @@ function Users({ allUsers, setAllUsers }) {
                   </div> */}
 
                                     {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
-                                    <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
+                                    <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
+                                        <button type="submit" className="btn btn-primary ">Submit</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                }
+                {/* create new Supplier form */}
+                {createSupplier &&
+                    <div className='createUserOverlay'>
+
+                        <div className="card border-0 " style={{ width: '30vw' }}>
+                            <div className="card-body">
+                                <div className="row d-flex justify-content-between">
+                                    <div className="col-6 m-0">
+                                        <p className='fw-bold text-start'>Add Supplier</p>
+                                    </div>
+                                    <div className="col-2  ">
+                                        <button className='btn py-0' onClick={(e) => openCreateSupplier(e)}>
+                                            <X size={30} />
+                                        </button>
+                                    </div>
+                                </div>
+                                <form className="col mx-auto" onSubmit={(e) => handleCreateSupplier(e)}>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className=" col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >First Name</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        <div className="col-6 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="text" className="form-control rounded" value={lastname} onChange={(e) => setLastname(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Last Name</label>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="align-items-center  mb-3">
+                                        <div className="form-outline  mb-0 col">
+                                            <div className="form__div m-1">
+                                                <input type="text" className="form-control rounded" value={company_name} onChange={(e) => setCompany_name(e.target.value)} />
+                                                <label className="form__label text-start text-capitalize" >Company Name</label>
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className="col-12 align-items-center mb-2">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Email</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="row justify-content-center align-items-center g-2">
+                                        <div className="col-12 align-items-center  mb-3">
+                                            <div className="form-outline  mb-0 col">
+                                                <div className="form__div m-1">
+                                                    <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
+                                                    <label className="form__label text-start text-capitalize" >Phone Number</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    {/* 
+                  <div className="form-check d-flex justify-content-center mb-5">
+                      <label className="form-check-label" for="form2Example3">
+                      I agree all statements in <a href="#!">Terms of service</a>
+                      </label>
+                  </div> */}
+
+                                    {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
+                                    <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
                                         <button type="submit" className="btn btn-primary ">Submit</button>
                                     </div>
                                 </form>
