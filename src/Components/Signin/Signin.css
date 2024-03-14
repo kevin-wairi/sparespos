@@ -1,125 +1,49 @@
-
-  .profile-image-pic{
-    height: 200px;
-    width: 200px;
-    object-fit: cover;
-  }
-  
-  .signin-wrapper{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-  }
-  .signinform{
-    position: absolute;
-    top: 200px;
-    background-color: #fff;
-    /* left: 25%;
-    right: 25%; */
-  }
-  .signup-container{
-    background-image: url('../../assets/images/bg.jpg');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    position: relative;
-  }
-
-  /* @media only screen and (max-width: 400px) {
-    .signinform{
-      
-      left: 8%;
-    }
-  }
-
-  @media only screen and (max-width: 768px) {
-    .signinform{
-      
-      left: 8%;
-    }
-  }
-  */
- 
-
-  @media only  screen and (min-width: 768px) and (max-width: 1400px) {
-    .signinform{
-      
-      left: 30%;
-    }
-  }
-  @media only  screen and (min-width: 586px) and (max-width: 767px) {
-    .signinform{
-      
-      left: 25%;
-    }
-  }
-  @media only  screen and (min-width: 300px) and (max-width: 585px) {
-    .signinform{
-      
-      left: 20%;
-    }
-  }
-
-  @media only  screen and (max-width: 490px) {
-    .signinform{
-      
-      left: 8%;
-    }
-  }
-
-
-
-.form__div {
-  height: 50px;
-  position: relative;
-  margin-bottom: 24px;
-  
+.input_box{
+  position:relative;
 }
-
-.form-control {
-  width: 100%;
-  height: 45px;
-  font-size: 14px;
-  border: 1px solid #DADCE0;
-  border-radius: 0;
+.input_box input{
   outline: none;
-  padding: 2px;
-  background: none;
-  z-index: 1;
-  box-shadow: none;
+  background-color: transparent;
+  padding: 10px;
+  border: 0;
+  border-bottom: 1px solid #000;
 }
-
-.form__label {
+.input_box input:focus{
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #000;
+}
+.input_box label{
   position: absolute;
-  left: 16px;
-  top: 10px;
-  background-color: #fff;
-  color: #80868B;
-  font-size: 16px;
-  transition: .3s;
-  text-transform: uppercase;
+  top: 0;
+  padding: 10px;
+  pointer-events: none;
+  transition: 0.5s;
+  font-size: 1em;
+  font-family: 'Poppins', sans-serif;
 }
-
-.form-control:focus+.form__label {
-  top: -8px;
-  left: 12px;
-  color: #1A73E8;
-  font-size: 12px;
-  font-weight: 500;
-  z-index: 10;
-}
-
-.form-control:not(:placeholder-shown).form-control:not(:focus)+.form__label {
-  top: -10px;
-  left: 12px;
-  font-size: 12px;
-  font-weight: 500;
-  z-index: 10;
-}
-
-.form-control:focus {
-  border: 1.5px solid #1A73E8;
+.input_box input:focus{
   box-shadow: none;
+}
+.input_box input:hover~ label{
+  color: #90a4ae;
+}
+.input_box input:valid ~ label,
+.input_box input:focus ~ label
+{
+  transform: translateX(10px)translateY(-7px);
+  font-size: 0.65em;
+  padding: 0 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.signin_submit:hover{
+  background-color: #b0bec5;
+}
+.signin_section{
+    backdrop-filter: blur(10px); 
+    border-radius: 10px;
+    padding: 10px;
+    background-color: #fff;
 }

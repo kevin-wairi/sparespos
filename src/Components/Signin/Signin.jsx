@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import './Signin.css'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faHouse, faSlash } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate, useLocation, NavLink } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
-function Signin({ onLogin, loggedOut }) {
+function Signin({ onLogin, setIsLogged }) {
 
     const location = useLocation()
     const pathname = location.pathname.slice(1);
@@ -15,115 +13,71 @@ function Signin({ onLogin, loggedOut }) {
     // State variables to manage form inputs and user authentication
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState('');
 
-    // Function to submit the login form
-    async function submitLoginForm(e) {
-        e.preventDefault();
-        // Validation checks for username and password
-        if (username.trim() === '' || password.trim() === '') {
-            setError('Please enter username and password');
-            return;
+    //!Function to submit the login form
+    function handleSubmit(e){
+        e.preventDefault()
+        console.log('STARRRT');
+        console.log('cont...');
+        // *Fetching users to check login credentials
+        fetch('http://127.0.0.1:3000/login', {
+            method: "POST",
+            headers:{
+                "Content-Type": "application/json",
+                Accepts: "application/json",
+            },
+            body: JSON.stringify({
+                username,
+                password
+            })
         }
-        setError('');
-
-        // Fetching users to check login credentials
-        const response = await fetch('http://localhost:3000/users');
-        const data = await response.json();
-        if (response.ok) {
-            const user = data.find((user) => user.username.toLowerCase() === username.toLowerCase());
-            console.log('found', user);
-            if (user) {
-                if (user.password === password) {
-                    // Update state and navigate to home page upon successful login
-                    onLogin(user);
-                    loggedOut(false)
-                    sessionStorage.setItem('username', user.username);
-                    navigate('/')
-                    setUsername('')
-                    setPassword('')
-                    console.log(user);
-                    // navigate('/')
-                } else {
-                    setError('Invalid password');
-                }
-            } else {
-                setError('User not found');
-            }
-        } else {
-            setError('Failed to login');
-        }
+        ).then(resp => resp.json())
+        .then(data => {
+            console.log('DATA', data);
+            onLogin(data.user);
+            setIsLogged(true)
+            sessionStorage.setItem('jwt',data.jwt);
+            sessionStorage.setItem('user_id', data.user.id);
+            navigate('/dashboard')
+            setUsername('')
+            setPassword('')
+        })
+        .catch(error=>console.log(error))
+       
     }
 
-    return (
-        <div class="wrapper signin-wrapper">
-            <div className='signup-container p-1 m-3 rounded' style={{ minHeight: '20rem' }}>
-                <div className="col-8 mx-auto my-3 text-white">
-                    <nav id='navbar '>
-                        <div className="row  m-0 p-0 d-flex justify-content-between align-items-center rounded">
-                            <div className="col-lg-3 col-12">
-                                <div className='text-start'>
-                                    <div className="d-flex gap-1">
-                                        <div><a href="/"><FontAwesomeIcon icon={faHouse} size="xs" style={{ color: "#fff", }} /></a></div>
-                                        <div><FontAwesomeIcon icon={faSlash} rotation={90} size="2xs" /></div>
-                                        <p className='menu-p align-self-center'>{pathname}</p>
-                                    </div>
+    
 
-                                    <a className="navbar-brand ">{pathname}</a>
+    return (
+        <div className="wrapper">
+            <div className="container-fliud bg-blue-gray-300" >
+                <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
+                    <div className="p-3 signin_section  d-flex flex-column justify-content-center align-items-center" style={{ height: '50vh', width: '35vw' }}>
+                        <p className='fs-3  m-0'>Get started Today</p>
+                        <form className='form-group' onSubmit={handleSubmit}>
+                            <p className=''>signin to your Account</p>
+                            <div className="text-start form_field pt-2 mb-3">
+                                <div className="d-flex">
+                                    <div className='input_box'>
+                                        <input type="text" className="form-control" onChange={(e)=>setUsername(e.target.value)} required style={{borderRadius:'0'}}/>
+                                        <label for="" className="form-label">Username</label>
+                                    </div>
+                                    <p className="m-0  align-self-center">|</p>
+                                    <div className='input_box'>
+                                        <input type="password" className="form-control" onChange={(e)=>setPassword(e.target.value)} required style={{borderRadius:'0'}}/>
+                                        <label for="" className="form-label">Password</label>
+                                    </div>
                                 </div>
                             </div>
-                            <div className="col-lg-4 col-4">
-                                <NavLink to='/'>
-                                    <div className="d-flex gap-1 align-items-center ">
-                                        <FontAwesomeIcon className='p-2 ' icon={faHouse} style={{ color: "#fff", }} />
-                                        <p className='my-1 text-white'>Dashboard</p>
-                                    </div>
-                                </NavLink>
-                            </div>
-                            <div className="col-lg-3 col-6 justify-content-end d-flex">
-                                <NavLink to='/signin'>
-                                    <div className="d-flex gap-lg-2 gap-1 align-items-center">
-                                        <FontAwesomeIcon icon={faUser} style={{ color: "#fff", }} />
-                                        <p className='my-1 text-white'>sign in</p>
-                                    </div>
-                                </NavLink>
-                            </div>
-                        </div>
-                    </nav>
+                            <button type="submit" className="btn bg-dark w-100 text-white mb-3"
+                            >
+                                Submit
+                            </button>
+                        </form>
+                        <p><small>forgot Password?</small></p>
+                    </div>
                 </div>
 
-                <div className="text-white">
-                    <h4>Welcome!</h4>
-                    <p className='menu-p'>Use these awesome forms to login</p>
-
-                </div>
-                <div className=" form-container signinform rounded border col-lg-4 col-xl-4  col-md-4  col-sm-6" >
-                    <p className="text-center h4 fw-bold mb-2 mx-1 mx-md-4 mt-2 pt-2">Log in</p>
-
-                    <form className="mx-1 mx-md-4  " onSubmit={(e) => submitLoginForm(e)}>
-
-                        <div className="d-flex flex-row align-items-center mb-2">
-                            <div className="form-outline flex-fill mb-0 form__div">
-                                <input type="text" className="form-control rounded" value={username} onChange={(e) => setUsername(e.target.value)} />
-                                <label className="form__label" >Username</label>
-                            </div>
-
-                        </div>
-
-                        <div className="d-flex flex-row align-items-center mb-2">
-                            <div className="form-outline flex-fill mb-0 form__div">
-                                <input type="password" className="form-control rounded" value={password} onChange={(e) => setPassword(e.target.value)} />
-                                <label className="form__label" >Password</label>
-                            </div>
-                        </div>
-                        {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
-                        <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
-                            <button type="submit" className="btn btn-primary ">Submit</button>
-                        </div>
-
-                    </form>
-
-                </div>
             </div>
         </div>
     )
