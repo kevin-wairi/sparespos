@@ -30,6 +30,7 @@ function App() {
   const [employees, setEmployees] = useState([])
   const [allSuppliers, setAllSuppliers] = useState([])
   const [carpartCategories, setCarpartCategories] = useState([])
+  const [expandSideBar, setExpandSideBar] = useState(false)
 
   // !persist Curent User
   useEffect(() => {
@@ -127,6 +128,9 @@ function App() {
       })
   }, [setAllSuppliers])
 
+  const toggleSideNav = () =>{
+    setExpandSideBar(prevVal => !prevVal)
+  }
 
 
   // !close Loading
@@ -147,12 +151,12 @@ function App() {
             :
             <>
 
-              <div className='p-0' style={{ width: '5vw' }}>
-                {!(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu />}
+              <div className='p-0' style={{ width: expandSideBar ? '12vw' : '5vw' }}>
+                {!(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu toggleSideNav={toggleSideNav} expandSideBar={expandSideBar}/>}
               </div>
 
 
-              <div className="main-section px-0" style={{ maxHeight: '100vh', width: '95vw' }} >
+              <div className="main-section px-0" style={{ maxHeight: '100vh', width: expandSideBar ? '88vw' : '95vw' }} >
                 {!loading ? (
                   <div className='d-flex h-100 p-0'>
                     <div style={{ width: '95vw', height: '100vh' }}>
