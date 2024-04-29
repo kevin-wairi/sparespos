@@ -17,9 +17,8 @@ function Signin({ onLogin, setIsLogged }) {
     //!Function to submit the login form
     function handleSubmit(e){
         e.preventDefault()
-        console.log('STARRRT');
-        console.log('cont...');
-        // *Fetching users to check login credentials
+        console.log('Okrr');
+        
         fetch('http://127.0.0.1:3000/login', {
             method: "POST",
             headers:{

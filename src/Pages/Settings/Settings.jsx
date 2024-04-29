@@ -6,11 +6,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDollarToSlot, faUser, faGear, faHouse, faSlash, faCartShopping, faBars, faBell } from '@fortawesome/free-solid-svg-icons';
 import { NavLink, useLocation } from 'react-router-dom'
 
-import { carMakes } from '../ArrayFiles/CarMakes'
-import { carModels } from '../ArrayFiles/CarModel'
-import { carModelsYears } from '../ArrayFiles/CarModelsYears'
+import { carMakes } from '../../Components/ArrayFiles/CarMakes'
+import { carModels } from '../../Components/ArrayFiles/CarModel'
+import { carModelsYears } from '../../Components/ArrayFiles/CarModelsYears'
+import Navbar from '../../Components/Navbar/Navbar';
 
-function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogged, onLogout, setCartItems,carpartCategories}) {
+function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogged, onLogout, setCartItems, allCat }) {
 
   const [description, setDescription] = useState('')
   const [carMake, setCarMake] = useState('')
@@ -152,10 +153,10 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogge
   }
 
   // filter goods from form
-  useEffect(({}) => {
+  useEffect(() => {
 
     const filterForUpdates = stock.filter((spare) => {
-      const spareCategory = (spare.category || '').toLowerCase();
+      const spareCategory = (spare.category_name || '').toLowerCase();
       const carMake = (spare.carMake || '').toLowerCase();
       const carModel = (spare.carModel || '').toLowerCase();
 
@@ -278,103 +279,13 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogge
     <div className="wrapper h-100 overflow-y-scroll" style={{ width: '95vw' }}>
       <div className="row justify-content-center align-items-center g-2 my-3 mx-2  ">
         <div className="col-12  profile-bg rounded d-flex justify-content-center" style={{ minHeight: '250px' }}>
-          <div className=" container-fluid m-0  align-items-start w-100vw row ">
-            <div
-              className="row justify-content-center align-items-start g-2 m-0 rounded p-1 my-1 profile-nav"
-            >
-              <div className="col ">
-                <nav className='d-flex justify-content-between  '>
-                  <div className="col-4">
-                    <div className='text-start'>
-                      <div className="d-flex gap-1">
-                        <div><a href="/"><FontAwesomeIcon icon={faHouse} size="xs" style={{ color: "#292929", }} /></a></div>
-                        <div><FontAwesomeIcon icon={faSlash} rotation={90} size="2xs" /></div>
-                        <p className='menu-p align-self-center m-0'>{pathname}</p>
-                      </div>
-
-                      <a className="navbar-brand ">{pathname}</a>
-                    </div>
-                  </div>
-
-                  <div className="col-7 d-flex justify-content-end align-items-end  ">
-                    <div className="row d-flex justify-content-end align-items-end gap-2 m-0  ">
-                      <div className="col-5 col-xl-4 pt-2 d-flex align-items-end gap-3 justify-content-end">
-
-                        <NavLink to='/cart'>
-                          <div className="d-flex align-items-end justify-content-center gap-1">
-                            <FontAwesomeIcon icon={faCartShopping} style={{ color: "#000000", }} />
-                            <p className='m-0 lh-1 '>{cartCount}</p>
-                          </div>
-                        </NavLink>
-                        <FontAwesomeIcon className='d-xl-none d-md-flex' onClick={() => openSidebar()} icon={faBars} />
-                        <NavLink to='/settings'>
-                          <div className="d-flex align-items-end justify-content-center gap-1">
-                            <FontAwesomeIcon icon={faBell} />
-                            <p className='m-0 lh-1 '>0</p>
-                          </div>
-                        </NavLink>
-
-                      </div>
-                      <div className='d-flex menu-p col-6 col-xl-7 align-items-center gap-2 p-0'>
-
-
-                        <div className="d-flex gap-2 align-items-end">
-
-                          {!user &&
-
-                            <NavLink to='/signin'>
-                              <div className="d-flex gap-2 align-items-center">
-                                <FontAwesomeIcon icon={faUser} style={{ color: "#000000", }} />
-                                <p className='m-0'>sign in</p>
-                              </div>
-                            </NavLink>
-                          }
-                          {user &&
-                            <div>
-                              <NavLink to='/profile'>
-                                <div className="d-flex align-items-center justify-content-center gap-2">
-                                  <FontAwesomeIcon icon={faUser} style={{ color: "#000000", }} />
-                                  <p className='m-0 d-none d-md-flex '>{(user.business).slice(0, 10) + '..'}</p>
-                                </div>
-                              </NavLink>
-                              <div className="dropdown dropstart lh-1 mx-3">
-                                <FontAwesomeIcon className="dropdown-toggle " id="dropdownMenuButton1" data-bs-toggle="dropdown" icon={faGear} style={{ color: "#000000", }} />
-                                <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                                  <li onClick={() => handleLogout()}><a className="dropdown-item menu-p" href="#">Logout</a></li>
-                                </ul>
-                              </div>
-                            </div>
-                          }
-
-                        </div>
-
-                      </div>
-                    </div>
-                  </div>
-                </nav>
+          <div className="container-fluid m-0  align-items-start w-100vw row ">
+            <div className="row justify-content-center align-items-center g-2" >
+              <div className="col-12 glass rounded-4">
+                <Navbar />
               </div>
             </div>
 
-
-          </div>
-          <div className="card profile-card border-0">
-            <div className="card-body p-2">
-              <div className="row justify-content-between align-items-center g-2 ">
-                <div className="col-lg-4 col-md-4 col-8 d-flex gap-lg-2 gap-1 text-start ">
-                  <div className="profile-img " style={{ height: '70px', width: '70px' }}>
-                    <img className='img-fluid rounded' src={profile} alt="username" />
-                  </div>
-                  <div className="profile-tag">
-                    <h6>{user ? user.username : 'User'}</h6>
-                    <p>{user ? user.business : 'Untitled'} </p>
-                  </div>
-                </div>
-                <div className="col-lg-2 px-2  col-3  d-flex align-items-center align-self-end gap-2 justify-content-end">
-                  <FontAwesomeIcon icon={faGear} style={{ color: "#000000", }} />
-                  <p className='m-0'>Settings</p>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
@@ -454,7 +365,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogge
 
 
                     <datalist id='data3'>
-                      {carpartCategories.map((element) => (
+                      {allCat.map((element) => (
                         <option key={element} value={element}>{element}</option>
                       ))}
                     </datalist>
@@ -674,7 +585,7 @@ function Settings({ stock, updateStock, openSidebar, cartCount, user, setIsLogge
                     <label className="form__label text-start text-capitalize">Category</label>
                   </div>
                   <datalist id='data3'>
-                    {carpartCategories.map((element) => (
+                    {allCat.map((element) => (
                       <option key={element} value={element}>{element}</option>
                     ))}
                   </datalist>

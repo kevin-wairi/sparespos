@@ -5,10 +5,10 @@ import SidebarMenu from './Components/SidebarMenu/SidebarMenu';
 import Items from './Pages/Items/Items';
 import './App.css';
 import Signin from './Components/Signin/Signin';
-import Settings from './Components/Settings/Settings'
+import Settings from './Pages/Settings/Settings'
 import Tables from './Pages/Tables/Tables';
 import Users from './Pages/Users/Users';
-import Inventory from './Pages/Inventory/Inventory';
+import Catalog from './Pages/Catalog/Catalog'
 import UserProfile from './Pages/UserProfile/UserProfile';
 import Navbar from './Components/Navbar/Navbar';
 
@@ -29,7 +29,8 @@ function App() {
   const [allCustomers, setAllCustomers] = useState([])
   const [employees, setEmployees] = useState([])
   const [allSuppliers, setAllSuppliers] = useState([])
-  const [carpartCategories, setCarpartCategories] = useState([])
+  const [allCat, setAllCat] = useState([])
+  const [brands, setBrands] = useState([])
   const [expandSideBar, setExpandSideBar] = useState(false)
 
   // !persist Curent User
@@ -46,10 +47,10 @@ function App() {
           Authorization: `Bearer ${token}`,
         },
       })
-        .then((resp) =>resp.json())
+        .then((resp) => resp.json())
         .then((current_user) => {
           console.log('CURRENT', current_user);
-          setUser(()=>current_user);
+          setUser(() => current_user);
           setIsLogged(true);
         })
         .catch((error) => {
@@ -120,15 +121,29 @@ function App() {
     fetch('http://127.0.0.1:3000/categories')
       .then(resp => resp.json())
       .then(d => {
-        setCarpartCategories(() => d)
-        console.log('suppliers', d);
+        setAllCat(() => d)
+        console.log('allCat', d);
       })
       .catch((error) => {
         console.error('Fetch error:', error);
       })
-  }, [setAllSuppliers])
+  }, [])
 
-  const toggleSideNav = () =>{
+  // !fetches brand_names
+  useEffect(() => {
+    fetch('http://127.0.0.1:3000/brands')
+      .then(resp => resp.json())
+      .then(d => {
+        const sortedBrands = d.sort((a, b) => a.brand_name.localeCompare(b.brand_name));
+        setBrands(() => sortedBrands)
+        console.log('BRANDS', sortedBrands);
+      })
+      .catch((error) => {
+        console.error('Fetch error:', error);
+      })
+  }, [])
+
+  const toggleSideNav = () => {
     setExpandSideBar(prevVal => !prevVal)
   }
 
@@ -152,7 +167,7 @@ function App() {
             <>
 
               <div className='p-0' style={{ width: expandSideBar ? '12vw' : '5vw' }}>
-                {!(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu toggleSideNav={toggleSideNav} expandSideBar={expandSideBar}/>}
+                {!(location.pathname.includes('/signup') || location.pathname.includes('/signin')) && <SidebarMenu toggleSideNav={toggleSideNav} expandSideBar={expandSideBar} />}
               </div>
 
 
@@ -162,16 +177,16 @@ function App() {
                     <div style={{ width: '95vw', height: '100vh' }}>
                       <Routes>
                         <Route path="/dashboard" element={<Dashboard user={user} >
-                          <Navbar user={user} setIsLogged={setIsLogged}/>
+                          <Navbar user={user} setIsLogged={setIsLogged} />
                         </Dashboard>} />
                         <Route path="/" element={<Items items={items} user={user} />} />
-                        <Route path="/settings" element={<Settings stock={items} updateStock={setItems} user={user} setIsLogged={setIsLogged} onLogout={setUser} carpartCategories={carpartCategories} />} />
+                        <Route path="/settings" element={<Settings stock={items} updateStock={setItems} user={user} setIsLogged={setIsLogged} onLogout={setUser} allCat={allCat} />} />
                         <Route path="/tables" element={<Tables stock={items} allCustomers={allCustomers} />} />
-                        <Route path="/users" element={<Users stock={items} allCustomers={allCustomers} setAllCustomers={setAllCustomers} employees={employees} setEmployees={setEmployees} allSuppliers={allSuppliers} setAllSuppliers={setAllSuppliers}/>} />
-                        <Route path="/inventory" element={<Inventory carpartCategories={carpartCategories} />} />
+                        <Route path="/users" element={<Users stock={items} allCustomers={allCustomers} setAllCustomers={setAllCustomers} employees={employees} setEmployees={setEmployees} allSuppliers={allSuppliers} setAllSuppliers={setAllSuppliers} />} />
+                        <Route path="/catalog" element={<Catalog allCat={allCat} allSuppliers={allSuppliers} brands={brands} setBrands={setBrands} products={items}/>} />
                         <Route path="/user_profile" element={<UserProfile user={user} updateUser={setUser} >
-                            <Navbar user={user}/>
-                          </UserProfile>} />
+                          <Navbar user={user} />
+                        </UserProfile>} />
                       </Routes>
                     </div>
                   </div>

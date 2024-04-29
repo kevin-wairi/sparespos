@@ -3,6 +3,7 @@ import Navbar from '../../Components/Navbar/Navbar'
 import { Trash2, Edit, X, PlusCircle, Search } from 'react-feather';
 import DataTable from 'react-data-table-component';
 import './Users.css'
+import SingleUser from './SingleUser/SingleUser';
 
 function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllSuppliers, allSuppliers }) {
 
@@ -402,10 +403,11 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
         setUpdateCustomer(true)
     }
 
-    const openEmployeeOverlay = (e, user) => {
+    const viewEmployee = (e, user) => {
         e.preventDefault()
         setAltEmployee(user)
         setUpdateEmployee(true)
+
     }
 
     const openSupplierOverlay = (e, user) => {
@@ -424,18 +426,7 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
         }
     }, [altCustomer]);
 
-    // !Employee update form states
-    useEffect(() => {
-        if (altEmployee) {
-            setFirstname(altEmployee.firstname || "");
-            setLastname(altEmployee.lastname || "");
-            setBusiness_name(altEmployee.business_name || "")
-            setRole(altEmployee.role || "")
-            setEmail(altEmployee.email || "");
-            setPhone_number(altEmployee.phone_number || "");
-            setOffice_phone(altEmployee.office_phone || "");
-        }
-    }, [altEmployee]);
+    
 
     // !Supplier update form states
     useEffect(() => {
@@ -541,7 +532,7 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                         <button className="btn" onClick={(e) => handleDeleteEmployee(e, row.id)}>
                             <Trash2 strokeWidth={1} color="#ff0000" size={20} />
                         </button>
-                        <button className="btn" onClick={(e) => openEmployeeOverlay(e, row)}>
+                        <button className="btn" onClick={(e) => viewEmployee(e, row)}>
                             <Edit strokeWidth={1} color="blue" size={20} />
                         </button>
                     </>
@@ -659,114 +650,122 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                     <div className="col-12">
                         <Navbar />
                     </div>
-                    <div className="col-12">
-                        <div className="card text-center">
-                            <div className="card-header px-3">
-                                <ul className="nav nav-tabs card-header-tabs  ">
-                                    <li className="nav-item table-nav">
-                                        <p
-                                            className={`nav-link px-1 px-sm-3  ${activeTab === 0 ? 'active' : ''}`}
-                                            onClick={() => handleTabClick(0)}
+                    <div className="col-12 border border-danger">
+                        {updateEmployee ?
+                            <>
+                                <SingleUser user={altEmployee} />
+                            </>
+                            :
+                            <>
+                                <div className="card text-center">
+                                    <div className="card-header px-3">
+                                        <ul className="nav nav-tabs card-header-tabs  ">
+                                            <li className="nav-item table-nav">
+                                                <p
+                                                    className={`nav-link px-1 px-sm-3  ${activeTab === 0 ? 'active' : ''}`}
+                                                    onClick={() => handleTabClick(0)}
 
-                                        >
-                                            Customers Information
-                                        </p>
-                                    </li>
-                                    <li className="nav-item table-nav">
-                                        <p
-                                            className={`nav-link px-1 px-sm-3  ${activeTab === 1 ? 'active' : ''}`}
-                                            onClick={() => handleTabClick(1)}
+                                                >
+                                                    Customers Information
+                                                </p>
+                                            </li>
+                                            <li className="nav-item table-nav">
+                                                <p
+                                                    className={`nav-link px-1 px-sm-3  ${activeTab === 1 ? 'active' : ''}`}
+                                                    onClick={() => handleTabClick(1)}
 
-                                        >
-                                            Suppliers Information
-                                        </p>
-                                    </li>
-                                    <li className="nav-item table-nav">
-                                        <p
-                                            className={`nav-link px-1 px-sm-3  ${activeTab === 2 ? 'active' : ''}`}
-                                            onClick={() => handleTabClick(2)}
+                                                >
+                                                    Suppliers Information
+                                                </p>
+                                            </li>
+                                            <li className="nav-item table-nav">
+                                                <p
+                                                    className={`nav-link px-1 px-sm-3  ${activeTab === 2 ? 'active' : ''}`}
+                                                    onClick={() => handleTabClick(2)}
 
-                                        >
-                                            Employees Information
-                                        </p>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div className="card-body">
-                                {`${activeTab === 0 ? 'active' : ''}` &&
-                                    <>
-                                        {/* Customers table */}
-                                        <div className="col-12">
-                                            <div class="card border-0 text-start">
-                                                <div class="card-body">
-                                                    <div className="row justify-content-between align-items-center g-2"
-                                                    >
-                                                        <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateCustomer(e)}><PlusCircle strokeWidth={1} />  Add Customers</button></div>
-                                                        <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilterCustomers(e)} /></div>
+                                                >
+                                                    Employees Information
+                                                </p>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div className="card-body">
+                                        {`${activeTab === 0 ? 'active' : ''}` &&
+                                            <>
+                                                {/* Customers table */}
+                                                <div className="col-12">
+                                                    <div className="card border-0 text-start">
+                                                        <div className="card-body">
+                                                            <div className="row justify-content-between align-items-center g-2"
+                                                            >
+                                                                <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateCustomer(e)}><PlusCircle strokeWidth={1} />  Add Customers</button></div>
+                                                                <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilterCustomers(e)} /></div>
+                                                            </div>
+
+                                                            <DataTable
+                                                                columns={Customer_columns}
+                                                                data={customerRecords}
+                                                                fixedHeader
+                                                                pagination
+                                                            />
+                                                        </div>
                                                     </div>
-
-                                                    <DataTable
-                                                        columns={Customer_columns}
-                                                        data={customerRecords}
-                                                        fixedHeader
-                                                        pagination
-                                                    />
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                }
-                                {`${activeTab === 1 ? 'active' : ''}` &&
-                                    <>
-                                        {/* suppliers table */}
-                                        <div className="col-12">
-                                            <div class="card border-0  text-start">
-                                                <div class="card-body">
-                                                    <div className="row justify-content-between align-items-center g-2"
-                                                    >
-                                                        <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateSupplier(e)}><PlusCircle strokeWidth={1} />  Add Supplier</button></div>
-                                                        <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFiltersuppliers(e)} /></div>
+                                            </>
+                                        }
+                                        {`${activeTab === 1 ? 'active' : ''}` &&
+                                            <>
+                                                {/* suppliers table */}
+                                                <div className="col-12">
+                                                    <div className="card border-0  text-start">
+                                                        <div className="card-body">
+                                                            <div className="row justify-content-between align-items-center g-2"
+                                                            >
+                                                                <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateSupplier(e)}><PlusCircle strokeWidth={1} />  Add Supplier</button></div>
+                                                                <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFiltersuppliers(e)} /></div>
+                                                            </div>
+
+                                                            <DataTable
+                                                                columns={supplier_columns}
+                                                                data={supplierRecords}
+                                                                fixedHeader
+                                                                pagination
+                                                                className="custom-data-table"
+                                                            />
+                                                        </div>
                                                     </div>
-
-                                                    <DataTable
-                                                        columns={supplier_columns}
-                                                        data={supplierRecords}
-                                                        fixedHeader
-                                                        pagination
-                                                        className="custom-data-table"
-                                                    />
                                                 </div>
-                                            </div>
-                                        </div>
 
-                                    </>
-                                }
-                                {`${activeTab === 2 ? 'active' : ''}` &&
-                                    <>
-                                        {/* Employees table */}
-                                        <div className="col-12">
-                                            <div class="card border-0 text-start">
-                                                <div class="card-body">
-                                                    <div className="row justify-content-between align-items-center g-2"
-                                                    >
-                                                        <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateEmployee(e)}><PlusCircle strokeWidth={1} />  Add Employees</button></div>
-                                                        <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilteremployee(e)} /></div>
+                                            </>
+                                        }
+                                        {`${activeTab === 2 ? 'active' : ''}` &&
+                                            <>
+                                                {/* Employees table */}
+                                                <div className="col-12">
+                                                    <div className="card border-0 text-start">
+                                                        <div className="card-body">
+                                                            <div className="row justify-content-between align-items-center g-2"
+                                                            >
+                                                                <div className='col-3'><button className="btn text-primary py-1" onClick={(e) => openCreateEmployee(e)}><PlusCircle strokeWidth={1} />  Add Employees</button></div>
+                                                                <div className="text-end col-3"><input className='form-control form-control-sm rounded-4 h-75 ps-3' placeholder='Filter data' type="text" onChange={(e) => handleFilteremployee(e)} /></div>
+                                                            </div>
+
+                                                            <DataTable
+                                                                columns={employee_columns}
+                                                                data={employeeRecords}
+                                                                fixedHeader
+                                                                pagination
+                                                                className="custom-data-table"
+                                                            />
+                                                        </div>
                                                     </div>
-
-                                                    <DataTable
-                                                        columns={employee_columns}
-                                                        data={employeeRecords}
-                                                        fixedHeader
-                                                        pagination
-                                                        className="custom-data-table"
-                                                    />
                                                 </div>
-                                            </div>
-                                        </div>
-                                    </>
-                                }
-                            </div>
-                        </div>
+                                            </>
+                                        }
+                                    </div>
+                                </div>
+                            </>
+                        }
                     </div>
 
 
@@ -865,10 +864,12 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                         </div>
                     </div>
                 }
-                {/* Update employees */}
-                {updateEmployee &&
-                    <div className='updateOverlay'>
 
+
+
+                {/* Update employees */}
+                {/* {updateEmployee &&
+                    <div className='updateOverlay'>
                         <div className="card border-0 " style={{ width: '30vw' }}>
                             <div className="card-body">
                                 <div className="row d-flex justify-content-between">
@@ -924,11 +925,11 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                                         <div className="col-12 align-items-center mb-2">
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
-                                                    <div class="mb-3 form__div">
+                                                    <div className="mb-3 form__div">
                                                         <select
-                                                            class="form-select"
+                                                            className="form-select"
                                                             value={role}
-                                                             onChange={(e) =>setRole(e.target.value)}
+                                                            onChange={(e) => setRole(e.target.value)}
                                                         >
                                                             <option selected>Select one</option>
                                                             <option value="default">Member</option>
@@ -936,9 +937,9 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                                                             <option value="manager">Manager</option>
                                                             <option value="blocked">blocked</option>
                                                         </select>
-                                                        <label className="form__label text-start text-capitalize" style={{top:'-10px',left:'10px',fontSize:'12px'}}>Role</label>
+                                                        <label className="form__label text-start text-capitalize" style={{ top: '-10px', left: '10px', fontSize: '12px' }}>Role</label>
                                                     </div>
-                                                    
+
                                                 </div>
                                             </div>
                                         </div>
@@ -980,12 +981,12 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                                         </div>
                                     </div>
                                     {/* 
-                  <div className="form-check d-flex justify-content-center mb-5">
-                      <label className="form-check-label" for="form2Example3">
-                      I agree all statements in <a href="#!">Terms of service</a>
-                      </label>
-                  </div> */}
-
+                                        <div className="form-check d-flex justify-content-center mb-5">
+                                            <label className="form-check-label" for="form2Example3">
+                                            I agree all statements in <a href="#!">Terms of service</a>
+                                            </label>
+                                        </div>
+                                    }
                                     {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
                                     <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
                                         <button type="submit" className="btn btn-primary ">Submit</button>
@@ -994,7 +995,9 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                             </div>
                         </div>
                     </div>
-                }
+                } */}
+
+
                 {/* Update Supplier */}
                 {updateSupplier &&
                     <div className='updateOverlay'>
@@ -1239,10 +1242,10 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                                             <div className="form-outline  mb-0 col">
                                                 <div className="form__div m-1">
                                                     <select
-                                                        class="form-select"
+                                                        className="form-select"
                                                         value={role}
                                                         onChange={(e) => setRole(e.target.value)}>
-                                                        
+
                                                         <option value="menmber" selected>Member</option>
                                                         <option value="Manager">Manager</option>
                                                         <option value="admin">admin</option>

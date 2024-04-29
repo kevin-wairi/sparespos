@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import profile from '../../assets/images/profile.jpg'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencil, faImage, faXmark } from '@fortawesome/free-solid-svg-icons';
+import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons';
 import './UserProfile.css'
 
 function UserProfile({ user, updateUser, children }) {
@@ -64,18 +64,20 @@ function UserProfile({ user, updateUser, children }) {
                         >
                             <div className="col-12 text-start"><p className="fs-5 fw-bold">Basic Info  </p></div>
                             <div className="col-3">
-                                <div className="profile_img " style={{ height: '250px', width: '250px', position: 'relative' }}>
+                                <div className="profile_img " style={{ height: '250px', width: '250px' }}>
                                     <img className="img-fluid image_fluid rounded" src={user.img ? user.img : profile} alt="Title" />
-                                    <div className="float_btn p-0" >
-                                        <button className="btn" onClick={(e) => handleImageUpload(e)}><FontAwesomeIcon icon={faImage} /></button>
-                                    </div>
                                 </div>
-                                <div className='text-start  p-2' style={{width:'250px'}}><p className="m-0 text-capitalize">{user.firstname + " " + user.lastname}</p>
-                                        <p className='fw-bold text-capitalize' style={{ letterSpacing: '1px' }}>{user.role}</p>
-                                    </div>
+
+                                <div className="p-0 text-start" >
+                                    <button className="btn ps-0 text-primary" onClick={(e) => handleImageUpload(e)}>Change Profile Picture</button>
+                                </div>
+                                <div className='text-start  p-2' style={{ width: '250px' }}><p className="m-0 text-capitalize">{user.firstname + " " + user.lastname}</p>
+                                    <p className='fw-bold text-capitalize' style={{ letterSpacing: '1px' }}>{user.role}</p>
+                                </div>
                             </div>
                             <div className="col-8">
                                 <div className="card p-3 border-0">
+                                    <p className='text-start fw-bold'>Personal Details</p>
                                     <table className="table table-borderless text-start table-hover table-transparent" >
                                         <tbody>
                                             <tr>

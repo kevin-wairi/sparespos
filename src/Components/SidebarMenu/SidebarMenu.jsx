@@ -21,8 +21,8 @@ function SidebarMenu({ toggleSideNav, expandSideBar }) {
 
           <ul className="list-unstyled d-flex justify-content-start align-items-start flex-column  ps-3">
             <li className=" py-3 mb-3 d-flex justify-content-start align-items-end  gap-1 rounded" onClick={() => toggleSideNav()}>
-                <Package size={'35px'} />
-                {expandSideBar && <p className='m-0'>POS SYSTEM</p>}
+              <Package size={'35px'} />
+              {expandSideBar && <p className='m-0'>POS SYSTEM</p>}
             </li>
             <li className={`p-2  mb-3 d-flex justify-content-start align-items-end lh-1 gap-1  rounded  sidenav-icon ${isNavLinkActive('/') ? 'bg-cyan-300 text-white' : 'bg-cyan-500 text-cyan-100'}`} onClick={() => navigate('/')}>
               <Tag />
@@ -36,17 +36,17 @@ function SidebarMenu({ toggleSideNav, expandSideBar }) {
               <BarChart2 />
               {expandSideBar && <p className='m-0'>Dashboard</p>}
             </li>
-            <li className={`p-2 mb-3 d-flex justify-content-start align-items-end lh-1 gap-1  rounded  sidenav-icon ${isNavLinkActive('/inventory') ? 'bg-cyan-300 text-white' : 'bg-cyan-500 text-cyan-100'}`} onClick={() => navigate('/inventory')}>
-                <Server />
-                {expandSideBar && <p className='m-0'>Inventory</p>}
+            <li className={`p-2 mb-3 d-flex justify-content-start align-items-end lh-1 gap-1  rounded  sidenav-icon ${isNavLinkActive('/catalog') ? 'bg-cyan-300 text-white' : 'bg-cyan-500 text-cyan-100'}`} onClick={() => navigate('/catalog')}>
+              <Server />
+              {expandSideBar && <p className='m-0'>Catalog</p>}
             </li>
             <li className={`p-2   mb-3  d-flex justify-content-start align-items-end lh-1 gap-2  rounded  sidenav-icon ${isNavLinkActive('/users') ? 'bg-cyan-300 text-white' : 'bg-cyan-500 text-cyan-100'}`} onClick={() => navigate('/users')}>
-                <Users strokeWidth="2" />
-                {expandSideBar && <p className='m-0'>Users</p>}
+              <Users strokeWidth="2" />
+              {expandSideBar && <p className='m-0'>Users</p>}
             </li>
             <li className={`p-2  mb-3 d-flex justify-content-start align-items-end lh-1 gap-1  rounded  sidenav-icon ${isNavLinkActive('/settings') ? 'bg-cyan-300 text-white' : 'bg-cyan-500 text-cyan-100'}`} onClick={() => navigate('/settings')}>
-                <Settings />
-                {expandSideBar && <p className='m-0'>Settings</p>}
+              <Settings />
+              {expandSideBar && <p className='m-0'>Settings</p>}
             </li>
           </ul>
 

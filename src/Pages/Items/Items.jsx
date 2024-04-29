@@ -49,7 +49,7 @@ function Items({ user, items }) {
     setYearFiltered('')
   }
 
-  const filteredItems = items.filter((item) => {
+  const filteredItems = items?.filter((item) => {
     const spareCategory = item.category.category_name.toLowerCase();
     // const carMake = item.carMake.toLowerCase();
     // const carModel = item.carModel.toLowerCase();
@@ -197,7 +197,7 @@ function Items({ user, items }) {
     let time = new Date();
     console.log('time', time);
     setShowReciept(true)
-    setRecieptNo('BSPOS-' + (Math.round(time / 1000)))
+    setRecieptNo('SMPOS-' + (Math.round(time / 1000)))
     setRecieptDate(formatDate(time))
   }
 
@@ -226,7 +226,7 @@ function Items({ user, items }) {
 
 
   return (
-    <div className="wrapper" style={{ height: '100vh', width: '95vw' }}>
+    <div className="wrapper" style={{ height: '100vh', width: 'auto' }}>
 
       <div className="d-flex container-fluid justify-content-end p-0 " style={{ height: '100vh', width: '95vw' }}>
         {/* overall div */}
@@ -327,7 +327,7 @@ function Items({ user, items }) {
                             style={{ width: '50px', height: '50px', boxShadow: 'rgba(0, 0, 0, 0.15) 0px 2px 8px' }} >
                             <img
                               style={{ width: '100%', height: '100%', objectFit: 'contain' }}
-                              src={item.image}
+                              src={item.image_url}
                               className="img-fluid rounded p-1"
                               alt={item.title} />
                           </div>

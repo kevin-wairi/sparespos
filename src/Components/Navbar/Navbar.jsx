@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGear, faHouse, faSlash, faUser, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import profile from '../../assets/images/profile.jpg'
@@ -12,7 +12,7 @@ function Navbar({ sticky, openSidebar, user, setIsLogged, onLogout }) {
     const navigate = useNavigate()
     const location = useLocation()
     let pathname
-    if (location.pathname.length == 1) {
+    if (location.pathname.length === 1) {
         pathname = 'Dashboard'
     } else {
         pathname = location.pathname.slice(1);

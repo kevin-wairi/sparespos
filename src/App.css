@@ -216,7 +216,7 @@
 }
 
 .glass {
-  background-color: rgba(100, 120, 130, .6);
+  background-color: rgba(175, 222, 247, 0.6);
   backdrop-filter: blur(10px);
 }
 
@@ -224,4 +224,80 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.form_div {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  margin-bottom: 24px;
+  
+}
+
+.form-control {
+  width: 100%;
+  height: 45px;
+  font-size: 14px;
+  border: 1px solid #DADCE0;
+  background-color: #fff;
+  border-radius: 0;
+  outline: none;
+  padding: 2px;
+  background: none;
+  box-shadow: none;
+}
+
+.form_label {
+
+  margin: 0 10PX;
+  padding: 0 5PX;
+  position: absolute;
+  top: 10px;
+  color: #80868B;
+  background-color: #fff;
+  font-size: 16px;
+  transition: .3s;
+  text-transform: uppercase;
+}
+.form_div #form_control:focus{
+  outline: 0;
+}
+
+.form-control:focus+.form_label {
+  transform: translateY(-25PX);
+}
+
+.form-control:not(:placeholder-shown).form-control:not(:focus)+.form_label {
+  transform: translateY(-25PX);
+}
+
+.form-control:focus {
+  border: 1.5px solid #1A73E8;
+  box-shadow: none;
+}
+
+.box-shaddow-77 {
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+}
+.card_hover:hover { 
+  cursor: pointer;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
+}
+
+.red {
+  border: 1px solid red;
+}
+
+.overlayDiv{
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  position:fixed;
+  background-color: #ffffffd2;
+  backdrop-filter: blur(10px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
