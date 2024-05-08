@@ -1,19 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faWarehouse, faUser, faLinesLeaning, faGear } from '@fortawesome/free-solid-svg-icons';
-import { NavLink, useNavigate } from 'react-router-dom'
 import profileImg from '../../assets/images/profile.jpg'
 import back from '../../assets/images/bg.jpg'
 import './Dashboard.css'
 import Quotes from '../../Components/ArrayFiles/Quotes'
-import Navbar from '../../Components/Navbar/Navbar'
 
 function Dashboard({ children,user }) {
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
 
-  const navigate = useNavigate()
 
   // time function
   useEffect(() => {

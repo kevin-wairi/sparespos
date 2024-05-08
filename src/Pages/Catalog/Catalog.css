@@ -11,3 +11,10 @@
     justify-content: center;
     align-items: center;
 }
+
+.td_edit{
+    display: none;
+}
+tr:hover .td_edit{
+    display:inline;
+}

@@ -1,11 +1,13 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import './Signin.css'
 import { useNavigate, useLocation } from 'react-router-dom'
+import { UrlContext } from '../../Context/UrlProvider';
 
 function Signin({ onLogin, setIsLogged }) {
 
     const location = useLocation()
-    const pathname = location.pathname.slice(1);
+    const pathname = location.pathname.slice(1)
+    const apiUrl = useContext(UrlContext)
 
 
     const navigate = useNavigate();
@@ -17,9 +19,9 @@ function Signin({ onLogin, setIsLogged }) {
     //!Function to submit the login form
     function handleSubmit(e){
         e.preventDefault()
-        console.log('Okrr');
+        console.log('Okrr',apiUrl)
         
-        fetch('http://127.0.0.1:3000/login', {
+        fetch(apiUrl + '/login', {
             method: "POST",
             headers:{
                 "Content-Type": "application/json",

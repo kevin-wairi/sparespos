@@ -50,11 +50,11 @@ function Items({ user, items }) {
   }
 
   const filteredItems = items?.filter((item) => {
-    const spareCategory = item.category.category_name.toLowerCase();
+    const spareCategory = item.category?.name.toLowerCase();
     // const carMake = item.carMake.toLowerCase();
     // const carModel = item.carModel.toLowerCase();
 
-    const isCatFiltered = spareCategory.includes(catFiltered.toLowerCase());
+    const isCatFiltered = spareCategory?.includes(catFiltered.toLowerCase());
     // const isCarMakeMatch = carMake.includes(carMakeFiltered.toLowerCase());
     // const isCarModelMatch = carModel.includes(carModelFiltered.toLowerCase());
 

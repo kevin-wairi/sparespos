@@ -1,11 +1,150 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins&family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-.App {
-  text-align: center;
-  font-family: 'Poppins', sans-serif;
-  box-sizing: border-box;
-  box-shadow: none;
+.roboto-thin {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: normal;
 }
+
+.roboto-light {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.roboto-regular {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.roboto-medium {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.roboto-bold {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.roboto-black {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.roboto-thin-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.roboto-light-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.roboto-regular-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.roboto-medium-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.roboto-bold-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.roboto-black-italic {
+  font-family: "Roboto", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+.montserrat-thin {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-style: normal;
+}
+
+.montserrat-light {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+
+.montserrat-regular {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.montserrat-medium {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+
+.montserrat-bold {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.montserrat-black {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+}
+
+.montserrat-thin-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 100;
+  font-style: italic;
+}
+
+.montserrat-light-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 300;
+  font-style: italic;
+}
+
+.montserrat-regular-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.montserrat-medium-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 500;
+  font-style: italic;
+}
+
+.montserrat-bold-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
+
+.montserrat-black-italic {
+  font-family: "Montserrat", sans-serif;
+  font-weight: 900;
+  font-style: italic;
+}
+
 
 /* width */
 ::-webkit-scrollbar {
@@ -60,160 +199,125 @@
   background-color: #006064;
 }
 
-.text-cyan-50, .hover\:text-cyan-50:hover {
-  color: #e0f7fa;
-}
-.text-cyan-100, .hover\:text-cyan-100:hover {
-  color: #b2ebf2;
-}
-.text-cyan-200, .hover\:text-cyan-200:hover {
-  color: #80deea;
-}
-.text-cyan-300, .hover\:text-cyan-300:hover {
-  color: #4dd0e1;
-}
-.text-cyan-400, .hover\:text-cyan-400:hover {
-  color: #26c6da;
-}
-.text-cyan-500, .hover\:text-cyan-500:hover {
-  color: #00bcd4;
-}
-.text-cyan-600, .hover\:text-cyan-600:hover {
-  color: #00acc1;
-}
-.text-cyan-700, .hover\:text-cyan-700:hover {
-  color: #0097a7;
-}
-.text-cyan-800, .hover\:text-cyan-800:hover {
-  color: #00838f;
-}
-.text-cyan-900, .hover\:text-cyan-900:hover {
-  color: #006064;
+.bg-blue-700, .bg-blue-700:hover
+
+/* cyan
+blue-grey
+teal */
+
+
+.bg-blue-50, .hover\:bg-blue-50:hover {
+  background-color: rgb(239, 246, 255);
 }
 
-.bg-blue-gray-50, .hover\:bg-blue-gray-50:hover {
-  background-color: #eceff1;
+.bg-blue-100, .hover\:bg-blue-100:hover{
+  background-color: rgb(219, 234, 254);
 }
-.bg-blue-gray-100, .hover\:bg-blue-gray-100:hover {
-  background-color: #cfd8dc;
+
+.bg-blue-200, .hover\:bg-blue-200:hover {
+  background-color: rgb(191, 219, 254);
 }
-.bg-blue-gray-200, .hover\:bg-blue-gray-200:hover {
-  background-color: #b0bec5;
+
+.bg-blue-300, .hover\:bg-blue-300:hover {
+  background-color: rgb(147, 197, 253);
 }
-.bg-blue-gray-300, .hover\:bg-blue-gray-300:hover {
-  background-color: #90a4ae;
+
+.bg-blue-400, .hover\:bg-blue-400:hover {
+  background-color: rgb(96, 165, 250);
 }
-.bg-blue-gray-400, .hover\:bg-blue-gray-400:hover {
-  background-color: #78909c;
+
+.bg-blue-500, .hover\:bg-blue-500:hover  {
+  background-color: rgb(59, 130, 246);
 }
-.bg-blue-gray-500, .hover\:bg-blue-gray-500:hover {
-  background-color: #607d8b;
+
+.bg-blue-600, .hover\:bg-blue-600:hover {
+  background-color: rgb(37, 99, 235);
 }
-.bg-blue-gray-600, .hover\:bg-blue-gray-600:hover {
-  background-color: #546e7a;
+
+.bg-blue-700, .hover\:bg-blue-700:hover {
+  background-color: rgb(29, 78, 216);
 }
-.bg-blue-gray-700, .hover\:bg-blue-gray-700:hover {
-  background-color: #455a64;
+
+.bg-blue-800, .hover\:bg-blue-800:hover {
+  background-color: rgb(30, 64, 175);
 }
-.bg-blue-gray-800, .hover\:bg-blue-gray-800:hover {
-  background-color: #37474f;
+
+.bg-blue-900, .hover\:bg-blue-900:hover {
+  background-color: rgb(30, 58, 138);
 }
-.bg-blue-gray-900, .hover\:bg-blue-gray-900:hover {
-  background-color: #263238;
+
+.bg-blue-950, .hover\:bg-blue-950:hover {
+  background-color: rgb(23, 37, 84);
 }
 
 
-.text-blue-gray-50, .hover\:text-blue-gray-50:hover {
-  color: #eceff1;
-}
-.text-blue-gray-100, .hover\:text-blue-gray-100:hover {
-  color: #cfd8dc;
-}
-.text-blue-gray-200, .hover\:text-blue-gray-200:hover {
-  color: #b0bec5;
-}
-.text-blue-gray-300, .hover\:text-blue-gray-300:hover {
-  color: #90a4ae;
-}
-.text-blue-gray-400, .hover\:text-blue-gray-400:hover {
-  color: #78909c;
-}
-.text-blue-gray-500, .hover\:text-blue-gray-500:hover {
-  color: #607d8b;
-}
-.text-blue-gray-600, .hover\:text-blue-gray-600:hover {
-  color: #546e7a;
-}
-.text-blue-gray-700, .hover\:text-blue-gray-700:hover {
-  color: #455a64;
-}
-.text-blue-gray-800, .hover\:text-blue-gray-800:hover {
-  color: #37474f;
-}
-.text-blue-gray-900, .hover\:text-blue-gray-900:hover {
-  color: #263238;
-}
-.bg-teal-50, .hover\:bg-teal-50:hover {
-  background-color: #e0f2f1;
-}
-.bg-teal-100, .hover\:bg-teal-100:hover {
-  background-color: #b2dfdb;
-}
-.bg-teal-200, .hover\:bg-teal-200:hover {
-  background-color: #80cbc4;
-}
-.bg-teal-300, .hover\:bg-teal-300:hover {
-  background-color: #4db6ac;
-}
-.bg-teal-400, .hover\:bg-teal-400:hover {
-  background-color: #26a69a;
-}
-.bg-teal-500, .hover\:bg-teal-500:hover {
-  background-color: #009688;
-}
-.bg-teal-600, .hover\:bg-teal-600:hover {
-  background-color: #00897b;
-}
-.bg-teal-700, .hover\:bg-teal-700:hover {
-  background-color: #00796b;
-}
-.bg-teal-800, .hover\:bg-teal-800:hover {
-  background-color: #00695c;
-}
-.bg-teal-900, .hover\:bg-teal-900:hover {
-  background-color: #004d40;
+.bg-snow-white-100, .hover\:bg-snow-white-100:hover {
+  background-color: rgba(245, 243, 239, 0.7);
 }
 
-.text-teal-50, .hover\:text-teal-50:hover {
-  color: #e0f2f1;
+.bg-snow-white-200, .hover\:bg-snow-white-200:hover {
+  background-color: rgba(246, 245, 241, 0.7);
 }
-.text-teal-100, .hover\:text-teal-100:hover {
-  color: #b2dfdb;
+
+.bg-snow-white-300, .hover\:bg-snow-white-300:hover {
+  background-color: rgba(247, 246, 243, 0.7);
 }
-.text-teal-200, .hover\:text-teal-200:hover {
-  color: #80cbc4;
+
+.bg-snow-white-400, .hover\:bg-snow-white-400:hover {
+  background-color: rgba(249, 248, 245, 0.7);
 }
-.text-teal-300, .hover\:text-teal-300:hover {
-  color: #4db6ac;
+
+.bg-snow-white-500, .hover\:bg-snow-white-500:hover {
+  background-color: rgba(250, 249, 247, 0.7);
 }
-.text-teal-400, .hover\:text-teal-400:hover {
-  color: #26a69a;
+
+.bg-snow-white-600, .hover\:bg-snow-white-600:hover {
+  background-color: rgba(251, 251, 249, 0.7);
 }
-.text-teal-500, .hover\:text-teal-500:hover {
-  color: #009688;
+
+.bg-snow-white-700, .hover\:bg-snow-white-700:hover {
+  background-color: rgba(252, 252, 251, 0.7);
 }
-.text-teal-600, .hover\:text-teal-600:hover {
-  color: #00897b;
+
+.bg-snow-white-800, .hover\:bg-snow-white-800:hover {
+  background-color: rgba(254, 254, 253, 0.7);
 }
-.text-teal-700, .hover\:text-teal-700:hover {
-  color: #00796b;
+
+
+/* Define CSS classes based on color and weight */
+.bg-grey-50, .hover\:bg-grey-50:hover {
+  background-color: #B3B3B3;
 }
-.text-teal-800, .hover\:text-teal-800:hover {
-  color: #00695c;
+
+.bg-grey-100, .hover\:bg-grey-100:hover {
+  background-color: #ADADAD;
 }
-.text-teal-900, .hover\:text-teal-900:hover {
-  color: #004d40;
+
+.bg-grey-200, .hover\:bg-grey-200:hover {
+  background-color: #A6A6A6;
 }
+
+.bg-grey-300, .hover\:bg-grey-300:hover {
+  background-color: #A0A0A0;
+}
+
+.bg-grey-400, .hover\:bg-grey-400:hover {
+  background-color: #9A9A9A;
+}
+
+.bg-grey-500, .hover\:bg-grey-500:hover {
+  background-color: #939393;
+}
+
+.bg-grey-600, .hover\:bg-grey-600:hover {
+  background-color: #8D8D8D;
+}
+
+.bg-grey-700, .hover\:bg-grey-700:hover {
+  background-color: #868686;
+}
+
+
 
 .glass {
   background-color: rgba(175, 222, 247, 0.6);
@@ -284,6 +388,9 @@
   box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px, rgb(209, 213, 219) 0px 0px 0px 1px inset;
 }
 
+.cursor{
+  cursor: pointer;
+}
 .red {
   border: 1px solid red;
 }

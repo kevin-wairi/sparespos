@@ -44,9 +44,6 @@ function Navbar({ sticky, openSidebar, user, setIsLogged, onLogout }) {
                             <p className="navbar-brand  p-0 lh-1 m-0 text-capitalize">{pathname}</p>
                         </div>
                     </div>
-                    {/* <button className="navbar-toggler border-0" type="button" onClick={()=>openSidebar()}>
-                    <span className="navbar-toggler-icon"></span>
-                    </button> */}
                     <div className="col-md-5 col-4 d-flex justify-content-end">
                         <div className="btn-group d-flex justify-content-end align-items-center gap-2 m-0  ">
                             <div onClick={() => navigate('/user_profile')}><FontAwesomeIcon icon={faGear} /></div>

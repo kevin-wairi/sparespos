@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import Navbar from '../../Components/Navbar/Navbar'
-import { Trash2, Edit, X, PlusCircle, Search } from 'react-feather';
+import { Trash2, Edit, X, PlusCircle } from 'react-feather';
 import DataTable from 'react-data-table-component';
 import './Users.css'
 import SingleUser from './SingleUser/SingleUser';
@@ -22,9 +21,9 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
     const [firstname, setFirstname] = useState("")
     const [lastname, setLastname] = useState("")
     const [business_name, setBusiness_name] = useState('')
+    const [phone_number, setPhone_number] = useState('')
     const [role, setRole] = useState('')
     const [office_phone, setOffice_phone] = useState('')
-    const [phone_number, setPhone_number] = useState('')
     const [createEmployee, setCreateEmployee] = useState(false)
     const [createSupplier, setCreateSupplier] = useState(false)
     const [company_name, setCompany_name] = useState('')
@@ -327,49 +326,7 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
             });
     }
 
-    //!Create Supplier
-    function handleCreateSupplier(e) {
-        e.preventDefault()
-        console.log('STARRT');
-        if (lastname === '' || firstname === '' || company_name === '' || phone_number === "") {
-            setError('Please fill out all fields');
-            return;
-        } else if (password !== password_confirmation) {
-            setError('Passwords do not match');
-            return;
-        }
-        console.log('CONT...');
-        // const token = sessionStorage.getItem("jwt");
-        // const user_id = sessionStorage.getItem("user_id");
-        setError('');
-        fetch('http://127.0.0.1:3000/suppliers', {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            //Authorization: `Bearer ${token}`,
-            body: JSON.stringify({
-                firstname,
-                lastname,
-                company_name,
-                email,
-                phone_number
-            })
-        })
-            .then(resp => {
-                if (!resp.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return resp.json()
-            })
-            .then((newUser) => {
-                setAllSuppliers(() => [...allSuppliers, newUser])
-                closeCreateUser(e)
-            })
-            .catch(error => {
-                console.error('Error updating user:', error);
-            });
-    }
+  
 
     // !closes create_customer_overlay
     const closeCreateUser = (e) => {
@@ -403,11 +360,9 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
         setUpdateCustomer(true)
     }
 
-    const viewEmployee = (e, user) => {
-        e.preventDefault()
+    const viewEmployee = (user) => {
         setAltEmployee(user)
         setUpdateEmployee(true)
-
     }
 
     const openSupplierOverlay = (e, user) => {
@@ -647,9 +602,6 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                 <div
                     className="row justify-content-center align-items-center g-2"
                 >
-                    <div className="col-12">
-                        <Navbar />
-                    </div>
                     <div className="col-12 border border-danger">
                         {updateEmployee ?
                             <>
@@ -1001,7 +953,6 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                 {/* Update Supplier */}
                 {updateSupplier &&
                     <div className='updateOverlay'>
-
                         <div className="card border-0 " style={{ width: '30vw' }}>
                             <div className="card-body">
                                 <div className="row d-flex justify-content-between">
@@ -1165,12 +1116,7 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
 
 
 
-                                    {/* 
-                  <div className="form-check d-flex justify-content-center mb-5">
-                      <label className="form-check-label" for="form2Example3">
-                      I agree all statements in <a href="#!">Terms of service</a>
-                      </label>
-                  </div> */}
+                  
 
                                     {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
                                     <div className="d-flex justify-content-center mx-4 mb-3 mb-lg-4 pb-md-4 pb-sm-2 ">
@@ -1292,12 +1238,7 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                                             </div>
                                         </div>
                                     </div>
-                                    {/* 
-                  <div className="form-check d-flex justify-content-center mb-5">
-                      <label className="form-check-label" for="form2Example3">
-                      I agree all statements in <a href="#!">Terms of service</a>
-                      </label>
-                  </div> */}
+                
 
                                     {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
                                     <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
@@ -1312,83 +1253,7 @@ function Users({ allCustomers, setAllCustomers, employees, setEmployees, setAllS
                 {createSupplier &&
                     <div className='createUserOverlay'>
 
-                        <div className="card border-0 " style={{ width: '30vw' }}>
-                            <div className="card-body">
-                                <div className="row d-flex justify-content-between">
-                                    <div className="col-6 m-0">
-                                        <p className='fw-bold text-start'>Add Supplier</p>
-                                    </div>
-                                    <div className="col-2  ">
-                                        <button className='btn py-0' onClick={(e) => openCreateSupplier(e)}>
-                                            <X size={30} />
-                                        </button>
-                                    </div>
-                                </div>
-                                <form className="col mx-auto" onSubmit={(e) => handleCreateSupplier(e)}>
-                                    <div className="row justify-content-center align-items-center g-2">
-                                        <div className=" col-6 align-items-center  mb-3">
-                                            <div className="form-outline  mb-0 col">
-                                                <div className="form__div m-1">
-                                                    <input type="text" className="form-control rounded" value={firstname} onChange={(e) => setFirstname(e.target.value)} />
-                                                    <label className="form__label text-start text-capitalize" >First Name</label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div className="col-6 align-items-center  mb-3">
-                                            <div className="form-outline  mb-0 col">
-                                                <div className="form__div m-1">
-                                                    <input type="text" className="form-control rounded" value={lastname} onChange={(e) => setLastname(e.target.value)} />
-                                                    <label className="form__label text-start text-capitalize" >Last Name</label>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="align-items-center  mb-3">
-                                        <div className="form-outline  mb-0 col">
-                                            <div className="form__div m-1">
-                                                <input type="text" className="form-control rounded" value={company_name} onChange={(e) => setCompany_name(e.target.value)} />
-                                                <label className="form__label text-start text-capitalize" >Company Name</label>
-                                            </div>
-
-                                        </div>
-                                    </div>
-
-                                    <div className="row justify-content-center align-items-center g-2">
-                                        <div className="col-12 align-items-center mb-2">
-                                            <div className="form-outline  mb-0 col">
-                                                <div className="form__div m-1">
-                                                    <input type="email" className="form-control rounded" value={email} onChange={(e) => setEmail(e.target.value)} />
-                                                    <label className="form__label text-start text-capitalize" >Email</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="row justify-content-center align-items-center g-2">
-                                        <div className="col-12 align-items-center  mb-3">
-                                            <div className="form-outline  mb-0 col">
-                                                <div className="form__div m-1">
-                                                    <input type="tel" className="form-control rounded" value={phone_number} onChange={(e) => setPhone_number(e.target.value)} />
-                                                    <label className="form__label text-start text-capitalize" >Phone Number</label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {/* 
-                  <div className="form-check d-flex justify-content-center mb-5">
-                      <label className="form-check-label" for="form2Example3">
-                      I agree all statements in <a href="#!">Terms of service</a>
-                      </label>
-                  </div> */}
-
-                                    {error && <div className='text-danger align-text-center  col-6 mx-auto'>{error}</div>}
-                                    <div className="d-flex justify-content-center mx-4  mb-lg-4 pb-sm-2 ">
-                                        <button type="submit" className="btn btn-primary ">Submit</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+                        
                     </div>
                 }
             </div>
