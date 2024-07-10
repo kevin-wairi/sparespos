@@ -3,11 +3,17 @@ import profileImg from '../../assets/images/profile.jpg'
 import back from '../../assets/images/bg.jpg'
 import './Dashboard.css'
 import Quotes from '../../Components/ArrayFiles/Quotes'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileInvoiceDollar, faMoneyBill, faCubesStacked, faArrowUpRightDots, faCubes, faHandshake, faDolly } from '@fortawesome/free-solid-svg-icons';
 
-function Dashboard({ children,user }) {
+
+function Dashboard({ children, user, productTypes, products, newWeekCustomers }) {
+
+
 
   const [currentQuoteIndex, setCurrentQuoteIndex] = useState(0);
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
+  const [newWeekCustomerCount, setnewWeekCustomerCount] = useState()
 
 
   // time function
@@ -33,21 +39,215 @@ function Dashboard({ children,user }) {
     return () => clearInterval(intervalId);
   }, [currentQuoteIndex, Quotes]);
 
+  const zeroQuantityProducts = products.filter(product => parseInt(product.quantity) === 0).length || 0;
+
+  const LowQuantityProducts = products.filter(product => parseInt(product.quantity) <= parseInt(product.restock_level)).length || 0;
+
+  useEffect(() => {
+  const count = newWeekCustomers.length || 0
+  setnewWeekCustomerCount(count)
+  }, [newWeekCustomers])
+  
+
+  
 
   return (
-    <div className="wrapper">
-      <div className="container-fluid bg-cyan-500 p-0 d-flex justify-content-end align-items-end" style={{ height: '100vh' }}>
-
-        <div className="row justify-content-center align-items-start bg-white ps-3  m-0   g-2" style={{ height: '98vh', width: '94vw', borderRadius: '30px 0 0 0 ' }}>
-          <div className="col-12">
+    <div className="wrapper h-100 w-100 overflow-y-scroll">
+      <div className="container-fluid   h-100 w-100">
+        <div className="row justify-content-center align-items-start bg-white me-0 ms-3 my-3  h-100 w-100" style={{ borderRadius: '30px 0 0 0 ' }}>
+          <div className="col-12 p-0 m-0">
             {children}
           </div>
-          <div className="col-lg-8 ">
+          <div className="col-12">
+            <div className="row justify-content-between align-items-center g-2">
+              <div className="col-sm-3 col-6">
+                <div className="card text-start">
+                  <div className="card-body p-2">
+                    <h3 className="m-0 card-text"><FontAwesomeIcon icon={faMoneyBill} /></h3>
+                    <p className="card-text m-0">Gross Revenue</p>
+                    <h5 className="card-text">11,000</h5>
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-3 col-6">
+                <div className="card text-start">
+                  <div className="card-body p-2">
+                    <h3 className="m-0 card-text"><FontAwesomeIcon icon={faFileInvoiceDollar} /></h3>
+                    <p className="card-text m-0">Require Invoice</p>
+                    <h5 className="card-text">11</h5>
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-3 col-6">
+                <div className="card text-start">
+                  <div className="card-body p-2">
+                    <h3 className="card-text m-0"><FontAwesomeIcon icon={faHandshake} /></h3>
+                    <p className="card-text m-0">Total Sold</p>
+                    <h5 className="card-text">11</h5>
+                  </div>
+                </div>
+              </div>
+              <div className="col-sm-3 col-6">
+                <div className="card text-start">
+                  <div className="card-body p-2">
+                    <h3 className="card-text m-0"><FontAwesomeIcon icon={faHandshake} /></h3>
+                    <p className="card-text m-0">New Customers</p>
+                  
+                      <div >
+                        <h5 className="card-text">{newWeekCustomerCount}</h5>
+                      </div>
+                    
+
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+          <div className="col-12 ">
+            <div className="card text-start ">
+              <div className="card-body">
+                <div className="row justify-content-around align-items-center g-2">
+
+                  <div className='col-md-3 col-sm-6 col-12'>
+                    <div className="d-flex justify-content-start align-items-start gap-2 g-2">
+                      <div>
+                        <FontAwesomeIcon icon={faCubesStacked} style={{ height: '5vh' }} />
+                      </div>
+                      <div>
+                        <p className="card-text text-muted">Out of stock</p>
+                        <p className="card-text">
+                          {
+                            zeroQuantityProducts
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className='col-md-3 col-sm-6 col-12 card_before'>
+                    <div className="d-flex justify-content-start align-items-start gap-2 g-2">
+                      <div>
+                        <FontAwesomeIcon icon={faCubes} style={{ height: '5vh' }} />
+                      </div>
+                      <div>
+                        <p className="card-text text-muted">Low in stock</p>
+                        <p className="card-text">
+                          {
+                            LowQuantityProducts
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='col-md-3 col-sm-6 col-12 card_before'>
+                    <div className="d-flex justify-content-start align-items-start gap-2 g-2">
+                      <div>
+                        <FontAwesomeIcon icon={faArrowUpRightDots} style={{ height: '5vh' }} />
+                      </div>
+                      <div>
+                        <p className="card-text text-muted">Highest Selling</p>
+                        <p className="card-text">4</p>
+                      </div>
+                    </div>
+                  </div>
+                  <div className='col-md-3 col-sm-6 col-12 card_before'>
+                    <div className="d-flex justify-content-start align-items-start gap-2 g-2">
+                      <div>
+                        <FontAwesomeIcon icon={faDolly} style={{ height: '5vh' }} />
+                      </div>
+                      <div>
+                        <p className="card-text text-muted">New Products</p>
+                        <p className="card-text">4</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          
+          <div className="col-md-4 col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Recent Invoices</h5>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-8 col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Analytics</h5>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-8 col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Most Selling Product</h5>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4 col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Stock History</h5>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-4 col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Stock Alert</h5>
+                <div className="table-responsive ">
+                  <table
+                    className="table"
+                  >
+                    <thead>
+                      <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {productTypes && productTypes.map((type) => {
+                        const totalQuantity = type.products?.reduce((acc, product) => acc + product.quantity, 0) || 0;
+                        return (
+                          <tr >
+                            <td >{type.name}</td>
+                            <td>{totalQuantity}</td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div className="col-md-8 col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Sales and Purchase</h5>
+              </div>
+            </div>
+          </div>
+          <div className="col-12">
+            <div className="card text-start">
+              <div className="card-body">
+                <h5 className="card-text">Total Earnings by Item Types</h5>
+              </div>
+            </div>
+          </div>
+          {/* <div className="col-lg-8 red">
             <section>
               <div
                 className="row justify-content-center align-items-start g-2"
               >
-                <div className="col-lg-4 ">
+                <div className="col-lg-4 red">
                   <div className="card text-start border-0"
                     style={{ boxShadow: ' rgba(0, 0, 0, 0.25) 0px 25px 50px -12px' }}>
                     <div className="card-body p-0 "
@@ -171,8 +371,8 @@ function Dashboard({ children,user }) {
               </div>
 
             </section>
-          </div>
-          <div className="col-lg-4  -danger">
+          </div> */}
+          {/* <div className="col-lg-4  -danger">
             <section>
               <div
                 className="row justify-content-center align-items-center g-2"
@@ -199,7 +399,7 @@ function Dashboard({ children,user }) {
               </div>
 
             </section>
-          </div>
+          </div> */}
         </div>
 
       </div>

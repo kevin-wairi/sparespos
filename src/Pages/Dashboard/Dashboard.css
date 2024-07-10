@@ -2,3 +2,19 @@
     background-color: #219ffe;
     color: white;
 }
+
+.card_before {
+    position: relative;
+      }
+
+  @media (min-width: 768px) { 
+  .card_before::before {
+    content: '';
+    position: absolute;
+    left: -10%;
+    top: 0;
+    height: 100%; /* Full height of the card_before */
+    width: 2px; /* Thickness of the vertical line */
+    background-color: black; /* Color of the vertical line */
+  }
+}

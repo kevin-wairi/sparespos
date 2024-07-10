@@ -1,34 +1,34 @@
 import React, { useContext, useState } from 'react'
 import { UrlContext } from '../../Context/UrlProvider';
 import toast, { Toaster } from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faX } from '@fortawesome/free-solid-svg-icons';
 
-function CreateCategory({ allCat, setAllCat,productTypes }) {
+function CreateCategory({ allCat, setAllCat, productTypes, handleCreateCatCollapse }) {
 
     const apiUrl = useContext(UrlContext)
 
+    const [type, setType] = useState('')
+
     const [categoryName, setCategoryName] = useState('');
     const [catDescription, setCatDescription] = useState('');
-    const [productType, setProductType] = useState('')
 
     // !Add Category
     const handleCat = (e) => {
         e.preventDefault();
-        if (categoryName === '') {
-            return
-        }
         const token = sessionStorage.getItem("jwt");
 
         const promise = new Promise((resolve, reject) => {
             fetch(apiUrl + '/categories', {
                 method: 'POST',
                 headers: {
-                    "Content-Type": "application/json",
+                    "Content-type": "application/json",
                     Authorization: `Bearer ${token}`,
                 },
                 body: JSON.stringify({
                     name: categoryName,
                     description: catDescription,
-                    product_type_id: productType
+                    product_type_id: type
                 })
             })
                 .then(resp => {
@@ -43,7 +43,7 @@ function CreateCategory({ allCat, setAllCat,productTypes }) {
                     resolve()
                     setCategoryName('')
                     setCatDescription('')
-                    // navigate('/settings/brands')
+                    handleCreateCatCollapse()
                 })
                 .catch((error) => {
                     console.error('Fetch error:', error);
@@ -62,29 +62,28 @@ function CreateCategory({ allCat, setAllCat,productTypes }) {
 
 
     return (
-        <div className="container-fluid" >
+        <div className="container-fluid" style={{ width: '100%', height: '100%' }}>
             <Toaster />
-            <div className=" card text-start border-0 m-0">
+
+            <div className=" card text-start border-0">
                 <div className="card-body">
-                    <div className="row justify-content-start  align-items-center g-2">
-                        <div className="col-12">
-                            <h5 className='fw-bold'>Create Category</h5>
+                    <div className="row d-flex justify-content-center align-items-center">
+                        <div className="col-8 text-center">
+                            <h5 className='fw-bold'>Add Category</h5>
                         </div>
                     </div>
                     <form onSubmit={(e) => handleCat(e)}>
-                    <div className="mb-3">
-                    <label for="" className="form-label">Select  Type</label>
+                        <div className="mb-3">
+                            <label for="" className="form-label">Select Product Type</label>
                             <select
                                 className="form-select"
-                                onChange={(e) => setProductType(e.target.value)}
-                                value={productType}>
+                                onChange={(e) => setType(e.target.value)}
+                                value={type}>
                                 <option value="" disabled selected>Select one</option>
-                                {productTypes && productTypes.map((type) => {
+                                {productTypes && productTypes.map((t) => {
                                     return (
-                                        <option value={type.id}>{type.name}</option>
-                                    )
+                                        <option value={t.id}>{t.name}</option>)
                                 })}
-
                             </select>
                         </div>
                         <div className="mb-3">
@@ -93,15 +92,16 @@ function CreateCategory({ allCat, setAllCat,productTypes }) {
                         </div>
                         <div className="mb-3">
                             <label for="" className="form-label">Description <small className='text-warning' >(optional)</small></label>
-                            <textarea value={catDescription} onChange={(e) => setCatDescription(e.target.value)} className="form-control" maxlength="50" placeholder="Enter a description for this brand that your staff will find useful." style={{ height: '100px', fontSize: '13px' }} ></textarea>
+                            <textarea value={catDescription} onChange={(e) => setCatDescription(e.target.value)} className="form-control" maxlength="50" placeholder="Enter a description for this sub category that your staff will find useful." style={{ height: '100px', fontSize: '13px' }} ></textarea>
                             <small id="helpId" className="form-text text-muted">50 character limit</small>
                         </div>
                         <div className="mb-3">
-                            <div className='d-flex'><button type='submit' className="btn btn-primary flex-fill">Add Brand</button></div>
+                            <div className='d-flex'><button type='submit' className="btn btn-primary flex-fill">Submit</button></div>
                         </div>
                     </form>
                 </div>
             </div>
+
         </div>
     )
 }

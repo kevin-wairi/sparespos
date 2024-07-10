@@ -3,7 +3,7 @@ import './Account.css'
 import Swal from 'sweetalert2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCircleDollarToSlot } from '@fortawesome/free-solid-svg-icons';
-import {  Outlet, useLocation } from 'react-router-dom'
+import { Outlet, useLocation } from 'react-router-dom'
 import Navbar from '../../Components/Navbar/Navbar';
 
 function Account({ stock, updateStock, openSidebar, cartCount, user, setIsLogged, onLogout, setCartItems, allCat }) {
@@ -112,79 +112,80 @@ function Account({ stock, updateStock, openSidebar, cartCount, user, setIsLogged
   }
 
   return (
-    <div className="wrapper h-100 overflow-y-scroll" style={{ width: '95vw' }}>
-      <div className="row justify-content-center align-items-center g-2 my-3 mx-2  ">
-        <div className="col-12  profile-bg rounded d-flex justify-content-center" style={{ minHeight: '250px' }}>
-          <div className="container-fluid m-0  align-items-start w-100vw row ">
-            <div className="row justify-content-center align-items-center g-2" >
-              <div className="col-12 glass rounded-4">
-                <Navbar />
+    <div className="wrapper h-100 w-100 overflow-y-scroll p-3">
+      <div className="container-fluid">
+        <div className="row justify-content-center align-items-center">
+          <div className="col-12  profile-bg rounded d-flex justify-content-center" style={{ minHeight: '250px' }}>
+            <div className="container-fluid m-0  align-items-start w-100vw row ">
+              <div className="row justify-content-center align-items-center g-2" >
+                <div className="col-12 glass rounded-4">
+                  <Navbar />
+                </div>
               </div>
-            </div>
 
+            </div>
           </div>
         </div>
+        <div className="row justify-content-center align-items-center g-2 my-5 mx-1">
+          <div className="col-lg-3 col-md-6 col-12">
+            <div className="card border-0">
+              <div className="card-body d-flex p-2">
+                <div className="col-8">
+                  <p className='m-0'>Todays Sales</p>
+                  <p className='m-0'>Ksh. 34577</p>
+                </div>
+                <div className="col-4">
+                  <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-12">
+            <div className="card border-0">
+              <div className="card-body d-flex p-2">
+                <div className="col-8">
+                  <p className='m-0'>Todas users</p>
+                  <p className='m-0'>Ksh. 34577</p>
+                </div>
+                <div className="col-4">
+                  <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-12">
+            <div className="card border-0">
+              <div className="card-body d-flex p-2">
+                <div className="col-8">
+                  <p className='m-0'>New Clients</p>
+                  <p className='m-0'>Ksh. 34577</p>
+                </div>
+                <div className="col-4">
+                  <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="col-lg-3 col-md-6 col-12">
+            <div className="card border-0">
+              <div className="card-body d-flex p-2">
+                <div className="col-8">
+                  <p className='m-0'>Sales</p>
+                  <p className='m-0'>Ksh. 34577</p>
+                </div>
+                <div className="col-4">
+                  <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row d-flex m-0">
+          <Outlet />
+        </div>
+
       </div>
-      <div className="row justify-content-center align-items-center g-2 my-5 mx-1">
-        <div className="col-lg-3 col-md-6 col-12">
-          <div className="card border-0">
-            <div className="card-body d-flex p-2">
-              <div className="col-8">
-                <p className='m-0'>Todays Sales</p>
-                <p className='m-0'>Ksh. 34577</p>
-              </div>
-              <div className="col-4">
-                <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-md-6 col-12">
-          <div className="card border-0">
-            <div className="card-body d-flex p-2">
-              <div className="col-8">
-                <p className='m-0'>Todas users</p>
-                <p className='m-0'>Ksh. 34577</p>
-              </div>
-              <div className="col-4">
-                <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-md-6 col-12">
-          <div className="card border-0">
-            <div className="card-body d-flex p-2">
-              <div className="col-8">
-                <p className='m-0'>New Clients</p>
-                <p className='m-0'>Ksh. 34577</p>
-              </div>
-              <div className="col-4">
-                <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-md-6 col-12">
-          <div className="card border-0">
-            <div className="card-body d-flex p-2">
-              <div className="col-8">
-                <p className='m-0'>Sales</p>
-                <p className='m-0'>Ksh. 34577</p>
-              </div>
-              <div className="col-4">
-                <div className="btn border"><FontAwesomeIcon icon={faCircleDollarToSlot} style={{ color: "#000000", }} /></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="row d-flex m-0">
-        <Outlet />
-      </div>
-
-
     </div>
   )
 }

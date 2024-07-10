@@ -9,10 +9,9 @@ function Catalog() {
 
 
     return (
-        <div className="wrapper">
-            <div className="container-fluid p-0 overflow-y-scroll " style={{ height: '100vh', width: '100%' }}>
-                <div className="row justify-content-end align-items-center g-2 m-0"
-                >
+        <div className="wrapper h-100 w-100 overflow-y-scroll">
+            <div className="container-fluid p-0 ">
+                <div className="row justify-content-end align-items-center g-2 m-0 px-5">
                     <div style={{ width: '93vw' }}>
                         <Navbar />
                     </div>

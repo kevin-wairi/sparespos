@@ -3,7 +3,7 @@ import './Signin.css'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { UrlContext } from '../../Context/UrlProvider';
 
-function Signin({ onLogin, setIsLogged }) {
+function Signin({ setCurrentUser, setIsLogged }) {
 
     const location = useLocation()
     const pathname = location.pathname.slice(1)
@@ -28,14 +28,14 @@ function Signin({ onLogin, setIsLogged }) {
                 Accepts: "application/json",
             },
             body: JSON.stringify({
-                username,
-                password
+                username: username.toLowerCase(),
+                password: password.toLowerCase()
             })
         }
         ).then(resp => resp.json())
         .then(data => {
-            console.log('DATA', data);
-            onLogin(data.user);
+            console.log('currentUser', data);
+            setCurrentUser(()=>data.user);
             setIsLogged(true)
             sessionStorage.setItem('jwt',data.jwt);
             sessionStorage.setItem('user_id', data.user.id);
@@ -51,7 +51,7 @@ function Signin({ onLogin, setIsLogged }) {
 
     return (
         <div className="wrapper">
-            <div className="container-fliud bg-blue-gray-300" >
+            <div className="container-fliud" >
                 <div className="d-flex justify-content-center align-items-center" style={{ height: '100vh' }}>
                     <div className="p-3 signin_section  d-flex flex-column justify-content-center align-items-center" style={{ height: '50vh', width: '35vw' }}>
                         <p className='fs-3  m-0'>Get started Today</p>

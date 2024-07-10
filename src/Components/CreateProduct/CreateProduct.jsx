@@ -1,32 +1,77 @@
 import React, { useState, useEffect, useContext } from 'react'
 import { FileUploader } from "react-drag-drop-files";
-import { useQuill } from 'react-quilljs';
-import 'quill/dist/quill.snow.css';
-import { useNavigate } from 'react-router';
 import { UrlContext } from '../../Context/UrlProvider';
+import Navbar from '../Navbar/Navbar';
+import { useNavigate } from 'react-router';
+import CreateCategory from '../CreateCategory/CreateCategory';
+import CreateBrand from '../CreateBrand/CreateBrand';
+import { Plus, X } from 'react-feather';
+import CreateSupplier from '../CreateSupplier/CreateSupplier';
 
-function CreateProduct({ brands, allSuppliers, allCat, productTypes }) {
+function CreateProduct({ brands, setBrands, allSuppliers, setAllSuppliers, allCat, setAllCat, productTypes, products, setProducts }) {
 
-    const navigate = useNavigate()
     const apiUrl = useContext(UrlContext)
+    const navigate = useNavigate()
 
-    const [description, setDescription] = useState('')
-    const [file, setFile] = useState(null);
+    const [type, setType] = useState('')
+
     const [selectedFile, setSelectedFile] = useState('');
-    const [retailPrice, setRetailPrice] = useState('')
+    const [sellingPrice, setsellingPrice] = useState('')
     const [productType, setProductType] = useState('')
     const [quantity, setQuantity] = useState('')
     const [category, setCategory] = useState('')
     const [filteredCat, setFilteredCat] = useState([])
     const [title, setTitle] = useState('')
     const [supplier, setSupplier] = useState('');
-    const [wholesalePrice, setWholesalePrice] = useState('');
+    const [buyingPrice, setbuyingPrice] = useState('');
     const [reOrderLevel, setReOrderLevel] = useState('');
     const [reOrderQuantity, setReOrderQuantity] = useState('');
-    const [productStatus, setProductStatus] = useState(false);
-    const [brandName, setBrandName] = useState(null);
+    const [productStatus, setProductStatus] = useState(true);
+    const [brand_id, setBrand_id] = useState(null);
     const [sku, setSku] = useState('');
     const [productError, setProductError] = useState('')
+    const [expandCatForm, setExpandCatForm] = useState(false)
+    const [expandBrandForm, setExpandBrandForm] = useState(false)
+    const [profit, setProfit] = useState(0)
+    const [profitMargin, setProfitMargin] = useState(0)
+    const [skuCat, setskuCat] = useState('')
+    const [skuBrand, setskuBrand] = useState('')
+    const [skuType, setskuType] = useState('')
+
+    const [expandSupplierForm, setexpandSupplierForm] = useState()
+
+    useEffect(() => {
+        if (allCat.length === 0) return;
+        setExpandCatForm(false)
+    }, [allCat])
+
+    useEffect(() => {
+        if (brands.length === 0) return;
+        setExpandBrandForm(false)
+    }, [brands])
+
+    // !set product_type
+    const handleType = (e) => {
+        console.log(e.target.options[e.target.selectedIndex].text);
+        const selectedText = e.target.options[e.target.selectedIndex].text
+        setProductType(e.target.value)
+        setskuType(selectedText)
+    }
+    // !set product category
+    const handleCat = (e) => {
+        console.log(e.target.options[e.target.selectedIndex].text);
+        const selectedText = e.target.options[e.target.selectedIndex].text
+        setCategory(e.target.value)
+        setskuCat(selectedText)
+    }
+
+    // !set product Brand
+    const handleBrand = (e) => {
+        console.log(e.target.options[e.target.selectedIndex].text);
+        const selectedText = e.target.options[e.target.selectedIndex].text
+        setBrand_id(e.target.value)
+        setskuBrand(selectedText)
+    }
 
     //!add goods to stock
     async function handleCreateProduct(e) {
@@ -35,18 +80,18 @@ function CreateProduct({ brands, allSuppliers, allCat, productTypes }) {
 
         const formData = new FormData();
         formData.append('title', title);
-        formData.append('description', description);
         formData.append('image', selectedFile);
         formData.append('quantity', quantity);
         formData.append('restock_level', reOrderLevel);
         formData.append('restock_quantity', reOrderQuantity);
-        formData.append('retail_price', retailPrice);
-        formData.append('wholesale_price', wholesalePrice);
+        formData.append('selling_price', sellingPrice);
+        formData.append('buying_price', buyingPrice);
         formData.append('sku', sku);
         formData.append('status', productStatus);
-        formData.append('brand_id', brandName);
+        formData.append('brand_id', brand_id);
         formData.append('category_id', category);
         formData.append('supplier_id', supplier);
+        formData.append('product_type_id', productType);
 
         console.log('FORMDATA', formData);
         const response = await fetch(apiUrl + '/products', {
@@ -54,11 +99,13 @@ function CreateProduct({ brands, allSuppliers, allCat, productTypes }) {
             body: formData,
         })
 
-        const data = await response.json();
+        const p = await response.json();
         if (response.ok) {
-            console.log('added goods', data);
-            // const updatedspares = [...stock, data]
-            // updateStock(updatedspares)
+            console.log('added goods', p);
+            const updatedproducts = [...products, p]
+            setProducts(() => updatedproducts)
+
+            navigate('/catalog/products')
         } else {
             console.error('Failed to add goods:');
             setProductError('Failed to add goods:')
@@ -66,49 +113,82 @@ function CreateProduct({ brands, allSuppliers, allCat, productTypes }) {
     }
 
     useEffect(() => {
-        console.log('OKRR');
         const filtered = allCat?.filter(cat => cat.product_type.id === parseInt(productType))
         setFilteredCat(filtered || []);
     }, [productType, allCat])
 
     useEffect(() => {
         const time = new Date();
+        if (skuCat === '' || skuBrand === '' || skuType === '') {
+            return
+        }
         function generateSKU() {
-            const brandCode = brandName?.substring(0, 2).toUpperCase();
+            function getTypeCode(skuType) {
+                const words = skuType.split(' ');
+                const filteredWords = words.filter(word => word.toLowerCase() !== 'and');
+                if (filteredWords.length === 1) {
+                    const word = words[0];
+                    if (/^[aeiou]/i.test(word)) {
+                        // Word starts with a vowel, take the first two letters
+                        return word.slice(0, 2).toUpperCase();
+                    } else {
+                        // Word starts with a consonant, take the first two consecutive consonants
+
+                        return filteredWords[0].replace(/[aeiouAEIOU]/g, '').slice(0, 2).toUpperCase();
+                    }
+                } else {
+                    return filteredWords.map(word => word[0].toUpperCase()).join('');
+                }
+            }
+            function getCategoryCode(skuCat) {
+                const words = skuCat.split(' ');
+                if (words.length === 1) {
+                    const word = words[0];
+                    if (/^[aeiou]/i.test(word)) {
+                        return word.slice(0, 2).toUpperCase();
+                    } else {
+                        return words[0].replace(/[aeiouAEIOU]/g, '').slice(0, 2).toUpperCase();
+                    }
+                } else if (words.length === 1) {
+                    return words[0].replace(/[aeiouAEIOU]/g, '').slice(0, 2).toUpperCase();
+                } else {
+                    return words.map(word => word[0].toUpperCase()).join('');
+                }
+            }
+            const prod_type = getTypeCode(skuType)
+            const prod_cat = getCategoryCode(skuCat)
+            const prod_brand = skuBrand.replace(/[aeiouAEIOU]/g, '').slice(0, 2).toUpperCase();
             const randomNumber = `${Math.round(time.getTime() / 1000)}`
-            return `SKU-${brandCode}${randomNumber}`;
+            return `${prod_type}-${prod_cat}-${prod_brand}${randomNumber}`;
         }
         generateSKU()
         setSku(generateSKU())
-    }, [brandName])
+    }, [skuCat, skuBrand, skuType])
 
-    const modules = {
-        toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ align: [] }],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            [{ indent: '-1' }, { indent: '+1' }],
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            [{ color: [] }],
-        ],
-    };
-
-    const { quill, quillRef } = useQuill({ modules });
-
-    // methods for the quills textarea
-    React.useEffect(() => {
-        if (quill) {
-            quill.on('text-change', () => {
-                const content = quillRef.current?.firstChild?.innerHTML;
-                setDescription(content)
-            });
+    // !Calculate Profit
+    useEffect(() => {
+        if (sellingPrice === '' || buyingPrice === '') {
+            setProfit(0)
+            setProfitMargin(0)
+            return
+        } else if (isNaN(sellingPrice) || isNaN(buyingPrice)) {
+            setProfit(0)
+            setProfitMargin(0)
+        } else {
+            const value = sellingPrice - buyingPrice
+            const value_percentage = ((value / sellingPrice) * 100).toFixed(1)
+            setProfit(value)
+            setProfitMargin(value_percentage)
         }
-    }, [quill, quillRef]);
+
+    }, [sellingPrice, buyingPrice])
+
+
+
 
     const fileTypes = ["JPG", "JPEG", "PNG"];
 
     const handleChange = (files) => {
-        const file = files[0];
         console.log("FILE", files)
         setSelectedFile(files);
     };
@@ -118,285 +198,235 @@ function CreateProduct({ brands, allSuppliers, allCat, productTypes }) {
         console.log(URL.createObjectURL(e.target.files[0]));
     }
 
+    const HandleCreateCat = () => {
+        setExpandCatForm(prevVal => !prevVal)
+    }
+    const HandleCreateBrand = () => {
+        setExpandBrandForm(prevVal => !prevVal)
+    }
+    const HandleCreateSupplier = () => {
+        setexpandSupplierForm(prevVal => !prevVal)
+    }
+
     return (
-        <>
-            <div className="red pe-5  mb-5" style={{ width: '90vw' }}>
-                {/* start */}
-                <form onSubmit={(e) => handleCreateProduct(e)}>
-                    <div className="m-0 row justify-content-end align-items-start g-2 my-3">
-                        <div className="col-6 col-md-4 text-start ">
-                            <p className='fs-5 fw-bold '>General</p>
-                            <p>Change the general information for this product</p>
-                        </div>
-                        {/* name */}
-                        <div className="col-8 col-md-4">
-                            <div className="card text-start border-0 box-shaddow-77">
+        <div className='container-fluid w-100 h-100 overflow-y-scroll'>
+            <div className="row justify-content-center align-items-center g-2" >
+                <div className="col-12">
+                    <Navbar />
+                </div>
+                <div className="form-section">
+                    <div className="row justify-content-center align-items-start g-2" >
+                        <div className="col-md-7 col-12">
+                            <div className="card text-start mb-3">
                                 <div className="card-body">
-                                    <div className=" text-start">
-                                        <p className="card-text my-2 fw-bold">Name</p>
-                                        <input className='form-control ' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
-                                    </div>
+                                    <p className="card-text fw-bold">Title</p>
+                                    <input className='form-control form-control-sm' type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
                                 </div>
                             </div>
-                        </div>
-                        <div className="col-md-4">
-                            <div className="card  text-start border-0 box-shaddow-77">
+                            <div className="card text-start mb-3">
                                 <div className="card-body">
-                                    <div className="d-flex justify-content-between my-1">
-                                        <p className='fw-bold'>Product Type</p>
-                                    </div>
-                                    <div className="mb-3">
-                                        <select
-                                            className="form-select"
-                                            onChange={(e) => setProductType(e.target.value)}
-                                            value={productType}>
-                                            <option value="" disabled selected>Select one</option>
-                                            {productTypes && productTypes.map((type) => {
-                                                return (
-                                                    <option value={type.id}>{type.name}</option>
-                                                )
-                                            })}
-
-                                        </select>
-                                    </div>
-
-
+                                    <p className="card-text fw-bold">Media</p>
+                                    <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
                                 </div>
                             </div>
-                        </div>
-                        {/* description */}
-                        <div className="col-12 col-md-9 rounded py-3 bg-white" style={{ maxHeight: '30vh', height: '50vh' }}>
-                            <div className='text-start ' style={{ height: '20vh', width: '100%', background: 'white', color: 'black' }}>
-                                <div ref={quillRef} style={{ height: '100%' }} />
-                            </div>
-                        </div>
-                        {/* images */}
-                        <div className="col-md-4 ">
-                            <FileUploader handleChange={handleChange} name="file" types={fileTypes} />
-
-                        </div>
-                        {/* brand */}
-                        <div className="col-md-4 col-12">
-                            <div className="card  text-start border-0 box-shaddow-77">
+                            <div className="card text-start mb-3">
                                 <div className="card-body">
-                                    <div className="d-flex justify-content-between my-1">
-                                        <p className='fw-bold'>Brand</p>
-                                    </div>
-                                    <div>
-                                        <select className="form-select" onChange={(e) => setBrandName(e.target.value)}>
-                                            <option value="" disabled selected>Select one</option>
-                                            {brands && brands.map((brand) => {
-                                                return (
-                                                    <option value={brand.id}>{brand.name}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-                        {/* brand */}
-                        <div className="col-md-4 col-12">
-                            <div className="card  text-start border-0 box-shaddow-77">
-                                <div className="card-body">
-                                    <div className="d-flex justify-content-between my-1">
-                                        <p className='fw-bold'>Category</p>
-                                    </div>
-                                    <div>
-                                        <select className="form-select" onChange={(e) => setCategory(e.target.value)}>
-                                            <option value="" disabled selected>Select</option>
-                                            {filteredCat && filteredCat.map((cat) => {
-                                                return (
-                                                    <option value={cat.id}>{cat.name}</option>
-                                                )
-                                            })}
-                                        </select>
-                                    </div>
-
-
-                                </div>
-                            </div>
-                        </div>
-
-
-                    </div>
-                    <hr />
-                    {/* inventory */}
-                    <div className="row  justify-content-end align-items-start g-2 text-start m-0">
-                        <div className="col-4">
-                            <p className="fs-5 fw-bold">Inventory</p>
-                            <p>The type of product we choose determines how we manage Inventory and reporting</p>
-                        </div>
-
-                        <div className="col-8 ">
-                            <p className="fs-5 fw-bold">SKU CODES</p>
-                            <div className="row justify-content-center align-items-center g-2"
-                            >
-                                <div className="col-3">
-                                    <div className="d-flex">
-                                        <div>
-                                            <div className="mb-3">
-                                                <label for="" className="form-label">SKU Code Type</label>
-                                                <select className="form-select"
-                                                >
-                                                    <option selected>Auto-generated</option>
-                                                    <option value="">EAN</option>
-                                                    <option value="">ISBN</option>
-                                                    <option value="">ITF</option>
-                                                </select>
-                                            </div>
-
+                                    <div className="row justify-content-start align-items-center g-2" >
+                                        <div className="col-12"><p className="card-text fw-bold ">Pricing</p></div>
+                                        <div className="col-6 col-lg-4">
+                                            <label for="" className="form-label">Selling Price (Ksh)</label>
+                                            <input type="text" className="form-control form-control-sm" placeholder="" value={sellingPrice} onChange={(e) => setsellingPrice(e.target.value)} required/>
+                                        </div>
+                                        <hr />
+                                        <div className="col-4">
+                                            <label for="" className="form-label">Cost per Item (Ksh)</label>
+                                            <input type="text" className="form-control form-control-sm" placeholder="" value={buyingPrice} onChange={(e) => setbuyingPrice(e.target.value)} required/>
+                                        </div>
+                                        <div className="col-4">
+                                            <label for="" className="form-label">Profit</label>
+                                            <input type="text" disabled className="form-control form-control-sm" placeholder="" value={profit} />
+                                        </div>
+                                        <div className="col-4">
+                                            <label for="" className="form-label">Gross Profit Margin (GPM)</label>
+                                            <input type="text" disabled className="form-control form-control-sm" placeholder="" value={profitMargin} />
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col-3">
-                                    <div className="mb-3">
-                                        <label for="" className="form-label">SKU Code</label>
-                                        <input type="text" className="form-control form-control-sm" placeholder="" value={sku} onChange={(e) => setSku(e.target.value)} />
-                                    </div>
-
-                                </div>
-                                <div className="col-6 ">
-                                    <p>Preview</p>
-                                    <div
-                                        className="d-flex justify-content-start gap-3 align-items-center g-2"
+                            </div>
+                            <div class="card text-start mb-3">
+                                <div class="card-body">
+                                    <div class="row justify-content-center align-items-center g-2"
                                     >
-                                        <div>
-                                            <div >
-                                                <h2>Selected Image</h2>
-                                                {file && (
-                                                    <div style={{ height: '50px', width: '50px' }}>
-                                                        <img className="img-fluid rounded-top" src={URL.createObjectURL(file)} alt="Selected" style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <div >
-                                            <p className="m-0">Product title</p>
-                                            <p className="m-0">Product sku</p>
-
+                                        
+                                        <div className="col-12"><p className="card-text fw-bold">Product Variant</p></div>
+                                        <div className="col-lg-4 col-6">
+                                            <label for="" className="form-label">Current Inventory</label>
+                                            <input type="text" className="form-control form-control-sm" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="" />
                                         </div>
                                     </div>
-
-
+                                    
                                 </div>
                             </div>
-
-
+                            
+                            
                         </div>
-                    </div>
-                    <hr />
-                    {/* supplier */}
-                    <div className=" row justify-content-end align-items-center g-2">
-                        <div className="col-8 ">
-                            <p className="text-start text-uppercase fw-bold">Supplier Information</p>
-                            <div className="d-flex gap-3 justify-content-center  align-items-center text-start">
-                                <div className="mb-3 flex-fill">
-                                    <label for="" className="form-label fw-bold">Supplier</label>
-                                    <select className="form-select" onChange={(e) => setSupplier(e.target.value)}>
-
-                                        <option disabled selected>Choose a supplier</option>
-                                        {allSuppliers && allSuppliers.map((supplier) => {
-                                            return (
-                                                <option value={supplier.id}>{supplier.company_name}</option>
-                                            )
-                                        })}
+                        <div className="col-md-4 col-12">
+                            <div className="card text-start mb-3">
+                                <div className="card-body">
+                                    <p className="card-text fw-bold"> Status</p>
+                                    <select
+                                        className="form-select"
+                                        onChange={(e) => setProductStatus(e.target.value)}>
+                                        <option value={true} selected>Active</option>
+                                        <option value={false}>Inactive</option>
                                     </select>
                                 </div>
-                                <div className="mb-3 flex-fill">
-                                    <label for="" className="form-label fw-bold">Wholesale Price</label>
-                                    <input type="number" className="form-control text-end" placeholder="0" value={wholesalePrice} onChange={(e) => setWholesalePrice(e.target.value)} />
-                                </div>
                             </div>
-                            <hr />
-                            <p className="text-start text-uppercase fw-bold">Inventory Levels</p>
-                            <div className="d-flex gap-3 justify-content-center  align-items-center text-start">
-                                <div className="mb-3 flex-fill">
-                                    <label for="" className="form-label fw-bold ">Current Inventory</label>
-                                    <input type="number" className="form-control text-end " placeholder="0" onChange={(e) => setQuantity(e.target.value)} />
-                                </div>
-                                <div className="mb-3 flex-fill">
-                                    <label for="" className="form-label fw-bold ">Re-Order point</label>
-                                    <input type="number" className="form-control text-end" placeholder="0" value={reOrderLevel} onChange={(e) => setReOrderLevel(e.target.value)} />
-                                </div>
-                                <div className="mb-3 flex-fill">
-                                    <label for="" className="form-label fw-bold ">Re-Order Quantity</label>
-                                    <input type="number" className="form-control text-end" placeholder="0" value={reOrderQuantity} onChange={(e) => setReOrderQuantity(e.target.value)} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr />
-                    {/* tax */}
-                    <div className="row justify-content-end align-items-center g-2">
-                        <div className="col-12 text-start">
-                            <p className="fs-5 fw-bold">Tax</p>
-                        </div>
-                        <div className="col-8 text-start">
-                            <div className="mb-3">
-                                <label for="" className="form-label fw-bold">Tax</label>
-                                <select className="form-select">
-                                    <option selected>Default Sales Tax</option>
-                                    <option value="">GST (+15%)</option>
-                                    <option value="">No Tax(0%)</option>
-                                    <option value="">Tax the rich(+99%)</option>
-                                </select>
-                            </div>
+                            <div className="card text-start mb-3">
+                                <div className="card-body">
+                                    <div
+                                        className="row justify-content-center align-items-center g-2"
+                                    >
+                                        <div className="col-12"><p className="card-text fw-bold">Product Organisation</p></div>
+                                        <div className="col-12  mb-3">
+                                            <label for="" className="form-label ">Product Type</label>
+                                            <br />
+                                            <select
+                                                className="form-select"
+                                                onChange={(e) => handleType(e)}
+                                                value={productType}>
+                                                <option value="" disabled selected>Select one</option>
+                                                {productTypes && productTypes.map((type) => {
+                                                    return (
+                                                        <option value={type.id}>{type.name}</option>
+                                                    )
+                                                })}
+                                            </select>
+                                            <small id="helpId" className="form-text text-muted">The type of product we choose determines how we manage Inventory and reporting</small>
+                                        </div>
+                                        <div className="col-12">
+                                            <div className="d-flex justify-content-center align-items-center g-2">
+                                                <div className="col"><label for="" className="form-label">Product Category</label></div>
+                                                <div>
+                                                    <button type="button" className="btn btn-warning py-0 mb-2 px-1" onClick={HandleCreateCat}>
+                                                    {expandCatForm ? 
+                                                        <><X size={'15px'} /> <small>Close</small></>
+                                                            : 
+                                                        <><Plus size={'15px'} /> <small>Add Category</small></>
+                                                        }
+                                                    </button>
 
-                        </div>
-                    </div>
-                    {/* prices */}
-                    <div className="row justify-content-end align-items-center g-2">
-                        <div className="col-12 text-start">
-                            <p className="fs-5 fw-bold">Prices</p>
-                        </div>
-                        <div className="col-8">
-                            <ul className='list-unstyled'>
-                                <li>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <div><p className="m-0">Supply Price </p></div>
-                                        <div><p className="m-0">SH. Price</p></div>
+                                                </div>
+                                            </div>
+                                            <div className={expandCatForm ? 'd-flex' : 'd-none'} >
+                                                <CreateCategory allCat={allCat} setAllCat={setAllCat} productTypes={productTypes} type={type} setType={setType} />
+                                            </div>
+                                            <select className="form-select" onChange={(e) => handleCat(e)}>
+                                                <option value="" disabled selected>Select</option>
+                                                {filteredCat && filteredCat.map((cat) => {
+                                                    return (
+                                                        <option value={cat.id}>{cat.name}</option>
+                                                    )
+                                                })}
+                                            </select>
+                                        </div>
+                                        <div className="col-12">
+                                            <div className="d-flex justify-content-center align-items-center g-2">
+                                                <div className="col"><label for="" className="form-label">Brand</label></div>
+                                                <div>
+                                                    <button type="button" className="btn btn-warning py-0 mb-2 px-1" onClick={HandleCreateBrand}>
+                                                        {expandBrandForm ? 
+                                                        <><X size={'15px'} /> <small>Close</small></>
+                                                            : 
+                                                        <><Plus size={'15px'} /> <small>Add Brand</small></>
+                                                        }
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className={expandBrandForm ? 'd-flex' : 'd-none'}>
+                                                <CreateBrand brands={brands} setBrands={setBrands} />
+                                            </div>
+                                            <select className="form-select" onChange={(e) => handleBrand(e)}>
+                                                <option value="" disabled selected>Select one</option>
+                                                {brands && brands.map((brand) => {
+                                                    return (
+                                                        <option value={brand.id}>{brand.name}</option>
+                                                    )
+                                                })}
+                                            </select>
+                                        </div>
+                                        <div className="col-12">
+                                            <div className="d-flex justify-content-center align-items-center g-2">
+                                                <div className="col"><label for="" className="form-label">Supplier</label></div>
+                                                <div>
+                                                    <button type="button" className="btn btn-warning py-0 mb-2 px-1" onClick={HandleCreateSupplier}>
+                                                    {expandSupplierForm ? 
+                                                        <><X size={'15px'} /> <small>Close</small></>
+                                                            : 
+                                                        <><Plus size={'15px'} /> <small>Add Supplier</small></>
+                                                        }
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <div className={expandSupplierForm ? 'd-flex' : 'd-none'}>
+                                                <CreateSupplier setAllSuppliers={setAllSuppliers} allSuppliers={allSuppliers} />
+                                            </div>
+                                            <select className="form-select" onChange={(e) => setSupplier(e.target.value)}>
+
+                                                <option disabled selected>Choose a supplier</option>
+                                                {allSuppliers && allSuppliers.map((supplier) => {
+                                                    return (
+                                                        <option value={supplier.id}>{supplier.company_name}</option>
+                                                    )
+                                                })}
+                                            </select>
+                                        </div>
+
                                     </div>
-                                </li>
-                                <li>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <div><p className="m-0">Markup</p></div>
-                                        <div><p className="m-0">00.0% </p></div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <div><p className="m-0">Tax</p></div>
-                                        <div><p className="m-0">SH. Price</p></div>
-                                    </div>
-                                </li>
-                                <hr />
-                                <li>
-                                    <div className="d-flex justify-content-between align-items-center">
-                                        <div><p className="m-0">Retail Price</p></div>
-                                        <div>
-                                            <input type="number" className="form-control text-end" placeholder="" value={retailPrice} onChange={(e) => setRetailPrice(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="card text-start mb-3">
+                                <div className="card-body">
+                                    <div className="row justify-content-start align-items-start g-2">
+                                        <div className="col-12"><p className="card-text fw-bold">Inventory Levels</p></div>
+                                        <div className="col-md-6 col-12">
+                                            <label for="" className="form-label">Current Inventory</label>
+                                            <input type="text" className="form-control form-control-sm" value={quantity} onChange={(e) => setQuantity(e.target.value)} placeholder="" />
+                                        </div>
+                                        <div className="col-md-6 col-12">
+                                            <label for="" className="form-label">Re-Order point</label>
+                                            <input type="text" className="form-control form-control-sm" placeholder="" value={reOrderLevel} onChange={(e) => setReOrderLevel(e.target.value)} />
+                                        </div>
+                                        <div className="col-md-6 col-12">
+                                            <label for="" className="form-label">Re-Order Quantity</label>
+                                            <input type="text" className="form-control form-control-sm" placeholder="" value={reOrderQuantity} onChange={(e) => setReOrderQuantity(e.target.value)} />
+                                        </div>
+                                        
+                                        <div className="col-md-6 col-12">
+                                            <label for="" className="form-label">SKU (Stock Keeping Unit)</label>
+                                            <input type="text" className="form-control form-control-sm" disabled placeholder="" value={sku} onChange={(e) => setSku(e.target.value)} />
                                         </div>
                                     </div>
-                                </li>
-                            </ul>
+                                </div>
+                            </div>
 
                         </div>
-                    </div>
-                    <hr />
-                    <div className="row justify-content-end align-items-center g-2">
-                        <div className="col-6">
-                            <div className="d-flex gap-3 justify-content-end align-items-center g-2">
-                                {/* <button className="btn btn-danger w-25" onClick={navigate('/catalog/products')}>Back</button> */}
-                                <button type='submit' className="btn btn-primary w-25">Add Product</button>
+                        <hr />
+                        <div className="col-12 mb-5">
+                            <div className="row justify-content-end align-items-center g-2" >
+                                <div className="col-md-4 col-12 text-end">
+                                    <div className="d-flex justify-content-center align-items-center g-2 gap-3"
+                                    >
+                                        <div> <button className="btn bg-white border">Decline</button></div>
+                                        <div> <button onClick={(e) => handleCreateProduct(e)} className="btn btn-primary">Add Product</button></div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
-        </>
+        </div>
     )
 }
 

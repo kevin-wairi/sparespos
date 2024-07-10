@@ -1,0 +1,11 @@
+.closed {
+    height: 0;
+    overflow: hidden;
+    transition: height 0.5s ease;
+  }
+  
+  .opened {
+    height: auto;
+    transition: height 0.5s ease;
+  }
+  

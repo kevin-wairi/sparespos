@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { UrlProvider } from './Context/UrlProvider';
+import { CableProvider } from './Context/Cable';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
     <UrlProvider>
-      <App />
+      <CableProvider>
+        <App />
+      </CableProvider>
     </UrlProvider>
   </BrowserRouter>
 );

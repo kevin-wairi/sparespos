@@ -6,7 +6,7 @@ import './Navbar.css';
 import { useLocation, useNavigate } from 'react-router-dom'
 
 
-function Navbar({ sticky, openSidebar, user, setIsLogged, onLogout }) {
+function Navbar({ sticky, user, setIsLogged, onLogout }) {
 
 
     const navigate = useNavigate()
@@ -32,7 +32,7 @@ function Navbar({ sticky, openSidebar, user, setIsLogged, onLogout }) {
     return (
         <div className='wrapper'>
             <nav className={navbarClassNamees} >
-                <div className=" container-fluid m-0  align-items-end w-100vw row  d-flex justify-content-between">
+                <div className=" container-fluid m-0  align-items-end w-100 row  d-flex justify-content-between">
                     <div className="col-md-4 col-4">
                         <div className='text-start'>
                             <div className="d-flex gap-1">
@@ -41,12 +41,12 @@ function Navbar({ sticky, openSidebar, user, setIsLogged, onLogout }) {
                                 <p className='menu-p align-self-center m-0'>{pathname}</p>
                             </div>
 
-                            <p className="navbar-brand  p-0 lh-1 m-0 text-capitalize">{pathname}</p>
+                            {/* <p className="navbar-brand  p-0 lh-1 m-0 text-capitalize">{pathname}</p> */}
                         </div>
                     </div>
                     <div className="col-md-5 col-4 d-flex justify-content-end">
                         <div className="btn-group d-flex justify-content-end align-items-center gap-2 m-0  ">
-                            <div onClick={() => navigate('/user_profile')}><FontAwesomeIcon icon={faGear} /></div>
+                            <div onClick={() => navigate('/account/user_profile')}><FontAwesomeIcon icon={faGear} /></div>
                             {user &&
                                 <div className="dash_profile d-flex justify-content-between align-items-center gap-1 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div className="dash_profile_div">

@@ -145,6 +145,14 @@
   font-style: italic;
 }
 
+.hide_scrollbar{
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hide_scrollbar::-webkit-scrollbar {
+  display: none; 
+}
 
 /* width */
 ::-webkit-scrollbar {
@@ -327,7 +335,6 @@ teal */
 .img_fluid{
   width: 100%;
   height: 100%;
-  object-fit: cover;
 }
 
 .form_div {
@@ -391,20 +398,106 @@ teal */
 .cursor{
   cursor: pointer;
 }
-.red {
-  border: 1px solid red;
+.img-container{
+  height: 30vh; 
+  width: 25vw;  
+}
+.img_fluid{
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
 }
 
 .overlayDiv{
+  margin: 0;
   width: 100%;
   height: 100%;
   left: 0;
   top: 0;
-  z-index: 1;
+  z-index: 2;
   position:fixed;
-  background-color: #ffffffd2;
-  backdrop-filter: blur(10px); 
+  background-color: #cecdcdd2;
+  backdrop-filter: blur(1px); 
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.dotted_hr {
+  border: none;
+  border-top: 2px dotted #000; /* You can change the color as needed */
+  margin: 0;
+  color: #fff;
+  background-color: #fff;
+  height: 1px;
+}
+
+.input_box{
+  position:relative;
+}
+.input_box input{
+  outline: none;
+  background-color: transparent;
+  padding: 10px;
+  border: 0;
+  border-bottom: 1px solid #000;
+}
+.input_box input:focus{
+  background-color: transparent;
+  border: 0;
+  border-bottom: 1px solid #000;
+}
+.input_box label{
+  position: absolute;
+  top: 0;
+  padding: 10px;
+  pointer-events: none;
+  transition: 0.5s;
+  font-size: 1em;
+  font-family: 'Poppins', sans-serif;
+}
+.input_box input:focus{
+  box-shadow: none;
+}
+.input_box input:hover~ label{
+  color: #90a4ae;
+}
+.input_box input:valid ~ label,
+.input_box input:focus ~ label
+{
+  transform: translateX(10px)translateY(-7px);
+  font-size: 0.65em;
+  padding: 0 10px;
+  font-weight: 500;
+  letter-spacing: 1px;
+}
+
+.no-outline {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.btn_no_border:focus {
+  border: 0;
+}
+
+/* Hide arrows in input[type="number"] for WebKit browsers */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Hide arrows in input[type="number"] for Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+
+.red{
+  border: 1px  solid red;
 }
